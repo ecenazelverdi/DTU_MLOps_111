@@ -59,5 +59,15 @@ started with Machine Learning Operations (MLOps).
 ## Project description
 Here you can find the [Shipping imagery Dataset](https://www.kaggle.com/datasets/rhammell/ships-in-satellite-imagery) from Kaggle.
 
+## How to use
+# To download and preprocess the Kaggle Dataset
+```
+uv run python src/dtu_mlops_111/data.py --download
+```
+Note: to download the data, a kaggle api key is required
+
+# To preprocess the dataset (if already downloaded)
+uv run python src/dtu_mlops_111/data.py
+
 
 
