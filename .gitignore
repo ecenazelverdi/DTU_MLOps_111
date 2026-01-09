@@ -1,5 +1,4 @@
 .idea
 .venv
 
-# ignore the data folder
 data/
