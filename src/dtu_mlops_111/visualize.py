@@ -2,7 +2,6 @@ import typer
 import numpy as np
 from PIL import Image
 from pathlib import Path
-import matplotlib.pyplot as plt
 
 
 def colorize_mask(mask_path: Path, output_path: Path):

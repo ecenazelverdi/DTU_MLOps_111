@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import shutil
-import zipfile
 import typer
 import numpy as np
 from PIL import Image
