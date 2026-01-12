@@ -1,4 +1,67 @@
-# dtu_mlops_111
+# dtu MLOps Project: Semantic segmentation for drone imagery 
+Team 111
+
+## Project Description
+Our project aims to perform 5-class image segmentation on [drone imagery](https://www.kaggle.com/datasets/santurini/semantic-segmentation-drone-dataset/data), using a semantic segmentation mask to identify the precise location of obstacles, water, soft-surfaces, moving-objects, and landing-zones.
+
+We train a Computer Vision model on this segmentation dataset to detect five different classes of objects from drone imagery of urban scenes.
+
+The trained model should enhance the safety of autonomous drone flights and landings in urban areas by distinguishing different kinds of obstacles from landing-zones.
+
+We expect to use a CNN for the image classification and a U-net for the segmentation. We will implement our models in the pytorch library, potentially leveraging transfer-learning for classification. A U-Net architecture is chosen for the project because it performs well with small objects, preserves spacial detail via skip connections, and performs well with low-data availability
+
+See below for instructions on how to run.
+
+To download and preprocess the Kaggle Dataset, run
+
+To download and preprocess the Kaggle Dataset
+```
+uv run python src/dtu_mlops_111/data.py main
+```
+
+Note: to download the data, a kaggle api key is required
+
+To preprocess the dataset (if already downloaded)
+```
+uv run python src/dtu_mlops_111/data.py preprocess
+```
+
+
+## Dataset structure
+
+After downloading, you will find the data is structured in the following way:
+
+```
+data/
+├── processed
+│   ├── test
+│   │   ├── images
+│   │   └── masks
+│   ├── train
+│   │   ├── images
+│   │   └── masks
+│   └── val
+│       ├── images
+│       └── masks
+└── raw
+    └── classes_dataset
+        └── classes_dataset
+            ├── label_images_semantic
+            └── original_images
+```
+
+- `original_images` contains 400 png drone images, with format `<id>.png`, in RGB coloring
+- `label_images_semantic/` contains the same 400 images, but pixel RGB values have been replaced with the corresponding class RGB values according to the table below:
+
+| Class          | Color                                                                                                                  | R   | G   | B   |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------- | --- | --- | --- |
+| obstacles      | <span style="display:inline-block;width:16px;height:16px;background-color:rgb(155,38,182);border-radius:3px;"></span>  | 155 | 38  | 182 |
+| water          | <span style="display:inline-block;width:16px;height:16px;background-color:rgb(14,135,204);border-radius:3px;"></span>  | 14  | 135 | 204 |
+| soft-surfaces  | <span style="display:inline-block;width:16px;height:16px;background-color:rgb(124,252,0);border-radius:3px;"></span>   | 124 | 252 | 0   |
+| moving-objects | <span style="display:inline-block;width:16px;height:16px;background-color:rgb(255,20,147);border-radius:3px;"></span>  | 255 | 20  | 147 |
+| landing-zones  | <span style="display:inline-block;width:16px;height:16px;background-color:rgb(169,169,169);border-radius:3px;"></span> | 169 | 169 | 169 |
+
+_Note_: Original imagery dataset comes from [TU Graz, IVC](https://ivc.tugraz.at/research-project/semantic-drone-dataset/).
 
 ## Project structure
 
@@ -51,39 +114,3 @@ The directory structure of the project looks like this:
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
 a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting
 started with Machine Learning Operations (MLOps).
-
-# DTU_MLOps_111
-
-## Project description
-
-Here you can find the [Shipping imagery Dataset](https://www.kaggle.com/datasets/rhammell/ships-in-satellite-imagery) from Kaggle.
-
-## How to use
-
-# To download and preprocess the Kaggle Dataset
-
-You need to fill the env file with your kaggle api key and username for the below process to work.
-
-Our project aims to perform binary image classification on satellite images to determine whether or not they contain ships, as well as using a semantic segmentation segmentation mask to identify the precise location of ships within the images.  We aim for near 100% accuracy on classification.  For segmentation, we aim for an IoU metric of 0.7 or better and Dice Coeffeicient of 0.8 or better.
-
-An additional goal is to deliver a reproducible, well-dcoumented, containerized ML pipeline.  This will include data downloading, preprocessing, model training, evulation, and environment management using uv and docker.  The final deliverable should be easy for other users to run end-to-end with minimal setup.
-
-Here you can find the [Shipping imagery Dataset]
-(https://www.kaggle.com/datasets/rhammell/ships-in-satellite-imagery) from Kaggle, which contains 4000 satellite images from the bays and oceans of the California area.  Images include a mixture of large cargo ships, small civilian boats, ships partically occluded by wakes or waves, and background-only scenes with no ships.
-
-We expect to use a CNN for the image classification and a U-net for the segmentation.  We will implement our models in the pytorch library, potentially leveraging transfer-learning for classification.  A U-Net architecture is chosen for the project because it performs well with small objects, preserves spacial detail via skip connections, and performs well with low-data availability
-
-
-See below for instructions on how to run.
-
-To download and preprocess the Kaggle Dataset
-```
-uv run python src/dtu_mlops_111/data.py main
-```
-
-Note: to download the data, a kaggle api key is required
-
-To preprocess the dataset (if already downloaded)
-```
-uv run python src/dtu_mlops_111/data.py preprocess
-```
