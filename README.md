@@ -10,16 +10,16 @@ The trained model should enhance the safety of autonomous drone flights and land
 
 We expect to use a CNN for the image classification and a U-net for the segmentation. We will implement our models in the pytorch library, potentially leveraging transfer-learning for classification. A U-Net architecture is chosen for the project because it performs well with small objects, preserves spacial detail via skip connections, and performs well with low-data availability
 
+### How to run
 See below for instructions on how to run.
 
 To download and preprocess the Kaggle Dataset, run
 
-To download and preprocess the Kaggle Dataset
 ```
 uv run python src/dtu_mlops_111/data.py main
 ```
 
-Note: to download the data, a kaggle api key is required
+*Note*: to download the data, kaggle api key and kaggle username key are required. the `.env.example` file provides an example of how to structure your own `.env` file and fill with with your personal info. 
 
 To preprocess the dataset (if already downloaded)
 ```
