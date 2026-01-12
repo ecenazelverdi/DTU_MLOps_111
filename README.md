@@ -5,6 +5,7 @@ A short description of the project.
 ## Project structure
 
 The directory structure of the project looks like this:
+
 ```txt
 ├── .github/                  # Github actions and dependabot
 │   ├── dependabot.yaml
@@ -49,27 +50,30 @@ The directory structure of the project looks like this:
 └── tasks.py                  # Project tasks
 ```
 
-
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
 a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting
 started with Machine Learning Operations (MLOps).
+
 # DTU_MLOps_111
 
-
 ## Project description
+
 Here you can find the [Shipping imagery Dataset](https://www.kaggle.com/datasets/rhammell/ships-in-satellite-imagery) from Kaggle.
 
 ## How to use
+
 # To download and preprocess the Kaggle Dataset
+
+You need to fill the env file with your kaggle api key and username for the below process to work.
+
 ```
-uv run python src/dtu_mlops_111/data.py --download
+uv run python src/dtu_mlops_111/data.py main
 ```
+
 Note: to download the data, a kaggle api key is required
 
 # To preprocess the dataset (if already downloaded)
+
 ```
-uv run python src/dtu_mlops_111/data.py
+uv run python src/dtu_mlops_111/data.py preprocess
 ```
-
-
-
