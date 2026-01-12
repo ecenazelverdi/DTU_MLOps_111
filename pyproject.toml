@@ -20,8 +20,8 @@ requires-python = ">=3.12"
 dependencies = [
     "fastapi==0.115.6",
     "kaggle==1.6.12",
-    "python-dotenv>=1.0.0",
-    "numpy>=2.4.1",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.0",
     "pandas>=2.3.3",
     "torch==2.8.0",
     "typer==0.15.1",
