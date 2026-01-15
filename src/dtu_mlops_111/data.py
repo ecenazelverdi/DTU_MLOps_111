@@ -1,17 +1,17 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
 import json
 import os
 import shutil
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-import typer
 import numpy as np
+import typer
+from dotenv import load_dotenv
 from PIL import Image
 from sklearn.model_selection import train_test_split
-from dotenv import load_dotenv
 from tqdm import tqdm
 
 load_dotenv()
@@ -217,7 +217,7 @@ def download(
     if progress:
         typer.echo("(This may take several minutes...)")
     api.dataset_download_files(dataset, path=raw_dir, unzip=unzip)
-    
+
     if progress:
         typer.echo("Download finished. Processing files...")
 
@@ -238,7 +238,7 @@ def download(
             for folder_name in unnecessary_folders
             if (raw_dir / folder_name).exists() and (raw_dir / folder_name).is_dir()
         ]
-        
+
         if folders_to_remove:
             typer.echo(f"Cleaning up {len(folders_to_remove)} unnecessary folder(s)...")
             for folder_path in tqdm(folders_to_remove, desc="cleanup", unit="folder", disable=not progress):

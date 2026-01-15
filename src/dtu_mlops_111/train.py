@@ -1,5 +1,6 @@
-from dtu_mlops_111.model import Model
 from dtu_mlops_111.data import MyDataset
+from dtu_mlops_111.model import Model
+
 
 def train():
     dataset = MyDataset("data/raw") # noqa

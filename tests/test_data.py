@@ -1,9 +1,9 @@
-import numpy as np
 from pathlib import Path
 
+import numpy as np
 import pytest
-from PIL import Image
 from dtu_mlops_111 import data
+from PIL import Image
 
 
 def save_dummy_rgb(path: Path, size=(4, 4), color=(10, 20, 30)):
@@ -117,4 +117,3 @@ def test_maybe_resize_pil_mask_preserves_label_values():
     # With nearest-neighbor, we should still only see {0, 1}
     unique_vals = set(np.unique(arr_resized).tolist())
     assert unique_vals <= {0, 1}
-
