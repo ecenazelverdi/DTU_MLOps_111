@@ -246,85 +246,6 @@ def download(
 
     typer.echo("Download complete.")
 
-@app.command()
-def preprocess(
-    data_path: Path = typer.Option(
-        Path("data/raw/classes_dataset/classes_dataset"), help="Extracted dataset root."
-    ),
-    output_folder: Path = typer.Option(Path("data/processed"), help="Output directory (debug/EDA)."),
-    resize: Optional[int] = typer.Option(None, help="Optional square resize (debug)."),
-    seed: int = typer.Option(42, help="Random seed."),
-    train_ratio: float = typer.Option(0.8, help="Train split ratio."),
-    val_ratio: float = typer.Option(0.1, help="Validation split ratio."),
-    skip_if_nonempty: bool = typer.Option(
-        True,
-        "--skip-if-nonempty/--no-skip-if-nonempty",
-        help="Skip if output directory is non-empty.",
-    ),
-    progress: bool = typer.Option(
-        True,
-        "--progress/--no-progress",
-        help="Show progress bars.",
-    ),
-) -> None:
-    """
-    Produce a human-readable split on disk for debugging/EDA and for potential
-    custom training pipelines.
-
-    Note: nnU-Net does NOT use this split. nnU-Net performs its own CV split
-    and preprocessing from nnUNet_raw.
-    """
-    typer.echo("Preprocessing data (generic)...")
-    if skip_if_nonempty and output_folder.exists() and any(output_folder.iterdir()):
-        typer.echo(f"Output folder {output_folder} is not empty. Skipping preprocessing.")
-        return
-
-    ds = MyDataset(data_path)
-    pairs = ds.pairs
-    if len(pairs) == 0:
-        raise RuntimeError("No image/mask pairs found.")
-
-    if train_ratio <= 0 or val_ratio < 0 or (train_ratio + val_ratio) >= 1.0:
-        raise ValueError("Invalid split ratios. Need: train_ratio>0, val_ratio>=0 and train+val < 1.")
-
-    test_ratio = 1.0 - (train_ratio + val_ratio)
-
-    for split in ["train", "val", "test"]:
-        _ensure_dir(output_folder / split / "images")
-        _ensure_dir(output_folder / split / "masks")
-
-    train_pairs, temp_pairs = train_test_split(pairs, test_size=(1.0 - train_ratio), random_state=seed)
-    if val_ratio == 0:
-        val_pairs = []
-        test_pairs = temp_pairs
-    else:
-        val_share_of_temp = val_ratio / (val_ratio + test_ratio)
-        val_pairs, test_pairs = train_test_split(
-            temp_pairs, test_size=(1.0 - val_share_of_temp), random_state=seed
-        )
-
-    splits = {"train": train_pairs, "val": val_pairs, "test": test_pairs}
-
-    for split_name, split_pairs in splits.items():
-        typer.echo(f"Processing {split_name} ({len(split_pairs)} samples)...")
-        iterable = tqdm(split_pairs, desc=split_name, unit="img") if progress else split_pairs
-        for pair in iterable:
-            img = Image.open(pair.image).convert("RGB")
-            mask_rgb = Image.open(pair.mask).convert("RGB")
-
-            img = _maybe_resize_pil(img, resize=resize, is_mask=False)
-            mask_rgb = _maybe_resize_pil(mask_rgb, resize=resize, is_mask=True)
-
-            mask_idx = rgb_mask_to_class_mask(np.array(mask_rgb, dtype=np.uint8))
-
-            out_img = output_folder / split_name / "images" / pair.image.name
-            out_mask = output_folder / split_name / "masks" / (pair.image.stem + ".png")
-
-            img.save(out_img)
-            _save_png_l(mask_idx, out_mask)
-
-    typer.echo("Preprocessing complete.")
-
 
 @app.command("nnunet-export")
 def nnunet_export(
@@ -470,9 +391,9 @@ def nnunet_export(
 
 @app.command()
 def main() -> None:
-    """Convenience entrypoint: download + preprocess."""
+    """Convenience entrypoint: download + nnunet_export."""
     download()
-    preprocess()
+    nnunet_export()
 
 
 if __name__ == "__main__":

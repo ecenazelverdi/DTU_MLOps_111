@@ -1,7 +1,9 @@
-# dtu MLOps Project: Semantic segmentation for drone imagery 
+# dtu MLOps Project: Semantic segmentation for drone imagery
+
 Team 111
 
 ## Project Description
+
 Our project aims to perform 5-class image segmentation on [drone imagery](https://www.kaggle.com/datasets/santurini/semantic-segmentation-drone-dataset/data), using a semantic segmentation mask to identify the precise location of obstacles, water, soft-surfaces, moving-objects, and landing-zones.
 
 We train a Computer Vision model on this segmentation dataset to detect five different classes of objects from drone imagery of urban scenes.
@@ -11,6 +13,7 @@ The trained model should enhance the safety of autonomous drone flights and land
 We expect to use a CNN for the image classification and a U-net for the segmentation. We will implement our models in the pytorch library, potentially leveraging transfer-learning for classification. A U-Net architecture is chosen for the project because it performs well with small objects, preserves spacial detail via skip connections, and performs well with low-data availability
 
 ### How to run
+
 See below for instructions on how to run.
 
 To download and preprocess the Kaggle Dataset, run
@@ -19,13 +22,7 @@ To download and preprocess the Kaggle Dataset, run
 uv run python src/dtu_mlops_111/data.py main
 ```
 
-*Note*: to download the data, kaggle api key and kaggle username key are required. the `.env.example` file provides an example of how to structure your own `.env` file and fill with with your personal info. 
-
-To preprocess the dataset (if already downloaded)
-```
-uv run python src/dtu_mlops_111/data.py preprocess
-```
-
+_Note_: to download the data, kaggle api key and kaggle username key are required. the `.env.example` file provides an example of how to structure your own `.env` file and fill with with your personal info.
 
 ## Dataset structure
 
@@ -33,16 +30,8 @@ After downloading, you will find the data is structured in the following way:
 
 ```
 data/
-├── processed
-│   ├── test
-│   │   ├── images
-│   │   └── masks
-│   ├── train
-│   │   ├── images
-│   │   └── masks
-│   └── val
-│       ├── images
-│       └── masks
+│
+│
 └── raw
     └── classes_dataset
         └── classes_dataset
@@ -63,18 +52,22 @@ data/
 
 _Note_: Original imagery dataset comes from [TU Graz, IVC](https://ivc.tugraz.at/research-project/semantic-drone-dataset/).
 
+additionally, running
 
-additionally, running 
 ```
 uv run python src/dtu_mlops_111/data.py nnunet-export
 ```
+
 will create an additional folder necessary for the use of [nnU-Net models](https://github.com/MIC-DKFZ/nnUNet). This folder is structured as follows:
+
 ```
 nnUNet_raw/
 └── Dataset101_DroneSeg
     ├── imagesTr
     └── labelsTr
 ```
+
+Start the training pipeline using the nnU-Net commands (see `nnunet-export` output for details).
 
 ## Project structure
 

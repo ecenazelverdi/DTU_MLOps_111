@@ -8,9 +8,9 @@ PYTHON_VERSION = "3.12"
 
 # Project commands
 @task
-def preprocess_data(ctx: Context) -> None:
-    """Preprocess data."""
-    ctx.run(f"uv run src/{PROJECT_NAME}/data.py data/raw data/processed", echo=True, pty=not WINDOWS)
+def export_data(ctx: Context) -> None:
+    """Export data to nnU-Net raw format."""
+    ctx.run(f"uv run src/{PROJECT_NAME}/data.py nnunet-export", echo=True, pty=not WINDOWS)
 
 @task
 def train(ctx: Context) -> None:
