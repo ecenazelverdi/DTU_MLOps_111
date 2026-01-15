@@ -56,7 +56,7 @@ _Note_: Original imagery dataset comes from [TU Graz, IVC](https://ivc.tugraz.at
 ## nnU-Net
 
 ### Setup
-Running [nnU-Net models](https://github.com/MIC-DKFZ/nnUNet) segmentation models requires a specific file and data structuring. 
+Running [nnU-Net models](https://github.com/MIC-DKFZ/nnUNet) segmentation models requires a specific file and data structuring.
 
 Running
 
@@ -76,7 +76,7 @@ nnUNet_raw/
 
  nnU-Net makes use of specific [*environment variables*](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
 
-After setting up *environment variables* for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for 
+After setting up *environment variables* for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for
 data preprocessing. Make sure your `.env` file is loaded, then run
 ```
 nnUNetv2_plan_and_preprocess -d DATASET_ID --verify_dataset_integrity
@@ -95,6 +95,14 @@ nnUNet_preprocessed
 ### Training.
 
 [ ] TODO
+
+## Contributer Setup
+### Optional: pre-commit
+To use pre-commit, run
+```
+uv run pre-commit install
+```
+
 
 ## Project structure
 
