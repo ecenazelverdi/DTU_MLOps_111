@@ -191,6 +191,11 @@ def download(
     unzip: bool = typer.Option(True, help="Extract after download."),
     cleanup_zip: bool = typer.Option(True, help="Remove zip after extraction."),
     force: bool = typer.Option(False, help="Overwrite non-empty target directory."),
+    progress: bool = typer.Option(
+        True,
+        "--progress/--no-progress",
+        help="Show progress feedback during download.",
+    ),
 ) -> None:
     """
     Download the Kaggle dataset using kaggle.json credentials (or environment variables).
@@ -209,27 +214,37 @@ def download(
 
     api = KaggleApi()
     api.authenticate()
+    if progress:
+        typer.echo("(This may take several minutes...)")
     api.dataset_download_files(dataset, path=raw_dir, unzip=unzip)
+    
+    if progress:
+        typer.echo("Download finished. Processing files...")
 
     zip_name = dataset.split("/")[-1] + ".zip"
     zip_path = raw_dir / zip_name
     if cleanup_zip and zip_path.exists():
         try:
             zip_path.unlink()
+            if progress:
+                typer.echo("Removed zip archive.")
         except Exception:
             pass
 
-    # Drop folders not used in this project to keep the raw directory minimal.
     if unzip:
         unnecessary_folders = ["binary_dataset", "semantic_drone_dataset"]
-        for folder_name in unnecessary_folders:
-            folder_path = raw_dir / folder_name
-            if folder_path.exists() and folder_path.is_dir():
-                typer.echo(f"Removing: {folder_path}")
+        folders_to_remove = [
+            raw_dir / folder_name
+            for folder_name in unnecessary_folders
+            if (raw_dir / folder_name).exists() and (raw_dir / folder_name).is_dir()
+        ]
+        
+        if folders_to_remove:
+            typer.echo(f"Cleaning up {len(folders_to_remove)} unnecessary folder(s)...")
+            for folder_path in tqdm(folders_to_remove, desc="cleanup", unit="folder", disable=not progress):
                 shutil.rmtree(folder_path)
 
     typer.echo("Download complete.")
-
 
 @app.command()
 def preprocess(
@@ -385,7 +400,7 @@ def nnunet_export(
             raise RuntimeError("Internal error: requested test export but imagesTs not created.")
 
         desc = "export-train" if is_train else "export-test"
-        iterable = tqdm(pairs_split, desc=desc, unit="img") if progress else pairs_split
+        iterable = tqdm(pairs_split, desc=desc, unit="case") if progress else pairs_split
 
         for pair in iterable:
             case_id = f"case_{pair.image.stem}"
