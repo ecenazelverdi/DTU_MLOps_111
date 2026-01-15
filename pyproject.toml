@@ -62,6 +62,7 @@ url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [tool.ruff]
+lint.select = ["I"]
 line-length = 120
 
 [tool.coverage.run]
