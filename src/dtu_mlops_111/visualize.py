@@ -1,43 +1,92 @@
-import typer
-import numpy as np
-from PIL import Image
+from __future__ import annotations
+
 from pathlib import Path
+from typing import Dict, Tuple
+
+import numpy as np
+import typer
+from PIL import Image
+
+app = typer.Typer(add_completion=False)
+
+# Color mapping for segmentation masks produced by the nnU-Net export.
+# Class ids and colors are kept consistent with data.py to avoid confusion
+# when visually inspecting labels or model outputs.
+CLASS_TO_RGB: Dict[int, Tuple[int, int, int]] = {
+    0: (0, 0, 0),          # background
+    1: (155, 38, 182),     # obstacles
+    2: (14, 135, 204),     # water
+    3: (124, 252, 0),      # soft_surfaces
+    4: (255, 20, 147),     # moving_objects
+    5: (169, 169, 169),    # landing_zones
+}
 
 
-def colorize_mask(mask_path: Path, output_path: Path):
+def _colorize_mask_array(mask: np.ndarray) -> np.ndarray:
     """
-    Colorizes a segmentation mask where pixel values represent class IDs.
+    Convert a 2D class-id mask into an RGB image for visualization.
     """
-    if not mask_path.exists():
-        print(f"Error: Mask not found at {mask_path}")
-        return
+    if mask.ndim != 2:
+        raise ValueError(f"Expected a 2D mask (H,W), got shape={mask.shape}")
 
-    # Load mask
-    mask = np.array(Image.open(mask_path))
-
-    # Define colors (same as in data.py)
-    # 0: obstacles (Purple), 1: water (Blue), 2: soft-surfaces (Green)
-    # 3: moving-objects (Pink), 4: landing-zones (Grey), 5: background (Black)
-    colors = {
-        0: [155, 38, 182],  # obstacles
-        1: [14, 135, 204],  # water
-        2: [124, 252, 0],  # soft-surfaces
-        3: [255, 20, 147],  # moving-objects
-        4: [169, 169, 169],  # landing-zones
-        5: [0, 0, 0]  # background
-    }
-
-    # Create RGB image
     h, w = mask.shape
-    rgb_image = np.zeros((h, w, 3), dtype=np.uint8)
+    rgb = np.zeros((h, w, 3), dtype=np.uint8)
 
-    for class_id, color in colors.items():
-        rgb_image[mask == class_id] = color
+    # Warn if something unexpected shows up in the mask
+    unknown = sorted(set(np.unique(mask)) - set(CLASS_TO_RGB.keys()))
+    if unknown:
+        typer.echo(f"[WARN] Found unexpected class ids in mask: {unknown}")
 
-    # Save
-    Image.fromarray(rgb_image).save(output_path)
-    print(f"Saved colorized mask to {output_path}")
+    for class_id, color in CLASS_TO_RGB.items():
+        rgb[mask == class_id] = np.array(color, dtype=np.uint8)
+
+    return rgb
+
+
+@app.command()
+def colorize(
+    in_mask: Path = typer.Option(
+        ...,
+        "--in-mask",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        help="Path to a class-id mask PNG.",
+    ),
+    out: Path = typer.Option(
+        ...,
+        "--out",
+        file_okay=True,
+        dir_okay=False,
+        help="Where to save the colorized mask.",
+    ),
+    overwrite: bool = typer.Option(False, "--overwrite", help="Overwrite output file if it exists."),
+) -> None:
+    """
+    Colorize a segmentation mask where pixel values represent class ids.
+
+    This is meant as a quick sanity check to visually verify that labels
+    look reasonable after preprocessing or model inference.
+    """
+    if out.exists() and not overwrite:
+        raise FileExistsError(f"Output exists: {out}. Use --overwrite to replace it.")
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    mask = np.array(Image.open(in_mask))
+
+    # If the input has multiple channels, it's likely not a class-id mask
+    if mask.ndim == 3:
+        raise ValueError(
+            f"Expected a single-channel class-id mask, got shape={mask.shape} instead."
+        )
+
+    mask = mask.astype(np.uint8, copy=False)
+    rgb = _colorize_mask_array(mask)
+
+    Image.fromarray(rgb, mode="RGB").save(out)
+    typer.echo(f"Saved colorized mask to: {out}")
 
 
 if __name__ == "__main__":
-    typer.run(colorize_mask)
+    app()
