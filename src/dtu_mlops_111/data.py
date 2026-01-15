@@ -1,17 +1,18 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
 import json
 import os
 import shutil
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-import typer
 import numpy as np
-from PIL import Image
-from sklearn.model_selection import train_test_split
+import typer
 from dotenv import load_dotenv
+from PIL import Image
+from PIL.Image import Resampling
+from sklearn.model_selection import train_test_split  # type: ignore
 from tqdm import tqdm
 
 load_dotenv()
@@ -65,7 +66,7 @@ def _maybe_resize_pil(img: Image.Image, resize: Optional[int], is_mask: bool) ->
     """
     if resize is None:
         return img
-    resample = Image.NEAREST if is_mask else Image.BILINEAR
+    resample = Resampling.NEAREST if is_mask else Resampling.BILINEAR
     return img.resize((resize, resize), resample=resample)
 
 
@@ -210,14 +211,14 @@ def download(
     _ensure_dir(raw_dir)
 
     typer.echo(f"Downloading {dataset} to {raw_dir}...")
-    from kaggle.api.kaggle_api_extended import KaggleApi
+    from kaggle.api.kaggle_api_extended import KaggleApi  # type: ignore
 
     api = KaggleApi()
     api.authenticate()
     if progress:
         typer.echo("(This may take several minutes...)")
     api.dataset_download_files(dataset, path=raw_dir, unzip=unzip)
-    
+
     if progress:
         typer.echo("Download finished. Processing files...")
 
@@ -238,7 +239,7 @@ def download(
             for folder_name in unnecessary_folders
             if (raw_dir / folder_name).exists() and (raw_dir / folder_name).is_dir()
         ]
-        
+
         if folders_to_remove:
             typer.echo(f"Cleaning up {len(folders_to_remove)} unnecessary folder(s)...")
             for folder_path in tqdm(folders_to_remove, desc="cleanup", unit="folder", disable=not progress):
