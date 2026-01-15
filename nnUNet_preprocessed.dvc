@@ -1,0 +1,6 @@
+outs:
+- md5: 9dc99dc860aaa26ff6602f3c29e2bd44.dir
+  size: 2874598993
+  nfiles: 1604
+  hash: md5
+  path: nnUNet_preprocessed
