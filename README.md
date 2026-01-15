@@ -52,7 +52,13 @@ data/
 
 _Note_: Original imagery dataset comes from [TU Graz, IVC](https://ivc.tugraz.at/research-project/semantic-drone-dataset/).
 
-additionally, running
+
+## nnU-Net
+
+### Setup
+Running [nnU-Net models](https://github.com/MIC-DKFZ/nnUNet) segmentation models requires a specific file and data structuring. 
+
+Running
 
 ```
 uv run python src/dtu_mlops_111/data.py nnunet-export
@@ -66,8 +72,29 @@ nnUNet_raw/
     ├── imagesTr
     └── labelsTr
 ```
+### Preprocessing
 
-Start the training pipeline using the nnU-Net commands (see `nnunet-export` output for details).
+ nnU-Net makes use of specific [*environment variables*](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
+
+After setting up *environment variables* for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for 
+data preprocessing. Make sure your `.env` file is loaded, then run
+```
+nnUNetv2_plan_and_preprocess -d DATASET_ID --verify_dataset_integrity
+```
+to preprocess, where `DATASET_ID` is `101` in this case.
+
+You should now find a new directory was created with the following structure:
+```
+nnUNet_preprocessed
+└── Dataset101_DroneSeg
+    ├── gt_segmentations
+    └── nnUNetPlans_2d
+```
+
+
+### Training.
+
+[ ] TODO
 
 ## Project structure
 
