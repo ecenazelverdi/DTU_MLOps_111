@@ -63,6 +63,19 @@ data/
 
 _Note_: Original imagery dataset comes from [TU Graz, IVC](https://ivc.tugraz.at/research-project/semantic-drone-dataset/).
 
+
+additionally, running 
+```
+uv run python src/dtu_mlops_111/data.py nnunet-export
+```
+will create an additional folder necessary for the use of [nnU-Net models](https://github.com/MIC-DKFZ/nnUNet). This folder is structured as follows:
+```
+nnUNet_raw/
+└── Dataset101_DroneSeg
+    ├── imagesTr
+    └── labelsTr
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:
