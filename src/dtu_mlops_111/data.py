@@ -11,7 +11,8 @@ import numpy as np
 import typer
 from dotenv import load_dotenv
 from PIL import Image
-from sklearn.model_selection import train_test_split
+from PIL.Image import Resampling
+from sklearn.model_selection import train_test_split  # type: ignore
 from tqdm import tqdm
 
 load_dotenv()
@@ -65,7 +66,7 @@ def _maybe_resize_pil(img: Image.Image, resize: Optional[int], is_mask: bool) ->
     """
     if resize is None:
         return img
-    resample = Image.NEAREST if is_mask else Image.BILINEAR
+    resample = Resampling.NEAREST if is_mask else Resampling.BILINEAR
     return img.resize((resize, resize), resample=resample)
 
 
@@ -210,7 +211,7 @@ def download(
     _ensure_dir(raw_dir)
 
     typer.echo(f"Downloading {dataset} to {raw_dir}...")
-    from kaggle.api.kaggle_api_extended import KaggleApi
+    from kaggle.api.kaggle_api_extended import KaggleApi  # type: ignore
 
     api = KaggleApi()
     api.authenticate()
