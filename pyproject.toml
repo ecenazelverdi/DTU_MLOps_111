@@ -31,6 +31,7 @@ dependencies = [
     "scikit-learn>=1.4.0",
     "dotenv>=0.9.9",
     "nnunetv2>=2.6.2",
+    "dvc-gs>=3.0.2",
 ]
 
 [dependency-groups]
