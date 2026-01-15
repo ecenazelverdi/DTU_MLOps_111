@@ -1,0 +1,5 @@
+[core]
+    remote = remote-storage
+['remote "remote-storage"']
+    url = gs://dtumlops-111-data/
+    version_aware = true

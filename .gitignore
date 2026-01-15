@@ -61,3 +61,6 @@ dist/
 .coverage
 htmlcov/
 .pytest_cache/
+/data
+/nnUNet_raw
+/nnUNet_preprocessed
