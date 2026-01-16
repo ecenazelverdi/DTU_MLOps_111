@@ -1,8 +1,10 @@
 import os
-import torch
+
 import numpy as np
-from torch import nn
+import torch
 from nnunetv2.inference.predict_from_raw_data import nnUNetPredictor
+from torch import nn
+
 
 class Model(nn.Module):
     """

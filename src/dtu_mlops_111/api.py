@@ -1,10 +1,12 @@
-from typing import List, Dict
 import http
-import numpy as np
-from PIL import Image
 import io
-from fastapi import FastAPI, UploadFile, File
+from typing import Dict, List
+
+import numpy as np
+from fastapi import FastAPI, File, UploadFile
+from PIL import Image
 from pydantic import BaseModel
+
 from dtu_mlops_111.model import Model
 from dtu_mlops_111.utils import array_to_base64
 
