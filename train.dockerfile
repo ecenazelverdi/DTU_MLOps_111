@@ -1,49 +1,48 @@
-FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
+# Up-to-date image with CUDA 12 support for RTX 4060
+FROM nvidia/cuda:12.1.0-base-ubuntu22.04
 
-# Prevent interactive prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Copenhagen
-
-# Install system dependencies
+# System dependencies (required for SimpleITK and OpenCV)
 RUN apt-get update && apt-get install -y \
-    git \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    libgomp1 \
-    tzdata \
+    python3-pip python3-dev git libgl1-mesa-glx libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# Copy uv from official image (fastest method)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 WORKDIR /app
+
+# First install only dependencies (speeds up build)
+# --system flag installs packages directly to system python
+RUN uv pip install --system \
+    nnunetv2 \
+    SimpleITK \
+    pandas \
+    typer \
+    loguru \
+    scikit-learn \
+    python-dotenv \
+    kaggle \
+    torch torchvision --extra-index-url https://download.pytorch.org/whl/cu121
 
 # Copy project files
 COPY src/ /app/src/
-COPY entrypoint.sh /app/entrypoint.sh
+COPY train_entrypoint.sh /app/train_entrypoint.sh
+COPY .env /app/.env
 
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/train_entrypoint.sh
 
-# Install Python dependencies (PyTorch already in base image)
-RUN pip install --no-cache-dir \
-    nnunetv2 \
-    scikit-learn \
-    python-dotenv \
-    typer \
-    tqdm \
-    Pillow \
-    numpy
+# Create nnU-Net directories and cache directories
+RUN mkdir -p /app/nnUNet_raw /app/nnUNet_preprocessed /app/nnUNet_results /tmp/cache
 
-# Create nnUNet directories
-RUN mkdir -p /app/data/nnUNet_raw /app/data/nnUNet_preprocessed /app/data/nnUNet_results
+# Environment Variables
+ENV nnUNet_raw="/app/nnUNet_raw"
+ENV nnUNet_preprocessed="/app/nnUNet_preprocessed"
+ENV nnUNet_results="/app/nnUNet_results"
+# Add src directory to path so nnU-Net can find our Custom Trainer
+ENV PYTHONPATH="/app/src"
+# Set cache directories to avoid permission issues
+ENV HOME="/tmp"
+ENV MPLCONFIGDIR="/tmp/matplotlib"
+ENV TORCHINDUCTOR_CACHE_DIR="/tmp/torch_cache"
 
-# Environment variables
-ENV nnUNet_raw="/app/data/nnUNet_raw"
-ENV nnUNet_preprocessed="/app/data/nnUNet_preprocessed"
-ENV nnUNet_results="/app/data/nnUNet_results"
-ENV DATASET_ID=101
-ENV CONFIG="2d"
-ENV FOLD=0
-ENV PYTHONPATH="/app:${PYTHONPATH}"
-
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/app/train_entrypoint.sh"]

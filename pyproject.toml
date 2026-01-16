@@ -23,7 +23,6 @@ dependencies = [
     "matplotlib>=3.10.8",
     "numpy>=2.4.0",
     "pandas>=2.3.3",
-    "torch==2.8.0",
     "typer==0.15.1",
     "uvicorn==0.34.0",
     "matplotlib>=3.8.0",
@@ -36,6 +35,8 @@ dependencies = [
     "types-pygments>=2.19.0.20251121",
     "types-defusedxml>=0.7.0.20250822",
     "types-tqdm>=4.67.0.20250809",
+    "torch",
+    "torchvision",
 ]
 
 [dependency-groups]
@@ -51,18 +52,9 @@ dev = [
     "mypy>=1.19.1",
 ]
 
-
-[tool.uv.sources]
-torch = [
-    { index = "pytorch-cpu" },
-]
-torchvision = [
-    { index = "pytorch-cpu" },
-]
-
 [[tool.uv.index]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu121"
 explicit = true
 
 [tool.ruff]
