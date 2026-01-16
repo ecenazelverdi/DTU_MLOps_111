@@ -107,15 +107,32 @@ class Model(nn.Module):
 
     @property
     def metadata(self) -> dict:
-        return {
+        from importlib.metadata import version
+        try:
+            v = version("nnunetv2")
+        except Exception:
+            v = "unknown"
+        
+        meta = {
             "name": "nnU-Net",
-            "version": "2.6.2",
+            "version": v,
             "description": "Drone semantic segmentation",
-            "input_shape": "(1, 3, H, W)",
-            "output_shape": "(1, 1, H, W)", 
             "framework": "PyTorch",
-            "license": "MIT"
+            "license": "MIT",
+            "input_shape": "(1, 3, H, W)", # Standard for this model
+            "output_shape": "(1, 1, H, W)"
         }
+        
+        if self.loaded:
+            # If loaded, we can try to add more info from the plan
+            try:
+                 # nnUNetPredictor might have dataset_json if available
+                 if hasattr(self.predictor, 'dataset_json'):
+                     meta['description'] = f"Segmenting {len(self.predictor.dataset_json.get('labels', {}))} classes"
+            except Exception:
+                pass
+                
+        return meta
 
 if __name__ == "__main__":
     model = Model()
