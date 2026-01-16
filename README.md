@@ -23,24 +23,30 @@ uv run python src/dtu_mlops_111/data.py main
 ```
 
 ### To Download and Configure the Dataset
-_Note_: kaggle api key and kaggle username key are required. the `.env.example` file provides an example of how to structure your own `.env` file and fill with with your personal info.  After updating and refreshing your .env file, run:
+
+_Note_: kaggle api key and kaggle username key are required. the `.env.example` file provides an example of how to structure your own `.env` file and fill with with your personal info. After updating and refreshing your .env file, run:
+
 ```
 uv run invoke download-data
 uv run invoke export-data
 ```
 
 ### To Preprocess the Data
-_Note_: nnU-Net makes use of specific [_environment variables_](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.  After updating your .env and refresing with _environment variables_ for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, run:
+
+_Note_: nnU-Net makes use of specific [_environment variables_](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure. After updating your .env and refresing with _environment variables_ for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, run:
+
 ```
 uv run invoke preprocess
 ```
 
 ### To Train the Model
+
 ```
 uv run invoke train
 ```
 
 ### To Run Tests
+
 ```
 uv run invoke test
 ```
@@ -72,23 +78,28 @@ uv run invoke app
 ### To use API
 
 Ensure model checkpoint is available. This can be done by pulling from our Cloud bucket. Assuming you have access to it, simply run
+
 ```
 uv run dvc nnUNet_results.dvc --no-run-cache
 ```
-This will take a couple of minutes. Afterwards, you should see that the `nnUNet_results/` is present and has the latest version of the model checkpoint (**Note: you might need to add the `--force` option in if you already have a local model checkpoint).
+
+This will take a couple of minutes. Afterwards, you should see that the `nnUNet_results/` is present and has the latest version of the model checkpoint (\*\*Note: you might need to add the `--force` option in if you already have a local model checkpoint).
 
 For example, to use the API to predict segments for a specific image, run
+
 ```
-curl --location 'http://127.0.0.1:8000/predict/' \       
+curl --location 'http://127.0.0.1:8000/predict/' \
 --form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"'
 ```
 
 To use the recommended pre-commit hooks for this repository, run:
+
 ```
 To use pre-commit, run
 ```
 
 ## Further Information
+
 ### Dataset structure
 
 After downloading, you will find the data is structured in the following way:
@@ -117,11 +128,11 @@ data/
 
 _Note_: Original imagery dataset comes from [TU Graz, IVC](https://ivc.tugraz.at/research-project/semantic-drone-dataset/).
 
-
 ## nnU-Net
 
 ### Setup
-Running [nnU-Net models](https://github.com/MIC-DKFZ/nnUNet) segmentation models requires a specific file and data structuring. 
+
+Running [nnU-Net models](https://github.com/MIC-DKFZ/nnUNet) segmentation models requires a specific file and data structuring.
 
 Running
 
@@ -137,18 +148,22 @@ nnUNet_raw/
     ├── imagesTr
     └── labelsTr
 ```
+
 ### Preprocessing
 
- nnU-Net makes use of specific [*environment variables*](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
+nnU-Net makes use of specific [_environment variables_](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
 
-After setting up *environment variables* for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for 
+After setting up _environment variables_ for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for
 data preprocessing. Make sure your `.env` file is loaded, then run
+
 ```
 nnUNetv2_plan_and_preprocess -d DATASET_ID --verify_dataset_integrity
 ```
+
 to preprocess, where `DATASET_ID` is `101` in this case.
 
 You should now find a new directory was created with the following structure:
+
 ```
 nnUNet_preprocessed
 └── Dataset101_DroneSeg
@@ -156,10 +171,11 @@ nnUNet_preprocessed
     └── nnUNetPlans_2d
 ```
 
+### Training
 
-### Training.
-
-[ ] TODO
+```
+uv run nnUNetv2_train 101 2d 0 -device cpu # or gpu
+```
 
 ## Project structure
 
