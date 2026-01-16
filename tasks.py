@@ -1,6 +1,9 @@
 import os
 
+from dotenv import load_dotenv
 from invoke import Context, task
+
+load_dotenv()
 
 WINDOWS = os.name == "nt"
 PROJECT_NAME = "dtu_mlops_111"
@@ -16,34 +19,47 @@ def download_data(ctx: Context) -> None:
 def export_data(ctx: Context) -> None:
     """Export data to nnU-Net raw format."""
     ctx.run(f"uv run src/{PROJECT_NAME}/data.py nnunet-export", echo=True, pty=not WINDOWS)
-
-# ToDo: These two tasks needs to be updated according to the incoming training and evaluation scripts
+# To run APIs
 @task
-def train(ctx: Context, lr: float = 1e-4, batch_size: int = 4, epochs: int = 10) -> None:
-    """Train model."""
-    ctx.run(
-        f"uv run src/{PROJECT_NAME}/train.py --lr {lr} --batch-size {batch_size} --epochs {epochs}", 
-        echo=True, 
-        pty=not WINDOWS
-    )
+def app(ctx: Context) -> None:
+    """Run the API."""
+    ctx.run("uv run uvicorn main:app --port 8000 --reload", echo=True, pty=not WINDOWS)
 
 @task
-def evaluate(ctx: Context, checkpoint: str = "latest") -> None:
-    """Evaluate model."""
-    ctx.run(
-        f"uv run src/{PROJECT_NAME}/evaluate.py --checkpoint {checkpoint}", 
-        echo=True, 
-        pty=not WINDOWS
-    )
-#################################################################################
+def preprocess(ctx: Context, dataset_id: int = 101) -> None:
+    """Run nnU-Net preprocessing."""
+    ctx.run(f"uv run nnUNetv2_plan_and_preprocess -d {dataset_id} --verify_dataset_integrity", echo=True, pty=not WINDOWS)
 
+@task
+def train(ctx: Context, dataset_id: int = 101, fold: int = 0, dim: str = "2d", device: str = "auto") -> None:
+    """
+    Run nnU-Net training.
+    
+    Args:
+        dataset_id: Dataset ID.
+        fold: Fold number (0-4).
+        dim: Dimension (2d or 3d_fullres).
+        device: 'auto', 'cuda', 'mps', or 'cpu'.
+    """
+    if device == "auto":
+        import torch
+        if torch.cuda.is_available():
+            device = "cuda"
+        elif torch.backends.mps.is_available():
+            device = "mps"
+        else:
+            device = "cpu"
+    
+    print(f"Using device: {device}")
+    ctx.run(f"uv run nnUNetv2_train {dataset_id} {dim} {fold} -device {device}", echo=True, pty=not WINDOWS)
+
+# ToDo: These tasks needed to be checked
 @task
 def test(ctx: Context) -> None:
     """Run tests."""
     ctx.run("uv run coverage run -m pytest tests/", echo=True, pty=not WINDOWS)
     ctx.run("uv run coverage report -m -i", echo=True, pty=not WINDOWS)
 
-# ToDo: These tasks needed to be checked
 @task
 def docker_build(ctx: Context, progress: str = "plain") -> None:
     """Build docker images."""
