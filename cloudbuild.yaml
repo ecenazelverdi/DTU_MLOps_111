@@ -1,0 +1,43 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    id: "Build container training image"
+    args:
+      [
+        "build",
+        ".",
+        "-t",
+        "europe-west1-docker.pkg.dev/$PROJECT_ID/dtumlops-111-images/train:latest",
+        "-f",
+        "train.dockerfile",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    id: "Push container training image"
+    waitFor:
+      - "Build container training image"
+    args:
+      [
+        "push",
+        "europe-west1-docker.pkg.dev/$PROJECT_ID/dtumlops-111-images/train:latest",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    id: "Build container inference image"
+    args:
+      [
+        "build",
+        ".",
+        "-t",
+        "europe-west1-docker.pkg.dev/$PROJECT_ID/dtumlops-111-images/inference:latest",
+        "-f",
+        "inference.dockerfile",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    id: "Push container inference image"
+    waitFor:
+      - "Build container inference image"
+    args:
+      [
+        "push",
+        "europe-west1-docker.pkg.dev/$PROJECT_ID/dtumlops-111-images/inference:latest",
+      ]
+options:
+  logging: CLOUD_LOGGING_ONLY
