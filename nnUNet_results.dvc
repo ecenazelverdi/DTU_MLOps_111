@@ -1,0 +1,6 @@
+outs:
+- md5: 9b75911af6b1212185c98f882635e470.dir
+  size: 742324211
+  nfiles: 9
+  hash: md5
+  path: nnUNet_results
