@@ -52,10 +52,10 @@ data/
 
 _Note_: Original imagery dataset comes from [TU Graz, IVC](https://ivc.tugraz.at/research-project/semantic-drone-dataset/).
 
-
 ## nnU-Net
 
 ### Setup
+
 Running [nnU-Net models](https://github.com/MIC-DKFZ/nnUNet) segmentation models requires a specific file and data structuring.
 
 Running
@@ -72,18 +72,22 @@ nnUNet_raw/
     ├── imagesTr
     └── labelsTr
 ```
+
 ### Preprocessing
 
- nnU-Net makes use of specific [*environment variables*](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
+nnU-Net makes use of specific [_environment variables_](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
 
-After setting up *environment variables* for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for
+After setting up _environment variables_ for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for
 data preprocessing. Make sure your `.env` file is loaded, then run
+
 ```
 nnUNetv2_plan_and_preprocess -d DATASET_ID --verify_dataset_integrity
 ```
+
 to preprocess, where `DATASET_ID` is `101` in this case.
 
 You should now find a new directory was created with the following structure:
+
 ```
 nnUNet_preprocessed
 └── Dataset101_DroneSeg
@@ -91,18 +95,37 @@ nnUNet_preprocessed
     └── nnUNetPlans_2d
 ```
 
-
 ### Training.
 
 [ ] TODO
 
+## Installation
+
+### Development
+
+To install the package in editable mode (changes reflected instantly), run:
+
+```bash
+uv pip install -e .
+```
+
+### Production
+
+To install the package for production (immutable, copying files), run:
+
+```bash
+pip install .
+```
+
 ## Contributer Setup
+
 ### Optional: pre-commit
+
 To use pre-commit, run
+
 ```
 uv run pre-commit install
 ```
-
 
 ## Project structure
 
