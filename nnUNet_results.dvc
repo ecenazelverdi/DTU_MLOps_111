@@ -1,6 +1,74 @@
 outs:
-- md5: 9b75911af6b1212185c98f882635e470.dir
-  size: 742324211
-  nfiles: 9
-  hash: md5
+- hash: md5
   path: nnUNet_results
+  files:
+  - relpath: Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/dataset.json
+    md5: 742b12803e0cf6919c1c3f585081825b
+    size: 456
+    cloud:
+      remote-storage:
+        etag: 088befe091949092031001
+        version_id: '1768569859225483'
+  - relpath: 
+      Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/dataset_fingerprint.json
+    md5: 24514ebd71df2e285deb086733a740e1
+    size: 55336
+    cloud:
+      remote-storage:
+        etag: 08cce7ea91949092031001
+        version_id: '1768569859388364'
+  - relpath: 
+      Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/fold_0/checkpoint_best.pth
+    md5: 6e615e378c0385eb57f145ffb52932b4
+    size: 370847507
+    cloud:
+      remote-storage:
+        etag: 08ed80ea9f969092031001
+        version_id: '1768570425606253'
+  - relpath: 
+      Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/fold_0/checkpoint_latest.pth
+    md5: 575bdbd19b2b8e13e5aee52395737001
+    size: 370835051
+    cloud:
+      remote-storage:
+        etag: 08a0c8c6c9969092031001
+        version_id: '1768570513105952'
+  - relpath: 
+      Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/fold_0/debug.json
+    md5: a72a0d986dbccfd3435541748538f09e
+    size: 10080
+    cloud:
+      remote-storage:
+        etag: 08dceeed91949092031001
+        version_id: '1768569859438428'
+  - relpath: 
+      Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/fold_0/progress.png
+    md5: 2511358e42e16417901bac8e4102027d
+    size: 517151
+    cloud:
+      remote-storage:
+        etag: 08c9f9f391949092031001
+        version_id: '1768569859538121'
+  - relpath: 
+      Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/fold_0/training_log_2026_1_15_14_57_21.txt
+    md5: 8f1037e540ab4af973610f06ac6542a4
+    size: 12927
+    cloud:
+      remote-storage:
+        etag: 08b2a7ec91949092031001
+        version_id: '1768569859412914'
+  - relpath: 
+      Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/fold_0/training_log_2026_1_15_21_56_50.txt
+    md5: 588472f0f5d4066d66f94fdce5f51e91
+    size: 39023
+    cloud:
+      remote-storage:
+        etag: 08e8ecee91949092031001
+        version_id: '1768569859454568'
+  - relpath: Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/plans.json
+    md5: 8361328577dbffa6c22164d7a39b2f1c
+    size: 6680
+    cloud:
+      remote-storage:
+        etag: 0883ddee91949092031001
+        version_id: '1768569859452547'
