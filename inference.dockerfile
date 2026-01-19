@@ -1,0 +1,37 @@
+# Inference container for nnU-Net model (CLI-based)
+FROM nvidia/cuda:12.1.0-base-ubuntu22.04
+
+# System dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip python3-dev git libgl1-mesa-glx libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy uv from official image
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+WORKDIR /app
+
+# Install dependencies
+RUN uv pip install --system \
+    nnunetv2 \
+    SimpleITK \
+    Pillow \
+    numpy \
+    torch torchvision --extra-index-url https://download.pytorch.org/whl/cu121
+
+# Create necessary directories
+RUN mkdir -p /input /nnUnet_results /images_raw /visualizations
+
+# Copy preprocessing and visualization scripts
+COPY prepare_inference_input.py /app/prepare_inference_input.py
+COPY visualize_results.py /app/visualize_results.py
+
+# Environment Variables
+ENV nnUNet_results="/nnUnet_results"
+ENV HOME="/tmp"
+
+# Entrypoint script for inference
+COPY inference_entrypoint.sh /app/inference_entrypoint.sh
+RUN chmod +x /app/inference_entrypoint.sh
+
+ENTRYPOINT ["/app/inference_entrypoint.sh"]

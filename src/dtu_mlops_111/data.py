@@ -393,8 +393,32 @@ def nnunet_export(
 @app.command()
 def main() -> None:
     """Convenience entrypoint: download + nnunet_export."""
-    download()
-    nnunet_export()
+    download(
+        data_path=Path("data/raw"),
+        dataset="santurini/semantic-segmentation-drone-dataset",
+        unzip=True,
+        cleanup_zip=True,
+        force=False,
+        progress=True,
+    )
+    nnunet_export(
+        data_path=Path("data/raw/classes_dataset/classes_dataset"),
+        nnunet_raw_dir=Path("nnUNet_raw"),
+        dataset_id=101,
+        dataset_name="DroneSeg",
+        seed=42,
+        test_ratio=0.0,
+        resize=None,
+        force=True,
+        warn_unknown_colors=True,
+        fail_on_unknown_colors=False,
+        unknown_color_warn_threshold=0.001,
+        progress=True,
+        converted_by="Elif",
+        licence="unknown",
+        reference="santurini/semantic-segmentation-drone-dataset",
+    )
+
 
 
 if __name__ == "__main__":
