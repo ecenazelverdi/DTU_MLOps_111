@@ -1,0 +1,15 @@
+steps:
+  # Build the container image using the specific file 'api.dockerfile'
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-f",
+        "api.dockerfile",
+        "-t",
+        "gcr.io/$PROJECT_ID/model-api",
+        ".",
+      ]
+# Push the image to Container Registry
+images:
+  - "gcr.io/$PROJECT_ID/model-api"
