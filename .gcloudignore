@@ -1,0 +1,17 @@
+# Ignore everything by default
+*
+
+# Allow specific files/directories (Whitelist)
+!src/
+!main.py
+!pyproject.toml
+!uv.lock
+!README.md
+!LICENSE
+!.dvc/
+# CRITICAL: Exclude the DVC cache (large files)
+.dvc/cache
+!nnUNet_results.dvc
+!.github/workflows/cloudbuild.yaml
+!api.dockerfile
+!api_entrypoint.sh

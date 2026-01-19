@@ -124,6 +124,18 @@ uv run invoke app
 
 ### To use API
 
+**Deployed Version:**
+
+You can access the live API here: [https://model-api-32512441443.europe-west1.run.app](https://model-api-32512441443.europe-west1.run.app)
+
+Example request to deployed API:
+```bash
+curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
+--form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"' \
+```
+
+**Local Development:**
+
 Ensure model checkpoint is available. This can be done by pulling from our Cloud bucket. Assuming you have access to it, simply run
 
 ```

@@ -1,9 +1,10 @@
-from fastapi.testclient import TestClient
-from dtu_mlops_111.api import app
-import pytest
-from unittest.mock import patch
-import numpy as np
 import io
+from unittest.mock import patch
+
+import numpy as np
+import pytest
+from dtu_mlops_111.api import app
+from fastapi.testclient import TestClient
 from PIL import Image
 
 client = TestClient(app)

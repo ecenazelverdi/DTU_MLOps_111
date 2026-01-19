@@ -78,6 +78,8 @@ module = ["dtu_mlops_111.*"]
 follow_untyped_imports = true
 
 [tool.pytest.ini_options]
+# Add "src" to pythonpath so pytest can find the dtu_mlops_111 package
+pythonpath = ["src"]
 filterwarnings = [
     "ignore::DeprecationWarning:batchgenerators.*",
     "ignore::DeprecationWarning:importlib.*",
