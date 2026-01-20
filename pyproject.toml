@@ -40,7 +40,6 @@ dependencies = [
     "types-pygments>=2.19.0.20251121",
     "types-defusedxml>=0.7.0.20250822",
     "types-tqdm>=4.67.0.20250809",
-    "evidently>=0.7.2",
 ]
 
 [dependency-groups]
@@ -90,5 +89,6 @@ filterwarnings = [
     "ignore::DeprecationWarning:importlib.*",
 ]
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/dtu_mlops_111"]
+[tool.uv.build-backend]
+module-name = "dtu_mlops_111"
+module-root = "src"
