@@ -5,9 +5,13 @@ build-backend = "uv_build"
 [project]
 name = "dtu_mlops_111"
 version = "0.0.1"
-description = "A short description of the project."
+description = "Semantic Segmentation of Drone Imagery MLOps Project"
 authors = [
-  { name = "Your name (or your organization/company/team)", email = "your@email.com" },
+  { name = "Ecenaz Elverdi", email = "s252699@dtu.dk" },
+  { name = "Akin Mert Gümüs", email = "s242508@dtu.dk" },
+  { name = "Elif Pulukcu", email = "s252749@dtu.dk" },
+  { name = "Kerick Jon Walker", email = "s252618@dtu.dk" },
+  { name = "Bruno Zorrila Medina Luna", email = "s260015@dtu.dk" },
 ]
 license = { file = "LICENSE" }
 keywords = ["machine learning", "MLOps"]
@@ -36,6 +40,7 @@ dependencies = [
     "types-pygments>=2.19.0.20251121",
     "types-defusedxml>=0.7.0.20250822",
     "types-tqdm>=4.67.0.20250809",
+    "evidently>=0.7.2",
 ]
 
 [dependency-groups]
@@ -84,3 +89,6 @@ filterwarnings = [
     "ignore::DeprecationWarning:batchgenerators.*",
     "ignore::DeprecationWarning:importlib.*",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dtu_mlops_111"]
