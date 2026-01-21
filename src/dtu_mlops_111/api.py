@@ -5,6 +5,7 @@ from typing import Dict, List
 import numpy as np
 from fastapi import FastAPI, File, UploadFile, BackgroundTasks
 from PIL import Image
+from prometheus_client import Counter, Histogram, make_asgi_app
 from pydantic import BaseModel
 
 import csv
@@ -15,12 +16,31 @@ from dtu_mlops_111.model import Model
 from dtu_mlops_111.utils import array_to_base64
 from dtu_mlops_111.data import LABELS
 
+api_errors = Counter(
+    "api_request_errors_total",
+    "Total number of API request errors",
+    ["endpoint", "reason"],
+)
+request_counter = Counter("prediction_requests", "Number of prediction requests")
+request_latency = Histogram(
+    "api_request_duration_seconds",
+    "Request duration in seconds",
+    ["endpoint"],
+)
+
 app = FastAPI()
+app.mount("/metrics", make_asgi_app())
 
 # Global model instance
+# Ideally we load this once.
+# We wrap it in a try-except block just in case initialization fails during import (e.g. CI/CD without weights)
 try:
     model = Model()
 except Exception as e:
+    api_errors.labels(
+        endpoint="startup",
+        reason="model_init_failed"
+    ).inc()
     print(f"Failed to initialize model: {e}")
     model = None
 
@@ -39,31 +59,31 @@ def log_inference(prediction: np.ndarray, filename: str):
         unique, counts = np.unique(prediction, return_counts=True)
         total_pixels = prediction.size
         counts_dict = dict(zip(unique, counts))
-        
+
         # Prepare log entry
         timestamp = datetime.now().isoformat()
         log_entry = {"timestamp": timestamp, "filename": filename}
-        
+
         # LABELS indices are 0..5 (from data.py)
         for class_idx in LABELS.keys():
             count = counts_dict.get(class_idx, 0)
             percentage = count / total_pixels
             class_name = LABELS[class_idx]
             log_entry[class_name] = percentage
-            
+
         # Write to CSV
         log_path = Path("inference_logs.csv")
         file_exists = log_path.exists()
-        
+
         with open(log_path, mode='a', newline='') as f:
             fieldnames = ["timestamp", "filename"] + list(LABELS.values())
             writer = csv.DictWriter(f, fieldnames=fieldnames)
-            
+
             if not file_exists:
                 writer.writeheader()
-            
+
             writer.writerow(log_entry)
-            
+
     except Exception as e:
         print(f"Logging failed: {e}")
 
@@ -73,10 +93,15 @@ def read_root():
     status = "model_loaded" if model else "model_failed"
     return {"status": "ok", "model_status": status}
 
-async def process_single_image(file: UploadFile, background_tasks: BackgroundTasks = None) -> PredictionResponse:
+async def process_single_image(file: UploadFile, background_tasks: BackgroundTasks = None, endpoint: str) -> PredictionResponse:
     """Helper to process a single image file."""
-    if not model:
-        raise http.HTTPException(status_code=500, detail="Model not loaded")
+    with request_latency.labels(endpoint=endpoint).time():
+        if not model:
+            api_errors.labels(
+                endpoint=endpoint,
+                reason="model_not_loaded"
+            ).inc()
+            raise http.HTTPException(status_code=500, detail="Model not loaded")
 
     content = await file.read()
     image = Image.open(io.BytesIO(content)).convert("RGB")
@@ -88,7 +113,7 @@ async def process_single_image(file: UploadFile, background_tasks: BackgroundTas
     # Schedule logging as a background task if available
     if background_tasks:
         background_tasks.add_task(log_inference, prediction, file.filename)
-    
+
     return PredictionResponse(
         filename=file.filename,
         prediction_shape=list(prediction.shape),
@@ -107,7 +132,8 @@ async def predict(background_tasks: BackgroundTasks, data: UploadFile = File(...
     Returns:
         PredictionResponse containing filename, shape, classes found, and Base64 mask.
     """
-    return await process_single_image(data, background_tasks)
+    request_counter.inc()
+    return await process_single_image(data, background_tasks, endpoint="predict")
 
 @app.post("/batch_predict/", response_model=List[PredictionResponse])
 async def batch_predict(data: List[UploadFile] = File(...)):
@@ -120,9 +146,10 @@ async def batch_predict(data: List[UploadFile] = File(...)):
     Returns:
         List[PredictionResponse] containing results for each image.
     """
+    request_counter.inc(len(data))
     results = []
     for file in data:
-        result = await process_single_image(file)
+        result = await process_single_image(file, endpoint="batch_predict")
         results.append(result)
     return results
 
