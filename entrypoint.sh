@@ -12,20 +12,30 @@ echo "nnUNet_preprocessed: ${nnUNet_preprocessed}"
 echo "nnUNet_results: ${nnUNet_results}"
 echo "========================================"
 
-# Check if dataset exists
-if [ ! -d "${nnUNet_raw}/Dataset${DATASET_ID}_"* ]; then
-    echo "ERROR: Dataset not found in ${nnUNet_raw}"
-    echo "Please mount your preprocessed dataset to ${nnUNet_raw}"
-    exit 1
-fi
+# # Check if dataset exists
+# if [ ! -d "${nnUNet_raw}/Dataset${DATASET_ID}_"* ]; then
+#     echo "ERROR: Dataset not found in ${nnUNet_raw}"
+#     echo "Please mount your preprocessed dataset to ${nnUNet_raw}"
+#     exit 1
+# fi
 
 echo ""
 echo "--- Step 1: Planning and Preprocessing ---"
-uv run nnUNetv2_plan_and_preprocess -d ${DATASET_ID} --verify_dataset_integrity
+if [ -z "$(ls -A ${nnUNet_preprocessed} 2>/dev/null)" ]; then
+    echo "--- Step 1: Planning and Preprocessing ---"
+    uv run nnUNetv2_plan_and_preprocess -d ${DATASET_ID} --verify_dataset_integrity
+else
+    echo "--- Step 1: Skipping Preprocessing (already preprocessed) ---"
+fi
 
 echo ""
 echo "--- Step 2: Training (Fold: ${FOLD}) ---"
-uv run nnUNetv2_train ${DATASET_ID} ${CONFIG} ${FOLD} --npz
+
+# first, add more space for pytorch tmp files (otherwise crash)
+export TMPDIR=/mnt/data/tmp
+mkdir -p "$TMPDIR"
+
+uv run nnUNetv2_train ${DATASET_ID} ${CONFIG} ${FOLD} --npz -device cpu
 
 echo ""
 echo "========================================"

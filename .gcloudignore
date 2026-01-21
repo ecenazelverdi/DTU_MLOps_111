@@ -1,17 +1,69 @@
-# Ignore everything by default
-*
+# ============================================================
+# Data & experiment artifacts (reproducible)
 
-# Allow specific files/directories (Whitelist)
-!src/
-!main.py
-!pyproject.toml
-!uv.lock
-!README.md
-!LICENSE
-!.dvc/
-# CRITICAL: Exclude the DVC cache (large files)
-.dvc/cache
-!nnUNet_results.dvc
-!.github/workflows/cloudbuild.yaml
-!api.dockerfile
-!api_entrypoint.sh
+# *note* we temporarily allow for nnUnet_processed to be copied in
+# ============================================================
+data/
+datasets/
+
+# nnU-Net generated artifacts
+nnUNet_raw/
+# nnUNet_preprocessed/
+nnUNet_results/
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# ============================================================
+# Virtual environments
+# ============================================================
+.venv/
+venv/
+env/
+
+# ============================================================
+# IDEs & editors
+# ============================================================
+.idea/
+.vscode/
+
+# ============================================================
+# OS-specific files
+# ============================================================
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# Environment variables / secrets
+# ============================================================
+.env
+.env.*
+
+# ============================================================
+# Logs & temporary files
+# ============================================================
+*.log
+*.tmp
+
+# ============================================================
+# Build / packaging
+# ============================================================
+build/
+dist/
+*.egg-info/
+
+# ============================================================
+# Coverage & test artifacts
+# ============================================================
+.coverage
+htmlcov/
+.pytest_cache/
+/data
+/nnUNet_raw
+/nnUNet_preprocessed
+/nnUNet_results

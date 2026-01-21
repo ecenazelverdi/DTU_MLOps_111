@@ -1,49 +1,42 @@
-FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
+# Base 'uv' image
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-# Prevent interactive prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Copenhagen
+# Boilerplate essentials
+RUN apt update && \
+    apt install --no-install-recommends -y build-essential gcc && \
+    apt clean && rm -rf /var/lib/apt/lists/*
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    libgomp1 \
-    tzdata \
-    && rm -rf /var/lib/apt/lists/*
+# copying essential components of application to container
+COPY uv.lock uv.lock
+COPY pyproject.toml pyproject.toml
+COPY README.md README.md
+COPY src/ src/
+COPY LICENSE LICENSE
+COPY entrypoint.sh entrypoint.sh
 
-# Set working directory
-WORKDIR /app
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
 
-# Copy project files
-COPY src/ /app/src/
-COPY entrypoint.sh /app/entrypoint.sh
+# set working directory in our container to root `corrupt-mnist/`
+WORKDIR /
 
-RUN chmod +x /app/entrypoint.sh
+# #  install dependencies
+ENV UV_LINK_MODE=copy
+RUN --mount=type=cache,target=/root/.cache/uv uv sync
 
-# Install Python dependencies (PyTorch already in base image)
-RUN pip install --no-cache-dir \
-    nnunetv2 \
-    scikit-learn \
-    python-dotenv \
-    typer \
-    tqdm \
-    Pillow \
-    numpy
+# *Note*: data should be dealt with different when building on the cloud
+COPY data_tiny/nnUNet_preprocessed/ data/nnUNet_preprocessed/
 
 # Create nnUNet directories
-RUN mkdir -p /app/data/nnUNet_raw /app/data/nnUNet_preprocessed /app/data/nnUNet_results
+RUN mkdir -p data/nnUNet_results
 
 # Environment variables
-ENV nnUNet_raw="/app/data/nnUNet_raw"
-ENV nnUNet_preprocessed="/app/data/nnUNet_preprocessed"
-ENV nnUNet_results="/app/data/nnUNet_results"
+ENV nnUNet_raw="/data/raw"
+ENV nnUNet_preprocessed="/data/nnUNet_preprocessed"
+ENV nnUNet_results="/data/nnUNet_results"
 ENV DATASET_ID=101
 ENV CONFIG="2d"
 ENV FOLD=0
-ENV PYTHONPATH="/app:${PYTHONPATH}"
+ENV PYTHONPATH="/:${PYTHONPATH}"
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
