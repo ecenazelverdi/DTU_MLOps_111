@@ -5,12 +5,21 @@ from typing import Dict, List
 import numpy as np
 from fastapi import FastAPI, File, UploadFile
 from PIL import Image
+from prometheus_client import Counter, make_asgi_app
 from pydantic import BaseModel
 
 from dtu_mlops_111.model import Model
 from dtu_mlops_111.utils import array_to_base64
 
+api_errors = Counter(
+    "api_request_errors_total",
+    "Total number of API request errors",
+    ["endpoint", "reason"],
+)
+request_counter = Counter("prediction_requests", "Number of prediction requests")
+
 app = FastAPI()
+app.mount("/metrics", make_asgi_app())
 
 # Global model instance
 # Ideally we load this once.
@@ -18,6 +27,10 @@ app = FastAPI()
 try:
     model = Model()
 except Exception as e:
+    api_errors.labels(
+        endpoint="startup",
+        reason="model_init_failed"
+    ).inc()
     print(f"Failed to initialize model: {e}")
     model = None
 
@@ -36,6 +49,10 @@ def read_root():
 async def process_single_image(file: UploadFile) -> PredictionResponse:
     """Helper to process a single image file."""
     if not model:
+        api_errors.labels(
+            endpoint="predict",
+            reason="model_not_loaded"
+        ).inc()
         raise http.HTTPException(status_code=500, detail="Model not loaded")
 
     content = await file.read()
@@ -63,6 +80,7 @@ async def predict(data: UploadFile = File(...)):
     Returns:
         PredictionResponse containing filename, shape, classes found, and Base64 mask.
     """
+    request_counter.inc()
     return await process_single_image(data)
 
 @app.post("/batch_predict/", response_model=List[PredictionResponse])
@@ -76,6 +94,7 @@ async def batch_predict(data: List[UploadFile] = File(...)):
     Returns:
         List[PredictionResponse] containing results for each image.
     """
+    request_counter.inc()
     results = []
     for file in data:
         result = await process_single_image(file)
