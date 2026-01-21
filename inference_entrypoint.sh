@@ -5,7 +5,7 @@ echo "=== nnU-Net Inference Pipeline ==="
 
 # Set paths
 RESULTS_BASE="/nnUnet_results"
-MODEL_DIR="$RESULTS_BASE/Dataset101_DroneSeg/nnUNetTrainer_1epoch__nnUNetPlans__2d/fold_0"
+MODEL_DIR="$RESULTS_BASE/Dataset101_DroneSeg/nnUNetTrainer_5epochs__nnUNetPlans__2d/fold_0"
 OUTPUT_DIR="$RESULTS_BASE/inference_outputs"
 IMAGES_RAW="/images_raw"
 INPUT_DIR="/input"
