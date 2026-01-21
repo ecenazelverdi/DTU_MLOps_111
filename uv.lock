@@ -848,6 +848,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "coverage" },
+    { name = "httpx" },
     { name = "invoke" },
     { name = "mkdocs" },
     { name = "mkdocs-material" },
@@ -883,6 +884,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "coverage", specifier = "==7.6.9" },
+    { name = "httpx" },
     { name = "invoke", specifier = "==2.2.0" },
     { name = "mkdocs", specifier = "==1.6.1" },
     { name = "mkdocs-material", specifier = "==9.4.6" },
