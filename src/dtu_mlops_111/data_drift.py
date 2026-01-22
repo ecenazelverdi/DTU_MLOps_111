@@ -12,7 +12,7 @@ from evidently import Report
 from evidently.metrics import DatasetMissingValueCount
 from evidently.presets import DataDriftPreset, DataSummaryPreset
 from google.cloud import storage
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from tqdm import tqdm
 
 load_dotenv()
@@ -101,7 +101,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
                     stats = calculate_label_distribution(bio)
 
             data_stats.append(stats)
-        except (PIL.UnidentifiedImageError, OSError, ValueError) as e:
+        except (UnidentifiedImageError, OSError, ValueError) as e:
             print(f"Error processing mask {mask_file}: {e}")
             continue
 
