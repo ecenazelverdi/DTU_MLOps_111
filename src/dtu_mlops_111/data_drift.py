@@ -2,7 +2,7 @@ import io
 import json
 import os
 import tempfile
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from typing import Union
 
@@ -24,6 +24,9 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from dtu_mlops_111.data import LABELS
+
+# Constant for nnUNet preprocessed data path
+NNUNET_GT_SEGMENTATIONS_PATH = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/"
 
 
 def calculate_label_distribution(mask_path: Union[Path, io.BytesIO]) -> dict:
@@ -60,12 +63,15 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
         print(f"Loading reference dataset from local path: {data_path}")
         mask_files = sorted(list(data_path.glob("*.png")))
     elif bucket_name:
+        # Log warning if data_path was provided but doesn't exist
+        if data_path:
+            print(f"Warning: Local path '{data_path}' does not exist. Falling back to GCS bucket.")
         print(f"Loading reference dataset from GCS bucket: {bucket_name}")
         try:
             client = storage.Client()
             bucket = client.bucket(bucket_name)
             # Prefix for the preprocessed ground truth segmentations
-            prefix = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/"
+            prefix = NNUNET_GT_SEGMENTATIONS_PATH
             # List blobs (files)
             blobs = list(bucket.list_blobs(prefix=prefix))
             # Filter for images
@@ -73,7 +79,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
 
             if not mask_files:
                 print(f"Warning: No reference masks found in gs://{bucket_name}/{prefix}")
-        except Exception as e:
+        except (ConnectionError, OSError, ValueError) as e:
             print(f"Failed to list blobs from GCS: {e}")
             mask_files = []
     else:
@@ -104,7 +110,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
                     stats = calculate_label_distribution(bio)
 
             data_stats.append(stats)
-        except Exception as e:
+        except (OSError, ValueError, AttributeError) as e:
             print(f"Error processing mask {mask_file}: {e}")
             continue
 
@@ -114,7 +120,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
 def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     # 1. Load Reference Data (Training Set)
     # Using nnUNet_preprocessed ground truth segmentations
-    train_data_path = Path("nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations")
+    train_data_path = Path(NNUNET_GT_SEGMENTATIONS_PATH.rstrip("/"))
 
     # 2. Check for Bucket
     if not bucket_name:
@@ -123,17 +129,19 @@ def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     if not bucket_name:
         raise ValueError("BUCKET_NAME not set.")
 
+    # Validate bucket_name format
+    if not bucket_name.strip():
+        raise ValueError("BUCKET_NAME cannot be empty or whitespace.")
+    # Basic GCS bucket name validation (lowercase, numbers, hyphens, underscores, 3-63 chars)
+    if not (3 <= len(bucket_name) <= 63):
+        raise ValueError(f"Invalid bucket name '{bucket_name}': must be between 3 and 63 characters.")
+
     # Load reference data (tries local first, then falls back to GCS)
     reference_data = load_reference_data(data_path=train_data_path, bucket_name=bucket_name, limit=limit_ref)
     if reference_data is None or reference_data.empty:
         raise ValueError("Reference data is empty; cannot generate data drift report.")
 
     # 3. Load Current Data (Inference Logs from GCS)
-    if not bucket_name:
-        bucket_name = os.getenv("BUCKET_NAME")
-
-    if not bucket_name:
-        raise ValueError("BUCKET_NAME not set.")
 
     try:
         client = storage.Client()
