@@ -13,11 +13,11 @@ from dtu_mlops_111.data_drift import calculate_label_distribution, load_referenc
 def test_calculate_label_distribution_basic(tmp_path):
     """Test basic label distribution calculation with a simple mask."""
     # Create a simple 10x10 mask with 3 classes
-    # Class 0: 50 pixels, Class 1: 30 pixels, Class 2: 20 pixels
+    # Class 0: 30 pixels, Class 1: 20 pixels, Class 2: 50 pixels
     mask_arr = np.zeros((10, 10), dtype=np.uint8)
-    mask_arr[:5, :6] = 0  # 30 pixels of class 0 (background)
-    mask_arr[:5, 6:] = 1  # 20 pixels of class 1
-    mask_arr[5:, :] = 2   # 50 pixels of class 2
+    mask_arr[:5, :6] = 0  # 30 pixels (5x6) of class 0 (background)
+    mask_arr[:5, 6:] = 1  # 20 pixels (5x4) of class 1
+    mask_arr[5:, :] = 2   # 50 pixels (5x10) of class 2
     
     # Save as L mode image
     mask_path = tmp_path / "test_mask.png"
