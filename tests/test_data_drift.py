@@ -9,6 +9,19 @@ from PIL import Image
 
 from dtu_mlops_111.data_drift import calculate_label_distribution, load_reference_data
 
+# Constants for testing
+GCS_PREFIX = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/"
+
+
+def create_test_mask_bytes(size=(10, 10), value=0):
+    """Helper function to create test mask data as bytes."""
+    mask_arr = np.zeros(size, dtype=np.uint8)
+    mask_arr[:] = value
+    mask_img = Image.fromarray(mask_arr, mode="L")
+    bio = io.BytesIO()
+    mask_img.save(bio, format="PNG")
+    return bio.getvalue()
+
 
 def test_calculate_label_distribution_basic(tmp_path):
     """Test basic label distribution calculation with a simple mask."""
@@ -125,15 +138,8 @@ def test_load_reference_data_from_gcs_success(mock_storage_client):
     mock_blobs = []
     for i in range(3):
         mock_blob = MagicMock()
-        mock_blob.name = f"nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/mask_{i}.png"
-        
-        # Create test mask data
-        mask_arr = np.zeros((10, 10), dtype=np.uint8)
-        mask_img = Image.fromarray(mask_arr, mode="L")
-        bio = io.BytesIO()
-        mask_img.save(bio, format="PNG")
-        mock_blob.download_as_bytes.return_value = bio.getvalue()
-        
+        mock_blob.name = f"{GCS_PREFIX}mask_{i}.png"
+        mock_blob.download_as_bytes.return_value = create_test_mask_bytes()
         mock_blobs.append(mock_blob)
     
     mock_bucket.list_blobs.return_value = mock_blobs
@@ -144,9 +150,7 @@ def test_load_reference_data_from_gcs_success(mock_storage_client):
     assert isinstance(df, pd.DataFrame)
     assert len(df) == 3
     mock_client.bucket.assert_called_once_with("test-bucket")
-    mock_bucket.list_blobs.assert_called_once_with(
-        prefix="nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/"
-    )
+    mock_bucket.list_blobs.assert_called_once_with(prefix=GCS_PREFIX)
 
 
 @patch("dtu_mlops_111.data_drift.storage.Client")
@@ -207,15 +211,11 @@ def test_load_reference_data_from_gcs_filters_png_only(mock_storage_client):
     
     # Create mock blobs with different extensions
     mock_blob_png = MagicMock()
-    mock_blob_png.name = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/mask.png"
-    mask_arr = np.zeros((10, 10), dtype=np.uint8)
-    mask_img = Image.fromarray(mask_arr, mode="L")
-    bio = io.BytesIO()
-    mask_img.save(bio, format="PNG")
-    mock_blob_png.download_as_bytes.return_value = bio.getvalue()
+    mock_blob_png.name = f"{GCS_PREFIX}mask.png"
+    mock_blob_png.download_as_bytes.return_value = create_test_mask_bytes()
     
     mock_blob_jpg = MagicMock()
-    mock_blob_jpg.name = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/mask.jpg"
+    mock_blob_jpg.name = f"{GCS_PREFIX}mask.jpg"
     
     mock_bucket.list_blobs.return_value = [mock_blob_png, mock_blob_jpg]
     
@@ -237,12 +237,8 @@ def test_load_reference_data_from_gcs_with_limit(mock_storage_client):
     mock_blobs = []
     for i in range(5):
         mock_blob = MagicMock()
-        mock_blob.name = f"nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/mask_{i}.png"
-        mask_arr = np.zeros((10, 10), dtype=np.uint8)
-        mask_img = Image.fromarray(mask_arr, mode="L")
-        bio = io.BytesIO()
-        mask_img.save(bio, format="PNG")
-        mock_blob.download_as_bytes.return_value = bio.getvalue()
+        mock_blob.name = f"{GCS_PREFIX}mask_{i}.png"
+        mock_blob.download_as_bytes.return_value = create_test_mask_bytes()
         mock_blobs.append(mock_blob)
     
     mock_bucket.list_blobs.return_value = mock_blobs
@@ -282,15 +278,11 @@ def test_load_reference_data_from_gcs_download_failure(mock_storage_client):
     
     # Create mock blobs - one succeeds, one fails
     mock_blob_success = MagicMock()
-    mock_blob_success.name = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/mask_1.png"
-    mask_arr = np.zeros((10, 10), dtype=np.uint8)
-    mask_img = Image.fromarray(mask_arr, mode="L")
-    bio = io.BytesIO()
-    mask_img.save(bio, format="PNG")
-    mock_blob_success.download_as_bytes.return_value = bio.getvalue()
+    mock_blob_success.name = f"{GCS_PREFIX}mask_1.png"
+    mock_blob_success.download_as_bytes.return_value = create_test_mask_bytes()
     
     mock_blob_fail = MagicMock()
-    mock_blob_fail.name = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/mask_2.png"
+    mock_blob_fail.name = f"{GCS_PREFIX}mask_2.png"
     mock_blob_fail.download_as_bytes.side_effect = Exception("Download failed")
     
     mock_bucket.list_blobs.return_value = [mock_blob_success, mock_blob_fail]
