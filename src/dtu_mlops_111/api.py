@@ -1,27 +1,24 @@
 import http
 import io
+import json
+import os
+import uuid
+from datetime import datetime
 from typing import List
 
 import numpy as np
-from fastapi import FastAPI, File, UploadFile, BackgroundTasks
+from dotenv import load_dotenv
+from fastapi import BackgroundTasks, FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
+from google.cloud import storage
 from PIL import Image
 from prometheus_client import Counter, Histogram, make_asgi_app
 from pydantic import BaseModel
 
-from datetime import datetime
-
+from dtu_mlops_111.data import LABELS
+from dtu_mlops_111.data_drift import get_drift_report_html, upload_drift_report
 from dtu_mlops_111.model import Model
 from dtu_mlops_111.utils import array_to_base64
-from dtu_mlops_111.data import LABELS
-
-import json
-import uuid
-import os
-from dotenv import load_dotenv
-from google.cloud import storage
-
-from fastapi.responses import JSONResponse
-from dtu_mlops_111.data_drift import get_drift_report_html, upload_drift_report
 
 load_dotenv()
 

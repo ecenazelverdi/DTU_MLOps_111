@@ -1,28 +1,30 @@
-import pandas as pd
-import numpy as np
-import json
-from pathlib import Path
-from tqdm import tqdm
-from PIL import Image
-from evidently import Report
-from evidently.presets import DataDriftPreset, DataSummaryPreset
-from evidently.metrics import DatasetMissingValueCount
-
-import os
-from dotenv import load_dotenv
-from google.cloud import storage
-import tempfile
-import re
 import html
+import json
+import os
+import re
+import tempfile
 from datetime import datetime, timedelta
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from dotenv import load_dotenv
+from evidently import Report
+from evidently.metrics import DatasetMissingValueCount
+from evidently.presets import DataDriftPreset, DataSummaryPreset
+from google.cloud import storage
+from PIL import Image
+from tqdm import tqdm
 
 load_dotenv()
 
 # To prevent error that is caused by background class in the training data with evidently
 import warnings
+
 warnings.filterwarnings("ignore")
 
 from dtu_mlops_111.data import LABELS
+
 
 def calculate_label_distribution(mask_path: Path) -> dict:
     """
