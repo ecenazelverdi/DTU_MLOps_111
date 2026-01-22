@@ -24,8 +24,8 @@ warnings.filterwarnings("ignore")
 
 from dtu_mlops_111.data import LABELS
 
-# Path to preprocessed ground truth segmentations (used for both local and GCS)
-GT_SEGMENTATIONS_PATH = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations"
+# Path to preprocessed ground truth segmentations directory (used for both local and GCS)
+GT_SEGMENTATIONS_DIR = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations"
 
 
 def calculate_label_distribution(mask_path: Path) -> dict:
@@ -67,7 +67,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
             client = storage.Client()
             bucket = client.bucket(bucket_name)
             # Prefix for the preprocessed ground truth segmentations
-            prefix = f"{GT_SEGMENTATIONS_PATH}/"
+            prefix = f"{GT_SEGMENTATIONS_DIR}/"
             # List blobs (files)
             blobs = list(bucket.list_blobs(prefix=prefix))
             # Filter for images
@@ -114,7 +114,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
 def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     # 1. Load Reference Data (Training Set)
     # Using nnUNet_preprocessed ground truth segmentations
-    train_data_path = Path(GT_SEGMENTATIONS_PATH)
+    train_data_path = Path(GT_SEGMENTATIONS_DIR)
 
     # 2. Check for Bucket for both reference (if needed) and current data
     if not bucket_name:
