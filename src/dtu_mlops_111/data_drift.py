@@ -122,7 +122,7 @@ def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     # Load reference data (tries local first, then falls back to GCS)
     reference_data = load_reference_data(data_path=train_data_path, bucket_name=bucket_name, limit=limit_ref)
     
-    # 2. Load Current Data (Inference Logs from GCS)
+    # 3. Load Current Data (Inference Logs from GCS)
     if not bucket_name:
         bucket_name = os.getenv("BUCKET_NAME")
     
