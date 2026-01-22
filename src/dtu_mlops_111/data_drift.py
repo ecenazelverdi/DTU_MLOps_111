@@ -1,8 +1,7 @@
-import html
 import json
 import os
-import re
 import tempfile
+import io
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -48,20 +47,63 @@ def calculate_label_distribution(mask_path: Path) -> dict:
             
     return distribution
 
-def load_reference_data(data_path: Path, limit: int = None) -> pd.DataFrame:
-    print("Loading reference dataset from masks...")
+
+def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: int = None) -> pd.DataFrame:
+    """
+    Load reference data from local path or GCS bucket.
+    """
+    mask_files = []
     
-    # Directly glob the masks since we are using the preprocessed gt_segmentations folder
-    mask_files = sorted(list(data_path.glob("*.png")))
-    
+    # Try local path first
+    if data_path and data_path.exists():
+        print(f"Loading reference dataset from local path: {data_path}")
+        mask_files = sorted(list(data_path.glob("*.png")))
+    elif bucket_name:
+        print(f"Loading reference dataset from GCS bucket: {bucket_name}")
+        try:
+            client = storage.Client()
+            bucket = client.bucket(bucket_name)
+            # Prefix for the preprocessed ground truth segmentations
+            prefix = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/"
+            # List blobs (files)
+            blobs = list(bucket.list_blobs(prefix=prefix))
+            # Filter for images
+            mask_files = [b for b in blobs if b.name.endswith(".png")]
+            
+            if not mask_files:
+                 print(f"Warning: No reference masks found in gs://{bucket_name}/{prefix}")
+        except Exception as e:
+            print(f"Failed to list blobs from GCS: {e}")
+            mask_files = []
+    else:
+        raise ValueError("Either data_path (local) or bucket_name (GCS) must be provided/valid.")
+
+    if not mask_files:
+        # Fallback or error if no data found
+        print("Warning: No reference data found. Returning empty DataFrame.")
+        return pd.DataFrame()
+
     if limit:
         print(f"Limiting reference data to {limit} samples.")
         mask_files = mask_files[:limit]
 
     data_stats = []
     for mask_file in tqdm(mask_files, desc="Processing reference masks"):
-        stats = calculate_label_distribution(mask_file)
-        data_stats.append(stats)
+        try:
+            if isinstance(mask_file, Path):
+                # Local file
+                stats = calculate_label_distribution(mask_file)
+            else:
+                # GCS Blob
+                image_bytes = mask_file.download_as_bytes()
+                # Create a BytesIO object to mimic a file
+                with io.BytesIO(image_bytes) as bio:
+                   stats = calculate_label_distribution(bio)
+            
+            data_stats.append(stats)
+        except Exception as e:
+            print(f"Error processing mask {mask_file}: {e}")
+            continue
         
     return pd.DataFrame(data_stats)
 
@@ -69,10 +111,16 @@ def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     # 1. Load Reference Data (Training Set)
     # Using nnUNet_preprocessed ground truth segmentations
     train_data_path = Path("nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations")
-    if not train_data_path.exists():
-        raise FileNotFoundError(f"Training data path {train_data_path} not found. Ensure volume is mounted.")
+    
+    # 2. Check for Bucket for both reference (if needed) and current data
+    if not bucket_name:
+        bucket_name = os.getenv("BUCKET_NAME")
 
-    reference_data = load_reference_data(train_data_path, limit=limit_ref)
+    if not bucket_name:
+         raise ValueError("BUCKET_NAME not set.")
+
+    # Load reference data (tries local first, then falls back to GCS)
+    reference_data = load_reference_data(data_path=train_data_path, bucket_name=bucket_name, limit=limit_ref)
     
     # 2. Load Current Data (Inference Logs from GCS)
     if not bucket_name:
