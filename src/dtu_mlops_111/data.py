@@ -38,9 +38,9 @@ LABELS: Dict[int, str] = {
 RGB_TO_CLASS: Dict[Tuple[int, int, int], int] = {
     (155, 38, 182): 1,  # obstacles
     (14, 135, 204): 2,  # water
-    (124, 252, 0): 3,   # soft_surfaces
+    (124, 252, 0): 3,  # soft_surfaces
     (255, 20, 147): 4,  # moving_objects
-    (169, 169, 169): 5, # landing_zones
+    (169, 169, 169): 5,  # landing_zones
 }
 
 
@@ -174,9 +174,7 @@ class MyDataset:
                 if s in seen:
                     dupes.append(s)
                 seen.add(s)
-            raise RuntimeError(
-                f"Duplicate image stems found (case_id collision). Examples: {sorted(set(dupes))[:10]}"
-            )
+            raise RuntimeError(f"Duplicate image stems found (case_id collision). Examples: {sorted(set(dupes))[:10]}")
 
     def __len__(self) -> int:
         return len(self.pairs)
@@ -250,9 +248,7 @@ def download(
 
 @app.command("nnunet-export")
 def nnunet_export(
-    data_path: Path = typer.Option(
-        Path("data/raw/classes_dataset/classes_dataset"), help="Extracted dataset root."
-    ),
+    data_path: Path = typer.Option(Path("data/raw/classes_dataset/classes_dataset"), help="Extracted dataset root."),
     nnunet_raw_dir: Path = typer.Option(Path("nnUNet_raw"), help="nnUNet_raw root directory."),
     dataset_id: int = typer.Option(101, help="nnU-Net dataset id (DatasetXXX_*)."),
     dataset_name: str = typer.Option("DroneSeg", help="nnU-Net dataset name (DatasetXXX_Name)."),
@@ -262,9 +258,7 @@ def nnunet_export(
     force: bool = typer.Option(False, help="Overwrite existing nnU-Net dataset folder."),
     warn_unknown_colors: bool = typer.Option(True, help="Warn on unknown RGB in masks."),
     fail_on_unknown_colors: bool = typer.Option(False, help="Fail on unknown RGB ratio over threshold."),
-    unknown_color_warn_threshold: float = typer.Option(
-        0.001, help="Unknown RGB pixel ratio threshold."
-    ),
+    unknown_color_warn_threshold: float = typer.Option(0.001, help="Unknown RGB pixel ratio threshold."),
     progress: bool = typer.Option(
         True,
         "--progress/--no-progress",
@@ -349,10 +343,7 @@ def nnunet_export(
             if warn_unknown_colors or fail_on_unknown_colors:
                 unk_ratio = float(_rgb_unknown_mask(mask_rgb_np).mean())
                 if unk_ratio > unknown_color_warn_threshold:
-                    msg = (
-                        f"Unknown RGB in {pair.mask.name}: "
-                        f"{unk_ratio * 100:.3f}% pixels mapped to background."
-                    )
+                    msg = f"Unknown RGB in {pair.mask.name}: " f"{unk_ratio * 100:.3f}% pixels mapped to background."
                     if fail_on_unknown_colors:
                         raise RuntimeError(f"[FAIL] {msg}")
                     if warn_unknown_colors:
@@ -442,7 +433,6 @@ def main() -> None:
         licence="unknown",
         reference="santurini/semantic-segmentation-drone-dataset",
     )
-
 
 
 if __name__ == "__main__":

@@ -17,19 +17,16 @@ def main():
     parser.add_argument("-o", "--output", type=str, required=True, help="Output directory")
     parser.add_argument("-m", "--model", type=str, required=True, help="Model directory")
     parser.add_argument("-f", "--fold", type=str, default="0", help="Fold to use")
-    parser.add_argument("-c", "--checkpoint", type=str, default="checkpoint_best.pth", 
-                       help="Checkpoint name")
-    parser.add_argument("--disable-tta", action="store_true", 
-                       help="Disable test time augmentation")
-    parser.add_argument("--log-file", type=str, default=None, 
-                       help="Log file path")
-    
+    parser.add_argument("-c", "--checkpoint", type=str, default="checkpoint_best.pth", help="Checkpoint name")
+    parser.add_argument("--disable-tta", action="store_true", help="Disable test time augmentation")
+    parser.add_argument("--log-file", type=str, default=None, help="Log file path")
+
     args = parser.parse_args()
-    
+
     # Setup logging
     if args.log_file:
         logger.add(args.log_file, rotation="100 MB")
-    
+
     logger.info("=" * 50)
     logger.info("Starting Custom nnU-Net Inference")
     logger.info("=" * 50)
@@ -39,7 +36,7 @@ def main():
     logger.info(f"Fold: {args.fold}")
     logger.info(f"Checkpoint: {args.checkpoint}")
     logger.info(f"TTA: {'Disabled' if args.disable_tta else 'Enabled'}")
-    
+
     try:
         # Initialize custom predictor
         predictor = CustomnnUNetPredictor(
@@ -51,16 +48,14 @@ def main():
             verbose=False,
             verbose_preprocessing=False,
             allow_tqdm=True,
-            log_file_path=args.log_file
+            log_file_path=args.log_file,
         )
-        
+
         # Load model
         predictor.initialize_from_trained_model_folder(
-            args.model,
-            use_folds=(args.fold,),
-            checkpoint_name=args.checkpoint
+            args.model, use_folds=(args.fold,), checkpoint_name=args.checkpoint
         )
-        
+
         # Run inference
         predictor.predict_from_files(
             list_of_lists_or_source_folder=args.input,
@@ -68,15 +63,16 @@ def main():
             save_probabilities=False,
             overwrite=True,
             num_processes_preprocessing=3,
-            num_processes_segmentation_export=3
+            num_processes_segmentation_export=3,
         )
-        
+
         logger.success("Inference completed successfully!")
         return 0
-        
+
     except Exception as e:
         logger.error(f"Inference failed: {e}")
         import traceback
+
         logger.error(traceback.format_exc())
         return 1
 

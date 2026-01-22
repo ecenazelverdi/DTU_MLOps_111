@@ -1,5 +1,6 @@
 import base64
 import io
+
 import bentoml
 from PIL import Image
 

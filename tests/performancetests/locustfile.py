@@ -16,7 +16,6 @@ def make_png_bytes(width: int = 256, height: int = 256) -> bytes:
     return buf.getvalue()
 
 
-
 class MyUser(HttpUser):
     """A simple Locust user class that can access the FastAPI endpoints."""
 
@@ -36,7 +35,7 @@ class MyUser(HttpUser):
     def get_root(self) -> None:
         """A task that simulates a user visiting the root URL of the FastAPI app."""
         self.client.get("/")
-    
+
     @task()
     def predict_single(self):
         img_bytes = random.choice(self.images)
@@ -58,7 +57,6 @@ class MyUser(HttpUser):
                     r.failure("Missing 'segmentation_mask' in response")
             except Exception as e:
                 r.failure(f"Failed to parse JSON: {e}")
-
 
     @task()
     def predict_batch(self):
