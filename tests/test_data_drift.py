@@ -97,7 +97,7 @@ def test_load_reference_data_local_path_not_exists():
     non_existent_path = Path("/nonexistent/path")
     
     # Should raise ValueError when no bucket_name is provided
-    with pytest.raises(ValueError, match="Either data_path.*or bucket_name.*must be provided"):
+    with pytest.raises(ValueError, match="Either data_path .* or bucket_name .* must be provided/valid"):
         load_reference_data(data_path=non_existent_path)
 
 
