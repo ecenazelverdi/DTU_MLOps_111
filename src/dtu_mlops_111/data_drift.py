@@ -1,6 +1,7 @@
 import io
 import json
 import os
+import re
 import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -34,13 +35,11 @@ def validate_bucket_name(bucket_name: str) -> None:
 
     GCS Bucket naming rules:
     - Must be 3-63 characters long
-    - Can contain lowercase letters, numbers, hyphens, and underscores
+    - Can contain lowercase letters, numbers, hyphens, underscores, and periods
     - Must start and end with a letter or number
     - Cannot contain "goog" prefix or "google" in any form
     - Cannot contain consecutive periods
     """
-    import re
-
     if not bucket_name:
         raise ValueError("Bucket name cannot be empty.")
 
@@ -59,7 +58,8 @@ def validate_bucket_name(bucket_name: str) -> None:
 
     # Check valid characters and format
     # Must contain only lowercase letters, numbers, hyphens, underscores, and periods
-    if not re.match(r"^[a-z0-9][a-z0-9._-]*[a-z0-9]$", bucket_name):
+    # Must start and end with a letter or number
+    if not re.match(r"^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$", bucket_name):
         raise ValueError(
             "Bucket name must start and end with a letter or number, "
             "and can only contain lowercase letters, numbers, hyphens, underscores, and periods."
