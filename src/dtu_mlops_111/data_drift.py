@@ -2,6 +2,7 @@ import io
 import json
 import os
 import tempfile
+import warnings
 from datetime import datetime
 from pathlib import Path
 from typing import Union
@@ -12,6 +13,7 @@ from dotenv import load_dotenv
 from evidently import Report
 from evidently.metrics import DatasetMissingValueCount
 from evidently.presets import DataDriftPreset, DataSummaryPreset
+from google.api_core import exceptions as gcs_exceptions
 from google.cloud import storage
 from PIL import Image
 from tqdm import tqdm
@@ -19,8 +21,6 @@ from tqdm import tqdm
 load_dotenv()
 
 # To prevent error that is caused by background class in the training data with evidently
-import warnings
-
 warnings.filterwarnings("ignore")
 
 from dtu_mlops_111.data import LABELS
@@ -79,7 +79,13 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
 
             if not mask_files:
                 print(f"Warning: No reference masks found in gs://{bucket_name}/{prefix}")
-        except (ConnectionError, OSError, ValueError) as e:
+        except (
+            gcs_exceptions.NotFound,
+            gcs_exceptions.Forbidden,
+            gcs_exceptions.GoogleAPIError,
+            ConnectionError,
+            OSError,
+        ) as e:
             print(f"Failed to list blobs from GCS: {e}")
             mask_files = []
     else:
@@ -132,9 +138,12 @@ def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     # Validate bucket_name format
     if not bucket_name.strip():
         raise ValueError("BUCKET_NAME cannot be empty or whitespace.")
-    # Basic GCS bucket name validation (lowercase, numbers, hyphens, underscores, 3-63 chars)
+    # Basic GCS bucket name validation (3-63 chars, lowercase, numbers, hyphens, dots, underscores)
+    # Cannot start/end with hyphens or underscores
     if not (3 <= len(bucket_name) <= 63):
         raise ValueError(f"Invalid bucket name '{bucket_name}': must be between 3 and 63 characters.")
+    if bucket_name.startswith(("-", "_")) or bucket_name.endswith(("-", "_")):
+        raise ValueError(f"Invalid bucket name '{bucket_name}': cannot start or end with hyphens or underscores.")
 
     # Load reference data (tries local first, then falls back to GCS)
     reference_data = load_reference_data(data_path=train_data_path, bucket_name=bucket_name, limit=limit_ref)
