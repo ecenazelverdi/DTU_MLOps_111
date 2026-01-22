@@ -86,6 +86,8 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
         print(f"Warning: Provided data_path '{data_path}' does not exist. Falling back to GCS.")
         if bucket_name:
             mask_files = _load_from_gcs(bucket_name)
+        else:
+            raise ValueError("Provided data_path does not exist and no bucket_name provided for fallback.")
     elif bucket_name:
         mask_files = _load_from_gcs(bucket_name)
     else:
