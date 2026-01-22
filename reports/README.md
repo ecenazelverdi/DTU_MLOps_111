@@ -482,7 +482,7 @@ Our continuous integration setup follows very closely the basic steps from modul
 >
 > Answer:
 
---- question 25 fill here ---
+Yes, we load tested our API using locust.  To do this, we implemented a very simple locustfile.py that accesses the API get, predict, and predict_batch endpoints.  It also creates a few random images to use for said prediction requests.  Our API is very slow and we were able to crash it easily.  The error message we discovered on google cloud run implied that our API container was building too slowly.  Because of this, we learned that it is probably not a good idea to have run a dvc pull of the model weights during each api container build.
 
 ### Question 26
 
