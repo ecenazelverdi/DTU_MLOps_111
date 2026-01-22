@@ -48,6 +48,30 @@ def calculate_label_distribution(mask_path: Path) -> dict:
     return distribution
 
 
+def _load_from_gcs(bucket_name: str) -> list:
+    """
+    Helper function to load mask files from GCS bucket.
+    Returns a list of blob objects.
+    """
+    print(f"Loading reference dataset from GCS bucket: {bucket_name}")
+    try:
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        # Prefix for the preprocessed ground truth segmentations
+        prefix = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/"
+        # List blobs (files)
+        blobs = list(bucket.list_blobs(prefix=prefix))
+        # Filter for images
+        mask_files = [b for b in blobs if b.name.endswith(".png")]
+
+        if not mask_files:
+            print(f"Warning: No reference masks found in gs://{bucket_name}/{prefix}")
+        return mask_files
+    except Exception as e:
+        print(f"Failed to list blobs from GCS: {e}")
+        return []
+
+
 def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: int = None) -> pd.DataFrame:
     """
     Load reference data from local path or GCS bucket.
@@ -61,39 +85,9 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
     elif data_path and not data_path.exists():
         print(f"Warning: Provided data_path '{data_path}' does not exist. Falling back to GCS.")
         if bucket_name:
-            print(f"Loading reference dataset from GCS bucket: {bucket_name}")
-            try:
-                client = storage.Client()
-                bucket = client.bucket(bucket_name)
-                # Prefix for the preprocessed ground truth segmentations
-                prefix = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/"
-                # List blobs (files)
-                blobs = list(bucket.list_blobs(prefix=prefix))
-                # Filter for images
-                mask_files = [b for b in blobs if b.name.endswith(".png")]
-
-                if not mask_files:
-                    print(f"Warning: No reference masks found in gs://{bucket_name}/{prefix}")
-            except Exception as e:
-                print(f"Failed to list blobs from GCS: {e}")
-                mask_files = []
+            mask_files = _load_from_gcs(bucket_name)
     elif bucket_name:
-        print(f"Loading reference dataset from GCS bucket: {bucket_name}")
-        try:
-            client = storage.Client()
-            bucket = client.bucket(bucket_name)
-            # Prefix for the preprocessed ground truth segmentations
-            prefix = "nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations/"
-            # List blobs (files)
-            blobs = list(bucket.list_blobs(prefix=prefix))
-            # Filter for images
-            mask_files = [b for b in blobs if b.name.endswith(".png")]
-
-            if not mask_files:
-                print(f"Warning: No reference masks found in gs://{bucket_name}/{prefix}")
-        except Exception as e:
-            print(f"Failed to list blobs from GCS: {e}")
-            mask_files = []
+        mask_files = _load_from_gcs(bucket_name)
     else:
         raise ValueError("Either data_path (local) or bucket_name (GCS) must be provided/valid.")
 
