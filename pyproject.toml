@@ -95,3 +95,4 @@ filterwarnings = [
 [tool.uv.build-backend]
 module-name = "dtu_mlops_111"
 module-root = "src"
+namespace = true

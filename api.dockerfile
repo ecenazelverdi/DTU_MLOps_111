@@ -4,7 +4,8 @@ ENV PYTHONUNBUFFERED=1 \
     PORT=8080 \
     nnUNet_raw="/app/nnUNet_raw" \
     nnUNet_preprocessed="/app/nnUNet_preprocessed" \
-    nnUNet_results="/app/nnUNet_results"
+    nnUNet_results="/app/nnUNet_results" \
+    BUCKET_NAME=dtumlops-111-data
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
