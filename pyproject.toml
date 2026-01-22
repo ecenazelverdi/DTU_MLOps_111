@@ -44,6 +44,7 @@ dependencies = [
     "evidently==0.7.2",
     "google-cloud-storage>=3.8.0",
     "locust>=2.43.1",
+    "wandb>=0.16.0",
 ]
 
 [dependency-groups]
