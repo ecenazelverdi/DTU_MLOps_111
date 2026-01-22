@@ -1,0 +1,44 @@
+# Exclude large data directories from Docker build context
+data/
+nnUNet_raw/
+nnUNet_preprocessed/
+nnUNet_results/
+models/
+visualizations/
+reports/
+notebooks/
+images_raw/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Other
+*.log
+.env.local

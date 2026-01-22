@@ -45,6 +45,9 @@ dependencies = [
     "evidently==0.7.2",
     "google-cloud-storage>=3.8.0",
     "locust>=2.43.1",
+    "torchvision==0.23.0",
+    "wandb>=0.24.0",
+    "loguru>=0.7.3",
 ]
 
 [dependency-groups]
@@ -64,11 +67,20 @@ dev = [
 
 [tool.uv.sources]
 torch = [
-    { index = "pytorch-cpu" },
+    { index = "pytorch-cuda", marker = "sys_platform == 'linux'" },
+    { index = "pytorch-cuda", marker = "sys_platform == 'win32'" },
+    { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
 ]
 torchvision = [
-    { index = "pytorch-cpu" },
+    { index = "pytorch-cuda", marker = "sys_platform == 'linux'" },
+    { index = "pytorch-cuda", marker = "sys_platform == 'win32'" },
+    { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
 ]
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
