@@ -11,8 +11,9 @@ from dotenv import load_dotenv
 from evidently import Report
 from evidently.metrics import DatasetMissingValueCount
 from evidently.presets import DataDriftPreset, DataSummaryPreset
+from google.cloud import exceptions as gcp_exceptions
 from google.cloud import storage
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from tqdm import tqdm
 
 load_dotenv()
@@ -72,7 +73,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
             
             if not mask_files:
                  print(f"Warning: No reference masks found in gs://{bucket_name}/{prefix}")
-        except Exception as e:
+        except gcp_exceptions.GoogleCloudError as e:
             print(f"Failed to list blobs from GCS: {e}")
             mask_files = []
     else:
@@ -101,7 +102,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
                    stats = calculate_label_distribution(bio)
             
             data_stats.append(stats)
-        except Exception as e:
+        except (UnidentifiedImageError, gcp_exceptions.GoogleCloudError, OSError) as e:
             print(f"Error processing mask {mask_file}: {e}")
             continue
         
