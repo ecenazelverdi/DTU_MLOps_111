@@ -3,8 +3,6 @@
 # ============================================================
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
 
 # ============================================================
 # Virtual environments
@@ -31,13 +29,21 @@ Thumbs.db
 .env
 .env.*
 
+# Secrets / credentials directories
+secrets/
+
+# Common credential file patterns (keep configuration JSONs tracked)
+*service_account*.json
+*credentials*.json
+application_default_credentials.json
+
 # ============================================================
-# Data & experiment artifacts (reproducible)
+# Data & experiment artifacts
 # ============================================================
 data/
 datasets/
 
-# nnU-Net generated artifacts
+# nnU-Net generated artifacts (tracked via DVC / remote storage)
 nnUNet_raw/
 nnUNet_preprocessed/
 nnUNet_results/
@@ -61,15 +67,19 @@ dist/
 .coverage
 htmlcov/
 .pytest_cache/
-/data
-/nnUNet_raw
-/nnUNet_preprocessed
-/nnUNet_results
 
-secrets/
-*.json
-
-mask.png
+# ============================================================
+# Local demo outputs (generated during manual testing)
+# ============================================================
+*.png
+*.jpg
+payload_*.json
+resp_*.json
+resp.json
 response.json
+pred_*.png
+*_overlay.png
+
+requirements.orig.txt
 
 uv.lock
