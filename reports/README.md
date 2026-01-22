@@ -279,7 +279,7 @@ We used both branches and PRs in our project.  For most of the items on the proj
 >
 > Answer:
 
-Our continuous integration setup follows very closely the basic steps from module M17.
+Our continuous integration setup serves three main functions that together help ensure code quality in the development process. We use a tests.yaml workflow that automatically runs all unit tests located in our tests/ directory. These tests are executed across the three main operating systems; Ubuntu, Windows, and macOS.  This could help us catch platform-specific issues early and ensures that our code behaves consistently in different environments. This workflow is triggered on every pull request, so that immediate feedback is provided to contributors before faulty code can be merged. An example of a successful test run can be seen here: https://github.com/ecenazelverdi/DTU_MLOps_111/actions/runs/21267761386.  We also have a dedicated linting workflow defined in linting.yaml. This action is also triggered on pull requests and is responsible for enforcing consistent code style and identifying potential formatting or static analysis issues.  By running linting checks automatically, we reduce technical debt and improve code readability across the project. An example linting run can be found here: https://github.com/ecenazelverdi/DTU_MLOps_111/actions/runs/21255981434.  Finally, we attempted to set up an additional CI workflow using a cloudbuild.yaml file to build a Docker image for our API and deploy it to the cloud.  While this would have enabled automated build and deployment, we encountered configuration errors and were unfortunately unable to get this pipeline fully operational within the available timeframe of the project.
 
 ## Running code and tracking experiments
 
@@ -482,7 +482,7 @@ Our continuous integration setup follows very closely the basic steps from modul
 >
 > Answer:
 
---- question 25 fill here ---
+Yes, we load tested our API using locust.  To do this, we implemented a very simple locustfile.py that accesses the API get, predict, and predict_batch endpoints.  It also creates a few random images to use for said prediction requests.  Our API is very slow and we were able to crash it easily.  The error message we discovered on google cloud run implied that our API container was building too slowly.  Because of this, we learned that it is probably not a good idea to have run a dvc pull of the model weights during each api container build.  Our API also has some unit testing in the tests/integrationtests folder.
 
 ### Question 26
 
@@ -497,7 +497,7 @@ Our continuous integration setup follows very closely the basic steps from modul
 >
 > Answer:
 
---- question 26 fill here ---
+We implemented monitoring of our deployed model using api monitoring from the locust framework.  Our locustfile.py aims to simulate simple but realistic user behavior by repeatedly sending requests to the root, /predict/, and /batch_predict/ endpoints with rnadomly generated image data.  We can use locust to monitor success rates, response times, and failure conditions.  We also have application monitoring implemented directly into our api.py script with the prometheus framework.  There, we expose metrics such as request counts and latency histograms.  Finally, we have set up some simple alerts on our google cloud platform which send emails to teammates for certain events such as higher than expected api requests.
 
 ## Overall discussion of project
 
@@ -563,7 +563,7 @@ Our continuous integration setup follows very closely the basic steps from modul
 >
 > Answer:
 
---- question 30 fill here ---
+One of our biggest struggles with the project was training our model.  It seems that Google is not offering access to any GPUs at the moment on their cloud platform.  We did have one group member with a GPU, but we really struggled setting up a dockerfile that builds and runs training successfully.  Because of our struggles with dockerfiles, we also struggled to automate our deployment and cloud build process.  Currently, we do not have any github actions that successfully automatically deploy the model.
 
 ### Question 31
 
@@ -581,14 +581,6 @@ Our continuous integration setup follows very closely the basic steps from modul
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-fewafewubaofewnafioewnifowf ewafw afew afewafewafionewoanf waf ewonfieownaf fewnaiof newio fweanøf wea fewa
- fweafewa fewiagonwa ognwra'g
- wa
- gwreapig ipweroang w rag
- wa grwa
-  g
-  ew
-  gwea g
-  ew ag ioreabnguorwa bg̈́aw
-   wa
-   gew4igioera giroeahgi0wra gwa
+Student s252618 was in charge of implementing testing (unit testing, load testing), setting up continuous integration including running tests and linting, pre-commit, and setting up monitoring of the API
+
+We have all used various LLMs incluidng Github Copilot, Google Gemini, ChatGPT, and others in debugging our code and writing some of it.
