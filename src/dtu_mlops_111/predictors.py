@@ -1,8 +1,10 @@
+from typing import List, Optional, Tuple, Union
+
 import torch
-from nnunetv2.inference.predict_from_raw_data import nnUNetPredictor
 from loguru import logger
+from nnunetv2.inference.predict_from_raw_data import nnUNetPredictor
+
 import wandb
-from typing import Union, Tuple, List, Optional
 
 
 class CustomnnUNetPredictor(nnUNetPredictor):

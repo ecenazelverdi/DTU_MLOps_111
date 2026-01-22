@@ -2,7 +2,6 @@ import bentoml
 import numpy as np
 from PIL import Image
 
-
 if __name__ == "__main__":
     img = Image.open("data/sample.png").convert("RGB")
     img = np.array(img, dtype=np.uint8)  # HWC

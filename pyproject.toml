@@ -27,7 +27,7 @@ dependencies = [
     "matplotlib>=3.10.8",
     "numpy>=2.4.0",
     "pandas>=2.3.3",
-    "torch==2.8.0",
+    "torch",
     "typer==0.15.1",
     "uvicorn==0.34.0",
     "python-multipart>=0.0.9",
@@ -45,7 +45,7 @@ dependencies = [
     "evidently==0.7.2",
     "google-cloud-storage>=3.8.0",
     "locust>=2.43.1",
-    "torchvision==0.23.0",
+    "torchvision",
     "wandb>=0.24.0",
     "loguru>=0.7.3",
 ]
@@ -62,19 +62,6 @@ dev = [
     "mkdocstrings-python==1.12.2",
     "mypy>=1.19.1",
     "httpx",
-]
-
-
-[tool.uv.sources]
-torch = [
-    { index = "pytorch-cuda", marker = "sys_platform == 'linux'" },
-    { index = "pytorch-cuda", marker = "sys_platform == 'win32'" },
-    { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
-]
-torchvision = [
-    { index = "pytorch-cuda", marker = "sys_platform == 'linux'" },
-    { index = "pytorch-cuda", marker = "sys_platform == 'win32'" },
-    { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
 ]
 
 [[tool.uv.index]]

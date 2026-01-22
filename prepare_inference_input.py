@@ -5,8 +5,9 @@ import argparse
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
 from loguru import logger
+from PIL import Image
+
 import wandb
 
 

@@ -71,3 +71,5 @@ secrets/
 
 mask.png
 response.json
+
+.uv.lock
