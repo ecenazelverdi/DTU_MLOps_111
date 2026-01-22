@@ -4,7 +4,6 @@ from PIL import Image
 
 
 if __name__ == "__main__":
-    # kendi test görselini koy
     img = Image.open("data/sample.png").convert("RGB")
     img = np.array(img, dtype=np.uint8)  # HWC
 
