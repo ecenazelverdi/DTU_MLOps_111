@@ -43,6 +43,7 @@ dependencies = [
     "prometheus-client>=0.24.1",
     "evidently==0.7.2",
     "google-cloud-storage>=3.8.0",
+    "locust>=2.43.1",
 ]
 
 [dependency-groups]
