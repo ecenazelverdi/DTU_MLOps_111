@@ -1,9 +1,7 @@
 import torch
+import wandb
 from loguru import logger
 from nnunetv2.training.nnUNetTrainer.nnUNetTrainer import nnUNetTrainer
-
-import wandb
-
 
 class nnUNetTrainer_5epochs_custom(nnUNetTrainer):
     def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,

@@ -16,10 +16,9 @@ from pathlib import Path
 from typing import Tuple
 
 import numpy as np
+import wandb
 from loguru import logger
 from PIL import Image
-
-import wandb
 
 # Class colors matching the dataset
 CLASS_COLORS = {
