@@ -1,143 +1,102 @@
 # Docker Inference Guide
 
-This Docker container performs end-to-end inference using a trained [nnU-Net v2](https://github.com/MIC-DKFZ/nnUNet) model. It automatically handles preprocessing, segmentation, and visualization.
+Runs segmentation inference using trained nnU-Net model. Automatically handles preprocessing, segmentation, and visualization.
 
-## Prerequisites
+## Requirements
 
-- **Trained model** in `nnUNet_results/` folder (from training container)
-- **Docker with GPU support** (NVIDIA Docker runtime)
-- **Test images** to segment
+- Trained model (in `nnUNet_results/` folder)
+- Docker + GPU support
+- W&B API key (in `.env` file as `WANDB_API_KEY`)
 
 ## Usage
 
 ### 1. Prepare Test Images
 
-Put your test images (JPG, PNG, etc.) in the `images_raw/` folder:
+Put test images in `images_raw/` folder:
 
 ```bash
-mkdir -p images_raw
-cp your_image1.jpg images_raw/
-cp your_image2.png images_raw/
+# Auto-copied during training (test split)
+# Or manually add:
+cp your_image.jpg images_raw/
 ```
 
-### 2. Build Inference Container
+### 2. Build Docker Image
 
 ```bash
 docker build -f inference.dockerfile -t droneseg-inference .
 ```
 
-### 3. Run Inference (Single Command)
+### 3. Run Inference
 
 ```bash
-docker run --gpus all --ipc=host \
+docker run --gpus all --shm-size=2g \
+  --env-file .env \
   -v $(pwd)/images_raw:/images_raw \
   -v $(pwd)/nnUNet_results:/nnUnet_results \
   -v $(pwd)/visualizations:/visualizations \
   droneseg-inference
 ```
 
-**That's it!** The container automatically:
-1. ✅ Converts RGB images to nnU-Net format (separates R/G/B channels)
-2. ✅ Runs segmentation using the trained model
-3. ✅ Creates colored visualizations
+**Note:** `--shm-size=2g` is required! Otherwise you'll get "No space left on device" error.
 
-## Inference Pipeline
+## Pipeline
 
-When the container runs, these steps execute automatically:
-
-1. **Preprocessing**: RGB images → separate R/G/B channel files (nnU-Net format)
-2. **Segmentation**: Model processes images and generates segmentation masks
-3. **Visualization**: Creates colored overlays and side-by-side comparisons
-
-**Duration:** ~1-5 seconds per image (depending on GPU)
+Container automatically runs 3 steps:
+1. **Preprocessing**: RGB → R/G/B channels (nnU-Net format)
+2. **Inference**: Segmentation with custom predictor (W&B + Loguru logging)
+3. **Visualization**: Colored overlay images
 
 ## Outputs
 
-After inference completes, results are saved in two locations:
+**Segmentation masks:** `nnUNet_results/inference_outputs/`
+- Grayscale PNG files
+- Pixel values = class ID (0-5)
 
-```
-nnUNet_results/
-└── inference_outputs/
-    ├── case_0000.png              # Segmentation mask (grayscale)
-    ├── case_0001.png
-    ├── case_0002.png
-    ├── dataset.json               # Metadata
-    └── plans.json
+**Visualizations:** `visualizations/`
+- 3 panels: Original | Mask | Overlay
+- First 10 images also uploaded to W&B
 
-visualizations/
-├── case_0000_visualization.png    # ✅ Side-by-side view (original | mask | overlay)
-├── case_0001_visualization.png
-└── case_0002_visualization.png
-```
+**Loguru Logs:**
+- **Training:** `nnUNet_results/Dataset101_DroneSeg/nnUNetTrainer_5epochs_custom__nnUNetPlans__2d/fold_*/training_loguru_<timestamp>.log`
+- **Inference:** `nnUNet_results/inference_outputs/inference_loguru_<timestamp>.log`
+- All metrics also tracked on W&B dashboard
 
-### Understanding the Outputs
+## Class Colors
 
-**Segmentation Masks** (`nnUNet_results/inference_outputs/`):
-- Grayscale PNG images
-- Pixel values represent class IDs (0-5)
-
-**Visualizations** (`visualizations/`):
-- RGB images showing three panels:
-  - **Left**: Original image
-  - **Center**: Colored segmentation mask
-  - **Right**: Overlay on original image
-
-### Class Colors
-
-| Class ID | Class Name      | Color  |
-| -------- | --------------- | ------ |
-| 0        | Background      | Black  |
-| 1        | Obstacles       | Purple |
-| 2        | Water           | Blue   |
-| 3        | Soft-surfaces   | Green  |
-| 4        | Moving-objects  | Pink   |
-| 5        | Landing-zones   | Gray   |
+| ID | Class           | Color  |
+|----|-----------------|--------|
+| 0  | Background      | Black  |
+| 1  | Obstacles       | Purple |
+| 2  | Water           | Blue   |
+| 3  | Soft-surfaces   | Green  |
+| 4  | Moving-objects  | Pink   |
+| 5  | Landing-zones   | Gray   |
 
 ## Troubleshooting
 
-**GPU not found:**
+**"No space left on device" error:**
 ```bash
-# Check NVIDIA Docker runtime
+# Add --shm-size=2g
+docker run --gpus all --shm-size=2g ...
+```
+
+**Model not found:**
+```bash
+# Run training first
+docker run --gpus all ... droneseg-trainer
+```
+
+**GPU not detected:**
+```bash
+# Check NVIDIA Docker
 docker run --rm --gpus all nvidia/cuda:12.1.0-base-ubuntu22.04 nvidia-smi
 ```
 
-**Model not found error:**
-- Make sure you've run training first (see [DOCKER_TRAINING.md](DOCKER_TRAINING.md))
-- Verify `nnUNet_results/Dataset101_DroneSeg/.../checkpoint_best.pth` exists
+## Features
 
-**No images in images_raw:**
-- Add at least one image to `images_raw/` folder before running inference
+- ✅ Custom predictor (W&B + Loguru logging)
+- ✅ Auto device detection (CUDA > MPS > CPU)
+- ✅ Custom trainer support (nnUNetTrainer_5epochs_custom)
+- ✅ Train/test split integration (20% test auto-separated)
+- ✅ Metric tracking with W&B
 
-**Permission errors:**
-```bash
-# Make output files owned by your user
-sudo chown -R $USER:$USER nnUNet_results/ visualizations/
-```
-
-## Complete Workflow (Training → Inference)
-
-If you just finished training:
-
-```bash
-# 1. Training completed ✅
-# Model saved to: nnUNet_results/Dataset101_DroneSeg/.../checkpoint_best.pth
-
-# 2. Add test images
-mkdir -p images_raw
-cp test_image.jpg images_raw/
-
-# 3. Build inference container
-docker build -f inference.dockerfile -t droneseg-inference .
-
-# 4. Run inference
-docker run --gpus all --ipc=host \
-  -v $(pwd)/images_raw:/images_raw \
-  -v $(pwd)/nnUNet_results:/nnUnet_results \
-  -v $(pwd)/visualizations:/visualizations \
-  droneseg-inference
-
-# 5. View results
-ls visualizations/  # Colored visualizations ready!
-```
-
-**Note:** Both training and inference containers share the same `nnUNet_results/` folder for seamless workflow!

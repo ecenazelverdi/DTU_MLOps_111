@@ -11,6 +11,9 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
+# Increase timeout for large packages like torch (744MB)
+ENV UV_HTTP_TIMEOUT=600
+
 # Install dependencies
 RUN uv pip install --system \
     nnunetv2 \
@@ -31,6 +34,7 @@ COPY visualize_results.py /app/visualize_results.py
 
 # Copy project source (for custom predictor)
 COPY src/ /app/src/
+RUN cp /app/src/dtu_mlops_111/trainers.py $(python3 -c "import nnunetv2; import os; print(os.path.dirname(nnunetv2.__file__))")/training/nnUNetTrainer/variants/custom_trainer.py
 COPY .env /app/.env
 
 # Add src to Python path

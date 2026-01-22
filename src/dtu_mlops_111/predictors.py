@@ -80,28 +80,38 @@ class CustomnnUNetPredictor(nnUNetPredictor):
         
         return result
     
-    def predict_from_files(self, input_folder: str, output_folder: str, 
-                          save_probabilities: bool = False, overwrite: bool = True,
+    def predict_from_files(self, 
+                          list_of_lists_or_source_folder: str, 
+                          output_folder_or_list_of_truncated_output_files: str,
+                          save_probabilities: bool = False, 
+                          overwrite: bool = True,
                           num_processes_preprocessing: int = 3,
                           num_processes_segmentation_export: int = 3,
                           folder_with_segs_from_prev_stage: Optional[str] = None,
-                          num_parts: int = 1, part_id: int = 0):
+                          num_parts: int = 1, 
+                          part_id: int = 0):
         """Predict with logging and W&B tracking."""
-        logger.info(f"Starting inference: {input_folder} → {output_folder}")
+        logger.info(f"Starting inference: {list_of_lists_or_source_folder} → {output_folder_or_list_of_truncated_output_files}")
         logger.info(f"Preprocessing processes: {num_processes_preprocessing}, "
                    f"Export processes: {num_processes_segmentation_export}")
         
         # Log inference start to W&B
         if wandb.run:
-            wandb.log({"inference_status": "started", "input_folder": input_folder})
+            wandb.log({"inference_status": "started", "input_folder": list_of_lists_or_source_folder})
         
         result = super().predict_from_files(
-            input_folder, output_folder, save_probabilities, overwrite,
-            num_processes_preprocessing, num_processes_segmentation_export,
-            folder_with_segs_from_prev_stage, num_parts, part_id
+            list_of_lists_or_source_folder, 
+            output_folder_or_list_of_truncated_output_files, 
+            save_probabilities, 
+            overwrite,
+            num_processes_preprocessing, 
+            num_processes_segmentation_export,
+            folder_with_segs_from_prev_stage, 
+            num_parts, 
+            part_id
         )
         
-        logger.success(f"Inference completed: results saved to {output_folder}")
+        logger.success(f"Inference completed: results saved to {output_folder_or_list_of_truncated_output_files}")
         
         # Log inference completion to W&B
         if wandb.run:

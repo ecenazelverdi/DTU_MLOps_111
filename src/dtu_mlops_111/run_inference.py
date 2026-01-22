@@ -63,8 +63,8 @@ def main():
         
         # Run inference
         predictor.predict_from_files(
-            args.input,
-            args.output,
+            list_of_lists_or_source_folder=args.input,
+            output_folder_or_list_of_truncated_output_files=args.output,
             save_probabilities=False,
             overwrite=True,
             num_processes_preprocessing=3,

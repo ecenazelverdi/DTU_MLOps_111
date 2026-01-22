@@ -16,7 +16,7 @@ echo "=== nnU-Net Inference Pipeline ==="
 
 # Set paths
 RESULTS_BASE="/nnUnet_results"
-MODEL_DIR="$RESULTS_BASE/Dataset101_DroneSeg/nnUNetTrainer_5epochs_custom__nnUNetPlans__2d/fold_0"
+MODEL_DIR="$RESULTS_BASE/Dataset101_DroneSeg/nnUNetTrainer_5epochs_custom__nnUNetPlans__2d"
 OUTPUT_DIR="$RESULTS_BASE/inference_outputs"
 IMAGES_RAW="/images_raw"
 INPUT_DIR="/input"
@@ -58,6 +58,9 @@ echo ""
 echo "🚀 Step 2/3: Running inference with custom predictor (W&B + Loguru)..."
 mkdir -p $OUTPUT_DIR
 
+# Create log filename with timestamp
+LOG_FILE="$OUTPUT_DIR/inference_loguru_$(date +%Y-%m-%d_%H-%M-%S).log"
+
 python3 -m dtu_mlops_111.run_inference \
     -i $INPUT_DIR \
     -o $OUTPUT_DIR \
@@ -65,7 +68,7 @@ python3 -m dtu_mlops_111.run_inference \
     -f 0 \
     -c checkpoint_best.pth \
     --disable-tta \
-    --log-file "$OUTPUT_DIR/inference_custom.log"
+    --log-file "$LOG_FILE"
 
 echo "✅ Inference complete: $(ls -1 $OUTPUT_DIR/*.png 2>/dev/null | wc -l) segmentation masks"
 
