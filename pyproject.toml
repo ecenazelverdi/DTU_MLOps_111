@@ -5,9 +5,13 @@ build-backend = "uv_build"
 [project]
 name = "dtu_mlops_111"
 version = "0.0.1"
-description = "A short description of the project."
+description = "Semantic Segmentation of Drone Imagery MLOps Project"
 authors = [
-  { name = "Your name (or your organization/company/team)", email = "your@email.com" },
+  { name = "Ecenaz Elverdi", email = "s252699@dtu.dk" },
+  { name = "Akin Mert Gümüs", email = "s242508@dtu.dk" },
+  { name = "Elif Pulukcu", email = "s252749@dtu.dk" },
+  { name = "Kerick Jon Walker", email = "s252618@dtu.dk" },
+  { name = "Bruno Zorrila Medina Luna", email = "s260015@dtu.dk" },
 ]
 license = { file = "LICENSE" }
 keywords = ["machine learning", "MLOps"]
@@ -23,19 +27,24 @@ dependencies = [
     "matplotlib>=3.10.8",
     "numpy>=2.4.0",
     "pandas>=2.3.3",
+    "torch",
     "typer==0.15.1",
     "uvicorn==0.34.0",
-    "matplotlib>=3.8.0",
+    "python-multipart>=0.0.9",
     "pillow>=10.0.0",
     "scikit-learn>=1.4.0",
     "dotenv>=0.9.9",
     "nnunetv2>=2.6.2",
     "dvc-gs>=3.0.2",
     "dvc>=3.66.1",
+    "bentoml>=1.2",
     "types-pygments>=2.19.0.20251121",
     "types-defusedxml>=0.7.0.20250822",
     "types-tqdm>=4.67.0.20250809",
-    "torch",
+    "prometheus-client>=0.24.1",
+    "evidently==0.7.2",
+    "google-cloud-storage>=3.8.0",
+    "locust>=2.43.1",
     "torchvision",
     "wandb>=0.24.0",
     "loguru>=0.7.3",
@@ -52,11 +61,17 @@ dev = [
     "ruff==0.1.3",
     "mkdocstrings-python==1.12.2",
     "mypy>=1.19.1",
+    "httpx",
 ]
 
 [[tool.uv.index]]
 name = "pytorch-cuda"
 url = "https://download.pytorch.org/whl/cu121"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [tool.ruff]
@@ -69,3 +84,16 @@ omit = ["tests/*"]
 [[tool.mypy.overrides]]
 module = ["dtu_mlops_111.*"]
 follow_untyped_imports = true
+
+[tool.pytest.ini_options]
+# Add "src" to pythonpath so pytest can find the dtu_mlops_111 package
+pythonpath = ["src"]
+filterwarnings = [
+    "ignore::DeprecationWarning:batchgenerators.*",
+    "ignore::DeprecationWarning:importlib.*",
+]
+
+[tool.uv.build-backend]
+module-name = "dtu_mlops_111"
+module-root = "src"
+namespace = true
