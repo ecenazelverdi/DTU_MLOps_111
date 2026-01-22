@@ -37,6 +37,8 @@ dependencies = [
     "types-tqdm>=4.67.0.20250809",
     "torch",
     "torchvision",
+    "wandb>=0.24.0",
+    "loguru>=0.7.3",
 ]
 
 [dependency-groups]

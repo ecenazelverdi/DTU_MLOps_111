@@ -1,11 +1,22 @@
 #!/bin/bash
 set -e
 
+# Load W&B API key from .env file
+set -a
+source <(grep -E '^WANDB_' .env 2>/dev/null || true)
+set +a
+
+# W&B Login
+if [ ! -z "$WANDB_API_KEY" ]; then
+    echo "--- W&B Login ---"
+    wandb login "$WANDB_API_KEY"
+fi
+
 echo "=== nnU-Net Inference Pipeline ==="
 
 # Set paths
 RESULTS_BASE="/nnUnet_results"
-MODEL_DIR="$RESULTS_BASE/Dataset101_DroneSeg/nnUNetTrainer_5epochs__nnUNetPlans__2d/fold_0"
+MODEL_DIR="$RESULTS_BASE/Dataset101_DroneSeg/nnUNetTrainer_5epochs_custom__nnUNetPlans__2d/fold_0"
 OUTPUT_DIR="$RESULTS_BASE/inference_outputs"
 IMAGES_RAW="/images_raw"
 INPUT_DIR="/input"
@@ -42,20 +53,19 @@ fi
 
 echo "✅ Preprocessing complete: $(ls -1 $INPUT_DIR | wc -l) channel files"
 
-# Step 2: Inference - Run segmentation
+# Step 2: Inference - Run segmentation with custom predictor
 echo ""
-echo "🚀 Step 2/3: Running inference..."
+echo "🚀 Step 2/3: Running inference with custom predictor (W&B + Loguru)..."
 mkdir -p $OUTPUT_DIR
 
-nnUNetv2_predict \
+python3 -m dtu_mlops_111.run_inference \
     -i $INPUT_DIR \
     -o $OUTPUT_DIR \
-    -d 101 \
-    -c 2d \
-    -tr nnUNetTrainer_1epoch \
+    -m $MODEL_DIR \
     -f 0 \
-    -chk checkpoint_best.pth \
-    --disable_tta
+    -c checkpoint_best.pth \
+    --disable-tta \
+    --log-file "$OUTPUT_DIR/inference_custom.log"
 
 echo "✅ Inference complete: $(ls -1 $OUTPUT_DIR/*.png 2>/dev/null | wc -l) segmentation masks"
 

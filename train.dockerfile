@@ -18,6 +18,7 @@ RUN uv pip install --system \
     SimpleITK \
     pandas \
     typer \
+    wandb \
     loguru \
     scikit-learn \
     python-dotenv \
@@ -26,6 +27,7 @@ RUN uv pip install --system \
 
 # Copy project files
 COPY src/ /app/src/
+RUN cp /app/src/dtu_mlops_111/trainers.py $(python3 -c "import nnunetv2; import os; print(os.path.dirname(nnunetv2.__file__))")/training/nnUNetTrainer/variants/custom_trainer.py
 COPY train_entrypoint.sh /app/train_entrypoint.sh
 COPY .env /app/.env
 

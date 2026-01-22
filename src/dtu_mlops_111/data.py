@@ -359,12 +359,34 @@ def nnunet_export(
             mask_np = rgb_mask_to_class_mask(mask_rgb_np)
             _save_png_l(mask_np, labelsTr / f"{case_id}{file_ending}")
 
+    # Save test images to data/test_images for easy inference access
+    def save_test_originals(test_pairs_list: List[Pair]) -> None:
+        if not test_pairs_list:
+            return
+        
+        # Save to data/test_images (backup)
+        test_img_dir = Path("data/test_images")
+        _ensure_dir(test_img_dir)
+        
+        # Save to images_raw (inference input)
+        images_raw_dir = Path("images_raw")
+        _ensure_dir(images_raw_dir)
+        
+        typer.echo(f"\nCopying {len(test_pairs_list)} test images for inference...")
+        for pair in test_pairs_list:
+            shutil.copy2(pair.image, test_img_dir / pair.image.name)
+            shutil.copy2(pair.image, images_raw_dir / pair.image.name)
+        
+        typer.echo(f"  ✅ Saved to: {test_img_dir}")
+        typer.echo(f"  ✅ Saved to: {images_raw_dir} (ready for inference)")
+
     typer.echo(f"Exporting nnU-Net dataset to: {dataset_folder}")
     typer.echo(f"Format: {file_ending} | Train: {len(train_pairs)} | Test: {len(test_pairs)}")
 
     export_split(train_pairs, is_train=True)
     if test_ratio > 0:
         export_split(test_pairs, is_train=False)
+        save_test_originals(test_pairs)  # Save original test images for inference
 
     dataset_json = {
         "name": dataset_name,
@@ -407,7 +429,7 @@ def main() -> None:
         dataset_id=101,
         dataset_name="DroneSeg",
         seed=42,
-        test_ratio=0.0,
+        test_ratio=0.2,  # %20 test seti
         resize=None,
         force=True,
         warn_unknown_colors=True,
