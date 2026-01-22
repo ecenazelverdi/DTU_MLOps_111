@@ -51,7 +51,7 @@ def calculate_label_distribution(mask_path: Path) -> dict:
 def _load_from_gcs(bucket_name: str) -> list:
     """
     Helper function to load mask files from GCS bucket.
-    Returns a list of blob objects.
+    Returns a list of google.cloud.storage.Blob objects.
     """
     print(f"Loading reference dataset from GCS bucket: {bucket_name}")
     try:
