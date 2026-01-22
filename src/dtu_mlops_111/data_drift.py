@@ -101,7 +101,7 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
                    stats = calculate_label_distribution(bio)
             
             data_stats.append(stats)
-        except Exception as e:
+        except (PIL.UnidentifiedImageError, OSError, ValueError) as e:
             print(f"Error processing mask {mask_file}: {e}")
             continue
         
