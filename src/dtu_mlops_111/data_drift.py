@@ -153,7 +153,7 @@ def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
              
         current_data = pd.DataFrame(current_data_list)
         
-    except Exception as e:
+    except (gcp_exceptions.GoogleCloudError, json.JSONDecodeError, KeyError) as e:
         raise RuntimeError(f"Failed to load logs from GCS: {e}") from e
     
     # Ensure columns match
