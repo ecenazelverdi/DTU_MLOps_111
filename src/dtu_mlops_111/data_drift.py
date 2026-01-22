@@ -4,6 +4,7 @@ import os
 import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Union
 
 import numpy as np
 import pandas as pd
@@ -25,7 +26,7 @@ warnings.filterwarnings("ignore")
 from dtu_mlops_111.data import LABELS
 
 
-def calculate_label_distribution(mask_path: Path) -> dict:
+def calculate_label_distribution(mask_path: Union[Path, io.BytesIO]) -> dict:
     """
     Calculates the percentage of pixels for each class in the mask.
     Returns a dictionary {class_name: percentage}.
@@ -109,12 +110,13 @@ def load_reference_data(data_path: Path = None, bucket_name: str = None, limit: 
 
     return pd.DataFrame(data_stats)
 
+
 def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     # 1. Load Reference Data (Training Set)
     # Using nnUNet_preprocessed ground truth segmentations
     train_data_path = Path("nnUNet_preprocessed/Dataset101_DroneSeg/gt_segmentations")
 
-    # 2. Check for Bucket for both reference (if needed) and current data
+    # 2. Check for Bucket
     if not bucket_name:
         bucket_name = os.getenv("BUCKET_NAME")
 
@@ -125,13 +127,13 @@ def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     reference_data = load_reference_data(data_path=train_data_path, bucket_name=bucket_name, limit=limit_ref)
     if reference_data is None or reference_data.empty:
         raise ValueError("Reference data is empty; cannot generate data drift report.")
-    
-    # 2. Load Current Data (Inference Logs from GCS)
+
+    # 3. Load Current Data (Inference Logs from GCS)
     if not bucket_name:
         bucket_name = os.getenv("BUCKET_NAME")
 
     if not bucket_name:
-         raise ValueError("BUCKET_NAME not set.")
+        raise ValueError("BUCKET_NAME not set.")
 
     try:
         client = storage.Client()
@@ -147,7 +149,7 @@ def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
                 flat_entry = {
                     "timestamp": log_entry["timestamp"],
                     "filename": log_entry["filename"],
-                    **log_entry["classes"]
+                    **log_entry["classes"],
                 }
                 current_data_list.append(flat_entry)
 
@@ -173,23 +175,20 @@ def get_drift_report_html(bucket_name: str = None, limit_ref: int = 200) -> str:
     if len(current_data) < 5:
         print("Warning: Very few inference logs found.")
 
-    # 3. Run Report
+    # 4. Run Report
     print("Running data drift report...")
-    report = Report(metrics=[
-        DataDriftPreset(),
-        DataSummaryPreset(),
-        DatasetMissingValueCount()
-    ])
+    report = Report(metrics=[DataDriftPreset(), DataSummaryPreset(), DatasetMissingValueCount()])
 
     snapshot = report.run(reference_data=reference_data, current_data=current_data)
 
     # Save to temp file and read back
-    with tempfile.NamedTemporaryFile(mode='w+', suffix='.html', delete=True) as tmp:
+    with tempfile.NamedTemporaryFile(mode="w+", suffix=".html", delete=True) as tmp:
         snapshot.save_html(tmp.name)
         tmp.seek(0)
         content = tmp.read()
 
     return content
+
 
 def upload_drift_report(html_content: str, bucket_name: str = None) -> str:
     """
@@ -207,11 +206,12 @@ def upload_drift_report(html_content: str, bucket_name: str = None) -> str:
     blob = bucket.blob(blob_name)
 
     # Upload
-    blob.upload_from_string(html_content, content_type='text/html')
+    blob.upload_from_string(html_content, content_type="text/html")
     print(f"Uploaded report to gs://{bucket_name}/{blob_name}")
 
     # Return standard storage URL
     return f"https://storage.googleapis.com/{bucket_name}/{blob_name}"
+
 
 def main():
     html_content = get_drift_report_html()
@@ -224,6 +224,7 @@ def main():
         f.write(html_content)
 
     print(f"Report saved to {output_path}")
+
 
 if __name__ == "__main__":
     main()
