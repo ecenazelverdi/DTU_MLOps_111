@@ -41,6 +41,8 @@ dependencies = [
     "types-defusedxml>=0.7.0.20250822",
     "types-tqdm>=4.67.0.20250809",
     "prometheus-client>=0.24.1",
+    "evidently==0.7.2",
+    "google-cloud-storage>=3.8.0",
 ]
 
 [dependency-groups]
@@ -93,3 +95,4 @@ filterwarnings = [
 [tool.uv.build-backend]
 module-name = "dtu_mlops_111"
 module-root = "src"
+namespace = true
