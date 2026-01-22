@@ -81,3 +81,5 @@ pred_*.png
 *_overlay.png
 
 requirements.orig.txt
+
+uv.lock

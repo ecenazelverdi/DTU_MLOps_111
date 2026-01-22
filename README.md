@@ -133,6 +133,47 @@ Example request to deployed API:
 curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
 --form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"' \
 ```
+## Docker Workflow
+
+This project provides a complete Docker-based pipeline for training and inference:
+
+```
+┌─────────────────┐
+│  Training       │
+│  Container      │──┐
+│  (train.        │  │
+│   dockerfile)   │  │
+└─────────────────┘  │
+         │           │
+         ▼           │
+  ┌─────────────┐   │ Shared volume:
+  │ nnUNet_     │◄──┘ nnUNet_results/
+  │ results/    │
+  │ ├─Model     │
+  │ └─Checkpts  │
+  └─────────────┘
+         │
+         │
+         ▼
+┌─────────────────┐
+│  Inference      │
+│  Container      │
+│  (inference.    │
+│   dockerfile)   │
+└─────────────────┘
+         │
+         ▼
+  ┌─────────────┐
+  │ inference_  │
+  │ outputs/    │
+  │ ├─masks     │
+  │ └─results   │
+  └─────────────┘
+```
+
+Both containers share the same `nnUNet_results/` folder, enabling seamless workflow!
+
+### How to run
 
 **Local Development:**
 
@@ -196,6 +237,84 @@ nnUNet_raw/
     └── labelsTr
 ```
 ### Project structure
+### Preprocessing
+
+ nnU-Net makes use of specific [*environment variables*](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
+
+After setting up *environment variables* for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for
+data preprocessing. Make sure your `.env` file is loaded, then run
+```
+nnUNetv2_plan_and_preprocess -d DATASET_ID --verify_dataset_integrity
+```
+to preprocess, where `DATASET_ID` is `101` in this case.
+
+You should now find a new directory was created with the following structure:
+```
+nnUNet_preprocessed
+└── Dataset101_DroneSeg
+    ├── gt_segmentations
+    └── nnUNetPlans_2d
+```
+
+
+### Training
+
+For detailed instructions on training the model using Docker, see [DOCKER_TRAINING.md](DOCKER_TRAINING.md).
+
+**Quick start:**
+```bash
+# Build training container
+docker build -f train.dockerfile -t droneseg-training .
+
+# Run training (1 epoch)
+docker run --gpus all --ipc=host \
+  --env-file .env \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/nnUNet_raw:/app/nnUNet_raw \
+  -v $(pwd)/nnUNet_preprocessed:/app/nnUNet_preprocessed \
+  -v $(pwd)/nnUNet_results:/app/nnUNet_results \
+  droneseg-training
+```
+
+**Expected output:** Model checkpoints saved to `nnUNet_results/Dataset101_DroneSeg/nnUNetTrainer_1epoch__nnUNetPlans__2d/fold_0/`
+
+### Inference
+
+For detailed instructions on running inference using Docker, see [DOCKER_INFERENCE.md](DOCKER_INFERENCE.md).
+
+**Quick start (after training):**
+```bash
+# Prepare input images (convert RGB to nnU-Net format)
+mkdir -p images_raw input
+cp your_drone_image.jpg images_raw/
+python prepare_inference_input.py images_raw/ input/
+
+# Build inference container
+docker build -f inference.dockerfile -t droneseg-inference .
+
+# Run inference (uses model from training automatically)
+docker run --gpus all --ipc=host \
+  -v $(pwd)/input:/input \
+  -v $(pwd)/nnUNet_results:/nnUnet_results \
+  droneseg-inference
+
+# Create visualizations
+python visualize_results.py images_raw/ nnUNet_results/inference_outputs/ visualizations/
+```
+
+**Results:** Segmentation masks saved to `nnUNet_results/inference_outputs/`, visualizations in `visualizations/`
+
+> **Note:** Both training and inference containers share the same `nnUNet_results/` folder, enabling seamless workflow from training to inference!
+
+## Contributer Setup
+### Optional: pre-commit
+To use pre-commit, run
+```
+uv run pre-commit install
+```
+
+
+## Project structure
 
 The directory structure of the project looks like this:
 
