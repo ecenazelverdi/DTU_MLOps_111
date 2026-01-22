@@ -42,4 +42,12 @@ echo "--- Step 3: Training (5 Epochs) ---"
 # Call custom trainer class using -tr parameter
 nnUNetv2_train 101 2d 0 -tr nnUNetTrainer_5epochs_custom --npz
 
+# In case you want to train all 5 folds for ensemble uncomment the following lines:
+# for fold in 0 1 2 3 4; do
+#     echo "Training Fold $fold..."
+#     nnUNetv2_train 101 2d $fold -tr nnUNetTrainer_5epochs_custom --npz
+# done
+
+# echo "--- All 5 folds trained successfully! ---"
+
 echo "--- Process Completed Successfully! ---"
