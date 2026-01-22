@@ -1,0 +1,10 @@
+service: "dtu_mlops_111.bento_service:DroneSegService"
+include:
+  - "src/dtu_mlops_111/**"
+  - "pyproject.toml"
+  - "uv.lock"
+  - ".dvc/**"
+  - "nnUNet_results.dvc"
+labels:
+  owner: "Elif"
+  module: "M25"

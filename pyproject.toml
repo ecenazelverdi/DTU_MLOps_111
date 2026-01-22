@@ -37,6 +37,7 @@ dependencies = [
     "nnunetv2>=2.6.2",
     "dvc-gs>=3.0.2",
     "dvc>=3.66.1",
+    "bentoml>=1.2",
     "types-pygments>=2.19.0.20251121",
     "types-defusedxml>=0.7.0.20250822",
     "types-tqdm>=4.67.0.20250809",

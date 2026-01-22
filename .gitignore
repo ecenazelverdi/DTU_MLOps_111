@@ -65,3 +65,9 @@ htmlcov/
 /nnUNet_raw
 /nnUNet_preprocessed
 /nnUNet_results
+
+secrets/
+*.json
+
+mask.png
+response.json
