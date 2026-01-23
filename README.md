@@ -140,7 +140,7 @@ To install the package for production (immutable, copying files), run:
 pip install .
 ```
 
-### To Run API
+### To Run FastAPI
 
 Make sure current package is installed in either Development or production. Afterwards, run
 
@@ -148,7 +148,7 @@ Make sure current package is installed in either Development or production. Afte
 uv run invoke app
 ```
 
-### To use API
+### To use FastAPI
 
 **Deployed Version:**
 
@@ -160,6 +160,51 @@ Example request to deployed API:
 curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
 --form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"' \
 ```
+
+### BentoML
+
+This BentoML deployment exposes a `/predict_base64` endpoint that accepts an input image as **Base64-encoded bytes** inside a JSON payload.
+
+**Quick start:**
+
+```bash
+# Build BentoML serving container
+uv run invoke docker-build-bento
+
+# Run serving container (port 8080)
+uv run invoke docker-run-bento
+```
+
+
+### Payload Generation for BentoML
+The following script reads a local image file, encodes it into Base64, and writes a `payload.json` file in the expected request format:
+
+```bash
+python - <<'PY'
+import base64, json
+img_path = "sample_image.jpg"  
+b64 = base64.b64encode(open(img_path, "rb").read()).decode()
+payload = {"req": {"image_b64": b64, "content_type": "image/jpeg"}}
+with open("payload.json", "w") as f:
+    json.dump(payload, f)
+print("saved payload.json")
+PY
+```
+
+
+### Curl Request
+Once the payload has been created, send it to the deployed BentoML endpoint using `curl`:
+
+```bash
+curl -s -o resp.json -w "\nHTTP %{http_code}\n" \
+  -X POST "https://drone-seg-32512441443.europe-north1.run.app/predict_base64" \
+  -H "Content-Type: application/json" \
+  --data-binary @payload.json
+```
+
+The response will be saved into `resp.json`. If the request succeeds, the HTTP status code should be `200`.
+
+**Results:** Service available locally at http://localhost:8080/ or live in https://drone-seg-32512441443.europe-north1.run.app
 
 ## Docker Workflow
 
@@ -340,19 +385,6 @@ python visualize_results.py images_raw/ nnUNet_results/inference_outputs/ visual
 
 > **Note:** Both training and inference containers share the same `nnUNet_results/` folder, enabling seamless workflow from training to inference!
 
-### BentoML (Serving)
-
-**Quick start:**
-
-```bash
-# Build BentoML serving container
-uv run invoke docker-build-bento
-
-# Run serving container (port 8080)
-uv run invoke docker-run-bento
-```
-
-**Results:** Service available at http://localhost:8080/
 
 ## Contributer Setup
 
