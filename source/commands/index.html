@@ -850,6 +850,95 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cloud-run-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloud Run Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cloud Run Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cloud-run-update-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cloud-run-update-env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-run-update-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cloud-run-update-resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-run-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cloud-run-logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bentoml-utility-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BentoML Utility Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BentoML Utility Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bento-smoke-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bento-smoke-test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bento-predict-base64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bento-predict-base64
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#command-chaining" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1298,6 +1387,95 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cloud-run-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cloud Run Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cloud Run Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cloud-run-update-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cloud-run-update-env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-run-update-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cloud-run-update-resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-run-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cloud-run-logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bentoml-utility-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BentoML Utility Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BentoML Utility Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bento-smoke-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bento-smoke-test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bento-predict-base64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bento-predict-base64
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#command-chaining" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1599,7 +1777,7 @@
 </code></pre></div>
 <h3 id="bento-serve">bento-serve</h3>
 <p>Serves the BentoML service locally with auto-reload.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>bento-serve
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>bento-serve<span class="w"> </span><span class="o">[</span>--port<span class="w"> </span><span class="m">3000</span><span class="o">]</span>
 </code></pre></div>
 <p><strong>Output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>INFO [cli] Starting 1 BentoServer instances..
@@ -1663,12 +1841,36 @@
 <li>Enables DVC pull if env var is set</li>
 </ul>
 <hr />
+<h2 id="cloud-run-commands">Cloud Run Commands</h2>
+<h3 id="cloud-run-update-env">cloud-run-update-env</h3>
+<p>Enables DVC model pull in Cloud Run.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>cloud-run-update-env<span class="w"> </span><span class="o">[</span>--service<span class="w"> </span>SERVICE<span class="o">]</span><span class="w"> </span><span class="o">[</span>--region<span class="w"> </span>REGION<span class="o">]</span>
+</code></pre></div>
+<h3 id="cloud-run-update-resources">cloud-run-update-resources</h3>
+<p>Updates Cloud Run resource settings (CPU, Memory, Timeout).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>cloud-run-update-resources<span class="w"> </span><span class="o">[</span>--cpu<span class="w"> </span><span class="m">4</span><span class="o">]</span><span class="w"> </span><span class="o">[</span>--memory<span class="w"> </span>8Gi<span class="o">]</span>
+</code></pre></div>
+<h3 id="cloud-run-logs">cloud-run-logs</h3>
+<p>Reads logs from a Cloud Run service.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>cloud-run-logs<span class="w"> </span><span class="o">[</span>--limit<span class="w"> </span><span class="m">200</span><span class="o">]</span>
+</code></pre></div>
+<hr />
+<h2 id="bentoml-utility-commands">BentoML Utility Commands</h2>
+<h3 id="bento-smoke-test">bento-smoke-test</h3>
+<p>Runs a quick health check sequence (<code>livez</code>, <code>readyz</code>, <code>model_info</code>) against a running service.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>bento-smoke-test<span class="w"> </span>--service-url<span class="w"> </span>http://localhost:3000
+</code></pre></div>
+<h3 id="bento-predict-base64">bento-predict-base64</h3>
+<p>Helper to send a base64 encoded image prediction request (avoids shell argument limits).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>bento-predict-base64<span class="w"> </span>--image-path<span class="w"> </span>path/to/image.png<span class="w"> </span>--service-url<span class="w"> </span>http://localhost:3000
+</code></pre></div>
+<hr />
 <h2 id="command-chaining">Command Chaining</h2>
 <p>You can chain multiple commands if needed:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
 </code></pre></div>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
