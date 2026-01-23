@@ -58,7 +58,7 @@ will check the repositories and the code to verify your answers.
 * [x] Create the initial file structure using cookiecutter with an appropriate template (M6)
 * [x] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
 * [x] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
-* [ ] Remember to fill out the `requirements.txt` and `requirements_dev.txt` file with whatever dependencies that you
+* [x] Remember to fill out the `requirements.txt` and `requirements_dev.txt` file with whatever dependencies that you
     are using (M2+M6)
 * [x] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
 * [x] Do a bit of code typing and remember to document essential parts of your code (M7)
@@ -69,9 +69,9 @@ will check the repositories and the code to verify your answers.
 * [ ] Write one or multiple configurations files for your experiments (M11)
 * [ ] Used Hydra to load the configurations and manage your hyperparameters (M11)
 * [x] Use profiling to optimize your code (M12)
-* [ ] Use logging to log important events in your code (M14)
-* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
-* [ ] Consider running a hyperparameter optimization sweep (M14)
+* [x] Use logging to log important events in your code (M14)
+* [x] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
+* [ ] Consider running a hyperparameter optimization sweep (M14) - Not applicable
 * [x] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
 ### Week 2
@@ -103,7 +103,7 @@ will check the repositories and the code to verify your answers.
 * [ ] Setup cloud monitoring of your instrumented application (M28)
 * [x] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
 * [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
-* [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
+* [x] If applicable, optimize the performance of your training pipeline by using distributed training (M30) - Not applicable
 * [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
 
 ### Extra
@@ -298,9 +298,7 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 12 fill here ---
-
-- [ ] TODO @[AKIN]
+We did not use separate config files for experiments. Instead, we relied on nnUNet's default configurations and created a custom trainer class to modify training parameters (e.g., reducing epochs to 5). Experiments were run using invoke tasks through Docker containers. To run training: `uv run invoke docker-build` to build images, then `uv run invoke docker-train` to start training. For inference: `uv run invoke docker-inference`. All configurations are embedded in the dockerfiles and entrypoint scripts with volume mounts for data persistence. 
 
 ### Question 13
 
@@ -315,7 +313,7 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
-- [ ] TODO @[AKIN]
+We ensured reproducibility through multiple mechanisms. Docker containers guarantee consistent environments across different machines. DVC tracks both data and model checkpoints, allowing anyone to pull the exact dataset and model versions used in experiments. Weights & Biases logs all training metrics, hyperparameters, and artifacts automatically during training runs. Volume mounts (`-v $(pwd)/nnUNet_results:/app/nnUNet_results`) persist training outputs to the host machine, preventing data loss when containers stop. For sensitive credentials (WANDB_API_KEY, KAGGLE credentials), we use a `.env` file that each user creates individually following our documentation template - this maintains security while ensuring reproducibility. To reproduce an experiment: clone the repo, run `dvc pull` to get data/models, create a personal `.env` file with API keys, build Docker images with `uv run invoke docker-build`, and run training with `uv run invoke docker-train`. All results are automatically saved locally and logged to W&B.
 
 ### Question 14
 
@@ -332,9 +330,13 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 14 fill here ---
+![Loss Graph](figures/wandb_loss.png)
 
-- [ ] TODO @[AKEN]
+![Visualization Results](figures/wandb_visualization_results.png)
+
+We tracked our training experiments using Weights & Biases, logging both quantitative metrics and qualitative visualization results. As seen in the first image, we monitored the combined Dice-CE (Dice + Cross Entropy) loss during training. nnUNet uses this hybrid loss function that combines Dice loss for segmentation overlap quality with Cross Entropy loss for pixel-wise classification accuracy. The loss values decrease over epochs (including negative values in some cases), indicating the model is learning effectively to minimize prediction errors. Lower loss values indicate better segmentation performance, with the model converging toward optimal predictions. This metric is crucial because it directly reflects how well the model is learning to segment drone images into different classes.
+
+In the second image, we tracked visualization results showing the model's actual segmentation outputs on validation images during training. These visual samples are essential for qualitatively assessing model performance beyond numerical metrics. By logging segmentation masks overlaid on input images, we can identify if the model is correctly identifying object boundaries, handling edge cases, and generalizing well to unseen data. This visual tracking helped us catch issues like undersegmentation or class confusion that pure numerical metrics might miss. Together, these metrics provided comprehensive monitoring of both the learning process (via loss curves) and actual output quality (via visualizations), ensuring our model was training correctly and producing useful segmentations for our drone imagery task.
 
 ### Question 15
 
@@ -349,12 +351,12 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
-For our project we developed two images: one for training, and one for api inference and deployment. To run the training we succesfully built images and ran corresponding containers locally in machines with gpus, but failed to reproduce it in our mac and cloud environments.
+For our project we developed several images for different purposes: training, inference, API deployment, and BentoML service. To run the training we succesfully built images and ran corresponding containers locally in machines with gpus, but failed to reproduce it in our mac and cloud environments.
 
-- training docker image: `docker run trainer:latest`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/train.dockerfile> [AKIN]
-- inference docker image: `*MISSING* COMMAND HERE`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/api.dockerfile> [ECENAZ]
-
-- [ ] TODO check and modify if necessary
+- training docker image: `docker run train:latest` or `uv run invoke docker-train`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/train.dockerfile> [AKIN]
+- inference docker image: `docker run inference:latest` or `uv run invoke docker-inference`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/inference.dockerfile> [AKIN]
+- api docker image: `docker run -p 8080:8080 api:latest` or `uv run invoke docker-run-api`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/api.dockerfile> [ECENAZ]
+- bentoml docker image: `docker run -p 8080:8080 bento:latest` or `uv run invoke docker-run-bento`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/bento.dockerfile> [ELIF]
 
 ### Question 16
 
@@ -449,7 +451,7 @@ For our initial experiments, we used `e2-medium (2 vCPUs, 4 GB Memory)` machines
 
 We did not. We couldn't get GPU access and we had a more convenient option in some our team's computers. We therefore prioritized the rest of the MLOps pipeline over re-training a model on the cloud, since our model checkpoint after 78 epochs was already quite good at the segmentation task at hand.
 
-@[AKIN] feel free to add to this.
+Instead, we trained locally using Docker containers on a team member's machine equipped with a dedicated GPU. Since our model checkpoint (after 78 epochs) was already performing well on the segmentation task, this approach proved significantly faster and allowed us to efficiently complete our training runs while still adhering to containerization best practices.
 
 ## Deployment
 
