@@ -353,11 +353,10 @@ In the second image, we tracked visualization results showing the model's actual
 
 For our project we developed several images for different purposes: training, inference, API deployment, and BentoML service. To run the training we succesfully built images and ran corresponding containers locally in machines with gpus, but failed to reproduce it in our mac and cloud environments.
 
-- training docker image: `docker run train:latest` or `uv run invoke docker-train`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/train.dockerfile> [AKIN]
-- inference docker image: `docker run inference:latest` or `uv run invoke docker-inference`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/inference.dockerfile> [AKIN]
-- api docker image: `docker run -p 8080:8080 api:latest` or `uv run invoke docker-run-api`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/api.dockerfile> [ECENAZ]
-- bentoml docker image: `docker run -p 8080:8080 bento:latest` or `uv run invoke docker-run-bento`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/bento.dockerfile> [ELIF]
-
+- training docker image: `docker run train:latest` or `uv run invoke docker-train`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/train.dockerfile>
+- inference docker image: `docker run inference:latest` or `uv run invoke docker-inference`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/inference.dockerfile>
+- api docker image: `docker run -p 8080:8080 api:latest` or `uv run invoke docker-run-api`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/api.dockerfile>
+- bentoml docker image: `docker run -p 8080:8080 bento:latest` or `uv run invoke docker-run-bento`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/bento.dockerfile>
 ### Question 16
 
 > **When running into bugs while trying to run your experiments, how did you perform debugging? Additionally, did you**
@@ -636,7 +635,7 @@ One of our biggest struggles with the project was training our model.  It seems 
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-Akin Mert Gümüs (s242508) ...
+Akin Mert Gümüs (s242508) was responsible for containerizing training and inference applications using Docker, implementing logging throughout the codebase, and integrating Weights & Biases for experiment tracking and model visualization.
 
 Bruno Zorrilla Medina Luna (s260015). Most-things Cloud: Google Cloud general setup, `dvc` and cloud bucket integration, and cloud training containerization (failed).
 
