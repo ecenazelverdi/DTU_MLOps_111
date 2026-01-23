@@ -487,6 +487,35 @@ Helper to send a base64 encoded image prediction request (avoids shell argument 
 uv run invoke bento-predict-base64 --image-path path/to/image.png --service-url http://localhost:3000
 ```
 
+### Payload Generation (Manual)
+
+The following script reads a local image file, encodes it into Base64, and writes a `payload.json` file in the expected request format:
+
+```bash
+python - <<'PY'
+import base64, json
+img_path = "sample_image.jpg"
+b64 = base64.b64encode(open(img_path, "rb").read()).decode()
+payload = {"req": {"image_b64": b64, "content_type": "image/jpeg"}}
+with open("payload.json", "w") as f:
+    json.dump(payload, f)
+print("saved payload.json")
+PY
+```
+
+### Manual Curl Request
+
+Once the payload has been created, send it to the deployed BentoML endpoint using `curl`:
+
+```bash
+curl -s -o resp.json -w "\nHTTP %{http_code}\n" \
+  -X POST "https://drone-seg-32512441443.europe-north1.run.app/predict_base64" \
+  -H "Content-Type: application/json" \
+  --data-binary @payload.json
+```
+
+The response will be saved into `resp.json`. If the request succeeds, the HTTP status code should be `200`.
+
 ---
 
 ## Command Chaining
@@ -504,3 +533,7 @@ uv run invoke preprocess
 
 - [Workflows](workflows.md) - Learn how to combine these commands into complete workflows
 - [Troubleshooting](troubleshooting.md) - Solutions if commands fail
+
+```
+
+```
