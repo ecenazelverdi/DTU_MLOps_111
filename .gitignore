@@ -58,6 +58,7 @@ nnUNet_results/
 # Build / packaging
 # ============================================================
 build/
+site/
 dist/
 *.egg-info/
 

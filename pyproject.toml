@@ -54,8 +54,8 @@ dependencies = [
 dev = [
     "coverage==7.6.9",
     "invoke==2.2.0",
-    "mkdocs-material==9.4.6",
-    "mkdocs==1.6.1",
+    "mkdocs-material>=9.5.0",
+    "mkdocs>=1.6.0",
     "pre-commit==4.1.0",
     "pytest==8.3.4",
     "ruff==0.1.3",
