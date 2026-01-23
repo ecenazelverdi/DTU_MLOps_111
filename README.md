@@ -2,6 +2,8 @@
 
 Team 111
 
+📚 **[Live Documentation](https://ecenazelverdi.github.io/DTU_MLOps_111/)**
+
 ## Project Description
 
 Our project aims to perform 5-class image segmentation on [drone imagery](https://www.kaggle.com/datasets/santurini/semantic-segmentation-drone-dataset/data), using a semantic segmentation mask to identify the precise location of obstacles, water, soft-surfaces, moving-objects, and landing-zones.
@@ -13,41 +15,62 @@ The trained model should enhance the safety of autonomous drone flights and land
 We expect to use a CNN for the image classification and a U-net for the segmentation. We will implement our models in the pytorch library, potentially leveraging transfer-learning for classification. A U-Net architecture is chosen for the project because it performs well with small objects, preserves spacial detail via skip connections, and performs well with low-data availability
 
 ## How to Use
+
 To run the project on your machine, use the following commands
 
 ### Installation
+
 clone this repository and run
+
 ```
 uv sync
 ```
 
 ### To Download and Configure the Dataset
-_Note_: kaggle api key and kaggle username key are required. the `.env.example` file provides an example of how to structure your own `.env` file and fill with with your personal info.  After updating and refreshing your .env file, run:
+
+_Note_: kaggle api key and kaggle username key are required. the `.env.example` file provides an example of how to structure your own `.env` file and fill with with your personal info. After updating and refreshing your .env file, run:
+
 ```
 uv run invoke download-data
 uv run invoke export-data
 ```
 
 ### To Preprocess the Data
-_Note_: nnU-Net makes use of specific [_environment variables_](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.  After updating your .env and refresing with _environment variables_ for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, run:
+
+_Note_: nnU-Net makes use of specific [_environment variables_](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure. After updating your .env and refresing with _environment variables_ for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, run:
+
 ```
 uv run invoke preprocess
 ```
 
 ### To Train the Model
+
 ```
 uv run invoke train
 ```
 
 ### To Run Tests
+
 ```
 uv run invoke test
 ```
 
 ### To Run API
+
 ```
 uv run invoke app
 ```
+
+### To Run with BentoML
+
+For high-performance serving, you can use BentoML:
+
+```
+uv run invoke bento-serve
+```
+
+For dockerized BentoML instructions, see [Docker Workflow](#docker-workflow) or full [documentation](docs/source/commands.md).
+
 ### To Download and Configure the Dataset
 
 _Note_: kaggle api key and kaggle username key are required. the `.env.example` file provides an example of how to structure your own `.env` file and fill with with your personal info. After updating and refreshing your .env file, run:
@@ -86,6 +109,7 @@ uv pip install -e .
 ```
 
 To use the recommended pre-commit hooks for this repository, run:
+
 ```
 To use pre-commit, run
 ```
@@ -99,7 +123,9 @@ pip install .
 ```
 
 ## Further Information
+
 ### Dataset structure
+
 To install the package in editable mode (changes reflected instantly), run:
 
 ```bash
@@ -129,10 +155,12 @@ uv run invoke app
 You can access the live API here: [https://model-api-32512441443.europe-west1.run.app](https://model-api-32512441443.europe-west1.run.app)
 
 Example request to deployed API:
+
 ```bash
 curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
 --form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"' \
 ```
+
 ## Docker Workflow
 
 This project provides a complete Docker-based pipeline for training and inference:
@@ -236,19 +264,24 @@ nnUNet_raw/
     ├── imagesTr
     └── labelsTr
 ```
+
 ### Project structure
+
 ### Preprocessing
 
- nnU-Net makes use of specific [*environment variables*](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
+nnU-Net makes use of specific [_environment variables_](https://github.com/MIC-DKFZ/nnUNet/blob/master/documentation/set_environment_variables.md) to locate data in the project. `.env.example` has the appropriate predefined structure.
 
-After setting up *environment variables* for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for
+After setting up _environment variables_ for `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results`, you are ready for
 data preprocessing. Make sure your `.env` file is loaded, then run
+
 ```
 nnUNetv2_plan_and_preprocess -d DATASET_ID --verify_dataset_integrity
 ```
+
 to preprocess, where `DATASET_ID` is `101` in this case.
 
 You should now find a new directory was created with the following structure:
+
 ```
 nnUNet_preprocessed
 └── Dataset101_DroneSeg
@@ -256,12 +289,12 @@ nnUNet_preprocessed
     └── nnUNetPlans_2d
 ```
 
-
 ### Training
 
 For detailed instructions on training the model using Docker, see [DOCKER_TRAINING.md](DOCKER_TRAINING.md).
 
 **Quick start:**
+
 ```bash
 # Build training container
 docker build -f train.dockerfile -t droneseg-training .
@@ -283,6 +316,7 @@ docker run --gpus all --ipc=host \
 For detailed instructions on running inference using Docker, see [DOCKER_INFERENCE.md](DOCKER_INFERENCE.md).
 
 **Quick start (after training):**
+
 ```bash
 # Prepare input images (convert RGB to nnU-Net format)
 mkdir -p images_raw input
@@ -306,13 +340,29 @@ python visualize_results.py images_raw/ nnUNet_results/inference_outputs/ visual
 
 > **Note:** Both training and inference containers share the same `nnUNet_results/` folder, enabling seamless workflow from training to inference!
 
+### BentoML (Serving)
+
+**Quick start:**
+
+```bash
+# Build BentoML serving container
+uv run invoke docker-build-bento
+
+# Run serving container (port 8080)
+uv run invoke docker-run-bento
+```
+
+**Results:** Service available at http://localhost:8080/
+
 ## Contributer Setup
+
 ### Optional: pre-commit
+
 To use pre-commit, run
+
 ```
 uv run pre-commit install
 ```
-
 
 ## Project structure
 
