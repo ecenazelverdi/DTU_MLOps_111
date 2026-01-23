@@ -262,7 +262,7 @@ We used both branches and PRs in our project.  For most of the items on the proj
 >
 > Answer:
 
---- question 10 fill here ---
+We did make use of DVC + gcloud buckets. While the training data did not undergo any significant changes that required version control capabilites, using dvc was most helpful when considering model checkpoints. This was true for tue reasons. Firstly, nnU-Net is a complex model and training it on our segmentation task wasn't easy. It was therefore extremely valuable to easily store and update our best model. Secondly, several features depended on having a workable model. `dvc` was our main tool to share model checkpoints across members as well as to load the model in the cloud.
 
 ### Question 11
 
@@ -300,6 +300,8 @@ Our continuous integration setup serves three main functions that together help 
 
 --- question 12 fill here ---
 
+- [ ] TODO @[AKIN]
+
 ### Question 13
 
 > **Reproducibility of experiments are important. Related to the last question, how did you secure that no information**
@@ -313,7 +315,7 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 13 fill here ---
+- [ ] TODO @[AKIN]
 
 ### Question 14
 
@@ -332,6 +334,8 @@ Our continuous integration setup serves three main functions that together help 
 
 --- question 14 fill here ---
 
+- [ ] TODO @[AKEN]
+
 ### Question 15
 
 > **Docker is an important tool for creating containerized applications. Explain how you used docker in your**
@@ -345,7 +349,12 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 15 fill here ---
+For our project we developed two images: one for training, and one for api inference and deployment. To run the training we succesfully built images and ran corresponding containers locally in machines with gpus, but failed to reproduce it in our mac and cloud environments.
+
+- training docker image: `docker run trainer:latest`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/train.dockerfile> [AKIN]
+- inference docker image: `*MISSING* COMMAND HERE`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/api.dockerfile> [ECENAZ]
+
+- [ ] TODO check and modify if necessary
 
 ### Question 16
 
@@ -360,7 +369,7 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 16 fill here ---
+Debugging method was mostly dependent on the tool at hand. For regular Python debugging, we used a mix of IDE debuggers, print statements, and your good old copilot help; however, the inclusion of additional tools meant we also got more creative with identifying and solving bugs. For example, solving issues when running train images on macs involved using Docker Desktop Stats for identifying resource constraints in containers.
 
 ## Working in the cloud
 
@@ -377,7 +386,9 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 17 fill here ---
+We used the following two services: Bucket, and Cloud Run. Bucket is used for storing and versioning both training data (in its various stages) as well as model checkpoints. Cloud Run is used for hosting and running our inference API on the cloud.
+
+- [ ] @[ECENAZ] something to add?
 
 ### Question 18
 
@@ -392,7 +403,9 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 18 fill here ---
+We mostly did not use GCP's Compute Engine. While initially we were hoping to train our model on the cloud, issues with gaining GPU access and running training on CPUs coupled with successful training runs on local GPUs steered us off this path.
+
+For our initial experiments, we used `e2-medium (2 vCPUs, 4 GB Memory)` machines with `10 GB` and then scaled up to a `n2d-standard-8 (8 vCPUs, 32 GB Memory)` machine with `120 GB` of memory; however, each training epoch was taking approximately 1h 30 on this machine, so the training here was simply not viable.
 
 ### Question 19
 
@@ -401,7 +414,7 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 19 fill here ---
+![bucket](figures/q19_buckets.png)
 
 ### Question 20
 
@@ -410,7 +423,7 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 20 fill here ---
+![registry](figures/q20_registry.png)
 
 ### Question 21
 
@@ -419,7 +432,7 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 21 fill here ---
+![build](figures/q21_build.png)
 
 ### Question 22
 
@@ -434,7 +447,9 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 22 fill here ---
+We did not. We couldn't get GPU access and we had a more convenient option in some our team's computers. We therefore prioritized the rest of the MLOps pipeline over re-training a model on the cloud, since our model checkpoint after 78 epochs was already quite good at the segmentation task at hand.
+
+@[AKIN] feel free to add to this.
 
 ## Deployment
 
@@ -451,7 +466,7 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 23 fill here ---
+- [ ] TODO @ECENAZ
 
 ### Question 24
 
@@ -467,7 +482,22 @@ Our continuous integration setup serves three main functions that together help 
 >
 > Answer:
 
---- question 24 fill here ---
+Yes. We wrapped our model into an application using fastAPI, then installed the `dtu_mlops_111`. and then ran it locally with
+
+```
+uv run invoke app
+```
+
+The live API can be found here [https://model-api-32512441443.europe-west1.run.app](https://model-api-32512441443.europe-west1.run.app)
+
+By default the API performs a health check. To perform inference on an image, run
+
+```bash
+curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
+--form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"' \
+```
+
+@[ECENZAS] feel free to add more.
 
 ### Question 25
 
@@ -549,7 +579,15 @@ We implemented monitoring of our deployed model using api monitoring from the lo
 >
 > Answer:
 
---- question 29 fill here ---
+![architecture](figures/q29_archit.png)
+
+The diagram is heavily inspired by the [MLOps Course summary](https://skaftenicki.github.io/dtu_mlops/pages/overview/), for the very reason of using much of the same tools. We now describe the diagram in full, but you can **skip the next two paragraphs** if already familiar with the original course summary.
+
+Our overall architecture can safely be divided in what occurs locally (right) and on the cloud (left). Locally, we used the default `cookiecutter` template from this course, with deviations stated previously. the heart of system is a `pytorch` model. It is trained on approximately 3GBs of data stored locally and uses `*uv` as the de-facto package manager. `Typer` is used as a CLI basis, mainly for preprocessing commands; `Wandb` is our experiment manager, `pytest` is used for unit testing, `git` for version control, and `ruff` for formatting. The training application, which consists mainly of commands, is containerized for gpu use using `docker`. the Inference application is wrapped as an API and served in a docker image as well.
+
+On to the cloud. The repository is stored on `Github` and Pull Requests are tested automatically through an `Actions` workflow. the API's docker images are pushed manually to our `Artifact Registry`, which is then used by `Cloud Run` to host our not-so-fast fastAPI. We use `Locust` for stress testing and set up **data drift monitoring on the cloud**.
+
+Now in terms of the differences from the standard model. We chose `NNU-Net` as our main external dependency, which uses Pytorch as a basis for a very powerful segmentation model. Training was not not on the cloud, but rather run on a container locally in a machine with a GPU. For inference, we relied on manual image builds, which were then pushed to the artifact registry. the API relies on having a model checkpoint available, and this is achieved by running `dvc pull <model_dir_name>.dvc` on running the image.
 
 ### Question 30
 
@@ -564,6 +602,12 @@ We implemented monitoring of our deployed model using api monitoring from the lo
 > Answer:
 
 One of our biggest struggles with the project was training our model.  It seems that Google is not offering access to any GPUs at the moment on their cloud platform.  We did have one group member with a GPU, but we really struggled setting up a dockerfile that builds and runs training successfully.  Because of our struggles with dockerfiles, we also struggled to automate our deployment and cloud build process.  Currently, we do not have any github actions that successfully automatically deploy the model.
+
+- TODO We also struggled with:
+
+- Editing `data.py` so that it outputs the right format for training
+- Containerizing training application
+- Running training effectively
 
 ### Question 31
 
@@ -581,6 +625,8 @@ One of our biggest struggles with the project was training our model.  It seems 
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-Student s252618 was in charge of implementing testing (unit testing, load testing), setting up continuous integration including running tests and linting, pre-commit, and setting up monitoring of the API
+Student s252618 was in charge of implementing testing (unit testing, load testing), setting up continuous integration including running tests and linting, pre-commit, and setting up monitoring of the API.
+
+Bruno Zorrilla Medina Luna, Student s260015. Most-things Cloud: Google Cloud general setup, `dvc` and cloud bucket integration, and cloud training containerization (failed).
 
 We have all used various LLMs incluidng Github Copilot, Google Gemini, ChatGPT, and others in debugging our code and writing some of it.
