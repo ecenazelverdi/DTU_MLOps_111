@@ -108,8 +108,8 @@ will check the repositories and the code to verify your answers.
 
 ### Extra
 
-* [ ] Write some documentation for your application (M32)
-* [ ] Publish the documentation to GitHub Pages (M32)
+* [x] Write some documentation for your application (M32)
+* [x] Publish the documentation to GitHub Pages (M32)
 * [ ] Revisit your initial project description. Did the project turn out as you wanted?
 * [ ] Create an architectural diagram over your MLOps pipeline
 * [ ] Make sure all group members have an understanding about all parts of the project
@@ -390,7 +390,7 @@ Debugging method was mostly dependent on the tool at hand. For regular Python de
 
 We used the following two services: Bucket, and Cloud Run. Bucket is used for storing and versioning both training data (in its various stages) as well as model checkpoints. Cloud Run is used for hosting and running our inference API on the cloud.
 
-- [ ] @[ECENAZ] something to add?
+Furthermore, we used Google Container Registry to store our docker images for the API. We used Google Cloud Build to automatically build these images in the cloud. Finally, we made use of Google Cloud Logging to monitor and debug our application running on Cloud Run.
 
 ### Question 18
 
@@ -467,8 +467,13 @@ Instead, we trained locally using Docker containers on a team member's machine e
 > *to the API to make it more ...*
 >
 > Answer:
+We successfully implemented an API using the **FastAPI** framework. It serves our trained nnU-Net model via endpoints such as `/predict/` for single images and `/batch_predict/` for handling multiple files at once. We also implemented a `/drift/` endpoint that triggers a data drift report generation and uploads it to the cloud.
 
-- [ ] TODO @ECENAZ
+We implemented several features to make the API robust for production:
+1.  **Monitoring:** We integrated Prometheus metrics (request counters, latency histograms) exposed at `/metrics` to monitor API performance.
+2.  **Background Tasks:** We used FastAPI's `BackgroundTasks` to asynchronously log inference statistics to a Google Cloud Storage bucket without blocking the response.
+3.  **BentoML Service:** In addition to pure FastAPI, we also experimented with a **BentoML** service (`drone-seg-service`) which supports DVC model pulling on startup and base64 input handling.
+4.  **DVC Integration:** Our API container is designed to check for and pull the latest model version from DVC on startup (via an entrypoint script or code), ensuring that we always serve the correct model version in the cloud.
 
 ### Question 24
 
@@ -498,8 +503,6 @@ By default the API performs a health check. To perform inference on an image, ru
 curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
 --form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"' \
 ```
-
-@[ECENZAS] feel free to add more.
 
 ### Question 25
 
@@ -548,7 +551,11 @@ We implemented monitoring of our deployed model using api monitoring from the lo
 >
 > Answer:
 
---- question 27 fill here ---
+In total, we used approximately **$52.30 credits**. The most expensive service was **Compute Engine** ($49.40), accounting for ~95% of our total budget. This was primarily due to the extensive model training that required running a high-performance VM for approximately 1000 epochs.
+
+Other costs included **Cloud Run** ($1.51) for hosting our Inference API, **Cloud Storage** ($0.60) for storing our data and model checkpoints, and minor costs for networking and VM management. Interestingly, Cloud Build and Logging remained within the free tier limits ($0.00).
+
+In general, working in the cloud was highly beneficial as it allowed us to access powerful compute resources that were not available locally. However, the high cost of the VM reminds us that "turning off resources when not in use" is a critical habit in cloud engineering.
 
 ### Question 28
 
@@ -564,7 +571,9 @@ We implemented monitoring of our deployed model using api monitoring from the lo
 >
 > Answer:
 
---- question 28 fill here ---
+Yes, we implemented two major extra features:
+1.  **Data Drift Detection:** We implemented a drift detection service using the `evidently` library. We exposed a specific endpoint `/drift/` in our API that compares the inference data distribution against our training data and generates an HTML report. This report is then automatically uploaded to Google Cloud Storage for persistent access.
+2.  **Project Documentation:** We used **MkDocs** to generate a static documentation site for our project. We configured it to automatically build documentation from our docstrings and markdown files, and set up a GitHub Action (or task) to deploy it to GitHub Pages, ensuring our project documentation is always up-to-date and accessible.
 
 ### Question 29
 
@@ -627,8 +636,16 @@ One of our biggest struggles with the project was training our model.  It seems 
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-Student s252618 was in charge of implementing testing (unit testing, load testing), setting up continuous integration including running tests and linting, pre-commit, and setting up monitoring of the API.
+Akin Mert Gümüs (s242508) ...
 
-Bruno Zorrilla Medina Luna, Student s260015. Most-things Cloud: Google Cloud general setup, `dvc` and cloud bucket integration, and cloud training containerization (failed).
+Bruno Zorrilla Medina Luna (s260015). Most-things Cloud: Google Cloud general setup, `dvc` and cloud bucket integration, and cloud training containerization (failed).
 
+Ecenaz Elverdi (s252699) Developed the core FastAPI application and managed its deployment on Google Cloud Run. Additionally implemented data drift detection (Evidently), project documentation (MkDocs), initial git/project structure, and API testing/CI pipelines for FastAPI's endpoints.
+
+Elif Pulukcu (s252749) Implemented dataset preparation/export for nnU-Net training (mask conversion + split + metadata) and developed a BentoML inference service runnable locally and via Docker/Cloud Run.
+
+Kerick Jon Walker (s252618) was in charge of implementing testing (unit testing, load testing), setting up continuous integration including running tests and linting, pre-commit, and setting up monitoring of the API.
+
+### Use of Generative AI Tools (AI Declaration)
 We have all used various LLMs incluidng Github Copilot, Google Gemini, ChatGPT, and others in debugging our code and writing some of it.
+
