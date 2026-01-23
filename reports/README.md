@@ -511,6 +511,16 @@ curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
 --form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"' \
 ```
 
+In addition, we created a more specialized deployment using BentoML. The BentoML service was containerized with Docker and deployed to Google Cloud Run, where it downloads the trained nnU-Net checkpoint via DVC at startup. The BentoML endpoint accepts Base64-encoded images in JSON format:
+
+```bash
+curl -X POST "https://drone-seg-32512441443.europe-north1.run.app/predict_base64" \
+  -H "Content-Type: application/json" \
+  --data-binary @payload.json
+```
+
+This setup provides a production-ready inference API with reproducible model artifact management.
+
 ### Question 25
 
 > **Did you perform any unit testing and load testing of your API? If yes, explain how you did it and what results for**
