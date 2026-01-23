@@ -1296,19 +1296,11 @@
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>INFO [cli] Service &quot;drone-seg-service&quot; is versioned: ...
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>INFO [cli] Serving at http://localhost:3000
 </code></pre></div>
-<h3 id="docker-build-bento">docker-build-bento</h3>
-<p>Builds the Docker image for BentoML serving.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build-bento
-</code></pre></div>
-<h3 id="docker-run-bento">docker-run-bento</h3>
-<p>Runs the BentoML container.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-run-bento
-</code></pre></div>
 <hr />
 <h2 id="docker-commands">Docker Commands</h2>
 <h3 id="docker-build">docker-build</h3>
 <p>Builds all project Docker images (train, inference, api).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build<span class="w"> </span><span class="o">[</span>--progress<span class="w"> </span>PROGRESS<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build<span class="w"> </span><span class="o">[</span>--progress<span class="w"> </span>PROGRESS<span class="o">]</span>
 </code></pre></div>
 <p><strong>What it does:</strong></p>
 <ul>
@@ -1326,7 +1318,7 @@
 </ul>
 <h3 id="docker-train">docker-train</h3>
 <p>Runs the training pipeline inside a Docker container with all necessary volume mounts and environment variables.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-train
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-train
 </code></pre></div>
 <p><strong>What it does:</strong></p>
 <ul>
@@ -1336,7 +1328,7 @@
 </ul>
 <h3 id="docker-inference">docker-inference</h3>
 <p>Runs the nnU-Net prediction pipeline inside a Docker container.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-inference
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-inference
 </code></pre></div>
 <p><strong>What it does:</strong></p>
 <ul>
@@ -1344,62 +1336,29 @@
 </ul>
 <h3 id="docker-run-api">docker-run-api</h3>
 <p>Runs the FastAPI inference server in a container.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-run-api
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-run-api
 </code></pre></div>
 <p><strong>What it does:</strong></p>
 <ul>
 <li>Runs <code>api:latest</code> on port 8080</li>
 <li>Automatically mounts Google Cloud ADC credentials if found locally</li>
 </ul>
-<hr />
-<h2 id="documentation-commands">Documentation Commands</h2>
-<h3 id="build-docs">build-docs</h3>
-<p>Builds the MkDocs documentation site.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>build-docs
-</code></pre></div>
-<p><strong>Output:</strong></p>
-<ul>
-<li>Generates static HTML site in <code>docs/build/</code></li>
-</ul>
-<p><strong>What it does:</strong></p>
-<ul>
-<li>Reads <code>docs/mkdocs.yaml</code> configuration</li>
-<li>Processes markdown files from <code>docs/source/</code></li>
-<li>Generates HTML with Material theme</li>
-<li>Creates search index</li>
-</ul>
-<hr />
-<h3 id="serve-docs">serve-docs</h3>
-<p>Serves the documentation locally with auto-reload.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>serve-docs
-</code></pre></div>
-<p><strong>Output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>INFO    -  Building documentation...
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>INFO    -  Cleaning site directory
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>INFO    -  Documentation built in 0.52 seconds
-<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>INFO    -  [18:00:00] Serving on http://127.0.0.1:8000/
+<h3 id="docker-run-bento">docker-run-bento</h3>
+<p>Runs the BentoML container.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-run-bento
 </code></pre></div>
 <p><strong>What it does:</strong></p>
 <ul>
-<li>Builds documentation</li>
-<li>Starts local server at <code>http://127.0.0.1:8000</code></li>
-<li>Watches for file changes and auto-rebuilds</li>
-<li>Hot-reloads browser on changes</li>
+<li>Runs <code>bento:latest</code> on port 8080</li>
+<li>Enables DVC pull if env var is set</li>
 </ul>
-<p><strong>Usage:</strong></p>
-<ul>
-<li>Open <code>http://127.0.0.1:8000</code> in your browser</li>
-<li>Edit markdown files in <code>docs/source/</code></li>
-<li>See changes automatically reflected</li>
-</ul>
-<p>Press <code>Ctrl+C</code> to stop the server.</p>
 <hr />
 <h2 id="command-chaining">Command Chaining</h2>
 <p>You can chain multiple commands if needed:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
 </code></pre></div>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
