@@ -1715,6 +1715,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build-bento
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-run-bento
 </code></pre></div>
+<p><strong>Note:</strong> The <code>docker-run-bento</code> command will automatically mount your local Google Cloud credentials if they are available, enabling <code>dvc pull</code> to work inside the container.</p>
 <p><strong>Quick start:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># 1. Prepare input images</span>
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>python<span class="w"> </span>prepare_inference_input.py<span class="w"> </span>images_raw/<span class="w"> </span>input/

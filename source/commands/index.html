@@ -933,6 +933,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#payload-generation-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payload Generation (Manual)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-curl-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Curl Request
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1470,6 +1492,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#payload-generation-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Payload Generation (Manual)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-curl-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manual Curl Request
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1838,6 +1882,7 @@
 <p><strong>What it does:</strong></p>
 <ul>
 <li>Runs <code>bento:latest</code> on port 8080</li>
+<li>Automatically mounts Google Cloud ADC credentials if found locally</li>
 <li>Enables DVC pull if env var is set</li>
 </ul>
 <hr />
@@ -1864,19 +1909,41 @@
 <p>Helper to send a base64 encoded image prediction request (avoids shell argument limits).</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>bento-predict-base64<span class="w"> </span>--image-path<span class="w"> </span>path/to/image.png<span class="w"> </span>--service-url<span class="w"> </span>http://localhost:3000
 </code></pre></div>
+<h3 id="payload-generation-manual">Payload Generation (Manual)</h3>
+<p>The following script reads a local image file, encodes it into Base64, and writes a <code>payload.json</code> file in the expected request format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;&#39;PY&#39;</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="s">import base64, json</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="s">img_path = &quot;sample_image.jpg&quot;</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="s">b64 = base64.b64encode(open(img_path, &quot;rb&quot;).read()).decode()</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="s">payload = {&quot;req&quot;: {&quot;image_b64&quot;: b64, &quot;content_type&quot;: &quot;image/jpeg&quot;}}</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="s">with open(&quot;payload.json&quot;, &quot;w&quot;) as f:</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="s">    json.dump(payload, f)</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="s">print(&quot;saved payload.json&quot;)</span>
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="s">PY</span>
+</code></pre></div>
+<h3 id="manual-curl-request">Manual Curl Request</h3>
+<p>Once the payload has been created, send it to the deployed BentoML endpoint using <code>curl</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>-o<span class="w"> </span>resp.json<span class="w"> </span>-w<span class="w"> </span><span class="s2">&quot;\nHTTP %{http_code}\n&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://drone-seg-32512441443.europe-north1.run.app/predict_base64&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="w">  </span>--data-binary<span class="w"> </span>@payload.json
+</code></pre></div>
+<p>The response will be saved into <code>resp.json</code>. If the request succeeds, the HTTP status code should be <code>200</code>.</p>
 <hr />
 <h2 id="command-chaining">Command Chaining</h2>
 <p>You can chain multiple commands if needed:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
 </code></pre></div>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
 <li><a href="../workflows/">Workflows</a> - Learn how to combine these commands into complete workflows</li>
 <li><a href="../troubleshooting/">Troubleshooting</a> - Solutions if commands fail</li>
 </ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>
+</code></pre></div>
 
 
 
