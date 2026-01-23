@@ -73,9 +73,7 @@ def overlay_mask(image: np.ndarray, mask: np.ndarray, alpha: float = 0.5) -> np.
     return (image * (1 - alpha) + colored_mask * alpha).astype(np.uint8)
 
 
-def create_visualization(
-    original_image: np.ndarray, mask: np.ndarray
-) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+def create_visualization(original_image: np.ndarray, mask: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Create visualization showing original, colored mask, and overlay.
 
     Args:
@@ -101,9 +99,7 @@ def create_visualization(
     return colored_mask, overlaid, combined
 
 
-def visualize_results(
-    images_dir: Path, masks_dir: Path, output_dir: Path, save_individual: bool = True
-):
+def visualize_results(images_dir: Path, masks_dir: Path, output_dir: Path, save_individual: bool = True):
     """Visualize all segmentation results.
 
     Args:
@@ -115,7 +111,7 @@ def visualize_results(
     # Initialize W&B
     if wandb.run is None:
         wandb.init(project="semantic_segmentation_nnunet_inference", job_type="visualization")
-    
+
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Get list of mask files
@@ -128,20 +124,16 @@ def visualize_results(
 
     logger.info(f"Found {len(mask_files)} masks for visualization")
     print(f"📁 Found {len(mask_files)} masks")
-    
+
     # Log to W&B
     wandb.log({"visualization/total_masks": len(mask_files)})
 
     # Map mask files to original images
     image_files = sorted(images_dir.glob("*"))
-    image_files = [
-        f for f in image_files if f.suffix.lower() in [".png", ".jpg", ".jpeg", ".bmp"]
-    ]
+    image_files = [f for f in image_files if f.suffix.lower() in [".png", ".jpg", ".jpeg", ".bmp"]]
 
     if len(image_files) != len(mask_files):
-        print(
-            f"⚠️  Warning: Found {len(image_files)} images but {len(mask_files)} masks"
-        )
+        print(f"⚠️  Warning: Found {len(image_files)} images but {len(mask_files)} masks")
 
     for i, (mask_path, image_path) in enumerate(zip(mask_files, image_files)):
         print(f"🎨 Processing {i+1}/{len(mask_files)}: {image_path.name}...", end=" ")
@@ -153,9 +145,7 @@ def visualize_results(
         # Resize mask to match original if needed
         if original.shape[:2] != mask.shape:
             mask_img = Image.fromarray(mask)
-            mask_img = mask_img.resize(
-                (original.shape[1], original.shape[0]), Image.NEAREST
-            )
+            mask_img = mask_img.resize((original.shape[1], original.shape[0]), Image.NEAREST)
             mask = np.array(mask_img)
 
         # Create visualizations
@@ -165,15 +155,10 @@ def visualize_results(
         case_id = mask_path.stem  # e.g., "case_0000"
         combined_path = output_dir / f"{case_id}_visualization.png"
         Image.fromarray(combined).save(combined_path)
-        
+
         # Upload to W&B
         if wandb.run and i < 10:  # Upload first 10 to avoid too many images
-            wandb.log({
-                f"visualizations/{case_id}": wandb.Image(
-                    combined,
-                    caption=f"{image_path.name}"
-                )
-            })
+            wandb.log({f"visualizations/{case_id}": wandb.Image(combined, caption=f"{image_path.name}")})
 
         if save_individual:
             # Save colored mask
@@ -192,20 +177,15 @@ def visualize_results(
         f"📊 Generated {len(mask_files)} visualizations"
         + (f" ({len(mask_files) * 3} files)" if save_individual else "")
     )
-    
+
     # Log summary to W&B
     if wandb.run:
-        wandb.log({
-            "visualization/completed": len(mask_files),
-            "visualization/output_dir": str(output_dir)
-        })
+        wandb.log({"visualization/completed": len(mask_files), "visualization/output_dir": str(output_dir)})
         logger.info("Visualization metrics logged to W&B")
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Visualize nnU-Net segmentation results"
-    )
+    parser = argparse.ArgumentParser(description="Visualize nnU-Net segmentation results")
     parser.add_argument(
         "images_dir",
         type=Path,
@@ -229,9 +209,7 @@ def main():
 
     args = parser.parse_args()
 
-    visualize_results(
-        args.images_dir, args.masks_dir, args.output_dir, not args.combined_only
-    )
+    visualize_results(args.images_dir, args.masks_dir, args.output_dir, not args.combined_only)
 
 
 if __name__ == "__main__":

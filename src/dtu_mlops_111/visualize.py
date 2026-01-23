@@ -13,12 +13,12 @@ app = typer.Typer(add_completion=False)
 # Class ids and colors are kept consistent with data.py to avoid confusion
 # when visually inspecting labels or model outputs.
 CLASS_TO_RGB: Dict[int, Tuple[int, int, int]] = {
-    0: (0, 0, 0),          # background
-    1: (155, 38, 182),     # obstacles
-    2: (14, 135, 204),     # water
-    3: (124, 252, 0),      # soft_surfaces
-    4: (255, 20, 147),     # moving_objects
-    5: (169, 169, 169),    # landing_zones
+    0: (0, 0, 0),  # background
+    1: (155, 38, 182),  # obstacles
+    2: (14, 135, 204),  # water
+    3: (124, 252, 0),  # soft_surfaces
+    4: (255, 20, 147),  # moving_objects
+    5: (169, 169, 169),  # landing_zones
 }
 
 
@@ -77,9 +77,7 @@ def colorize(
 
     # If the input has multiple channels, it's likely not a class-id mask
     if mask.ndim == 3:
-        raise ValueError(
-            f"Expected a single-channel class-id mask, got shape={mask.shape} instead."
-        )
+        raise ValueError(f"Expected a single-channel class-id mask, got shape={mask.shape} instead.")
 
     mask = mask.astype(np.uint8, copy=False)
     rgb = _colorize_mask_array(mask)
