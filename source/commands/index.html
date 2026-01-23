@@ -1307,31 +1307,53 @@
 <hr />
 <h2 id="docker-commands">Docker Commands</h2>
 <h3 id="docker-build">docker-build</h3>
-<p>Builds Docker images for training and API.</p>
+<p>Builds all project Docker images (train, inference, api).</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build<span class="w"> </span><span class="o">[</span>--progress<span class="w"> </span>PROGRESS<span class="o">]</span>
 </code></pre></div>
-<p><strong>Options:</strong></p>
-<ul>
-<li><code>--progress</code> (default: <code>plain</code>) - Build output mode (<code>plain</code>, <code>auto</code>, <code>tty</code>)</li>
-</ul>
 <p><strong>What it does:</strong></p>
 <ul>
-<li>Builds <code>train:latest</code> from <code>train.dockerfile</code></li>
-<li>Builds <code>api:latest</code> from <code>api.dockerfile</code></li>
-<li>Builds <code>bento:latest</code> from <code>bento.dockerfile</code></li>
+<li>Builds <code>train:latest</code></li>
+<li>Builds <code>inference:latest</code></li>
+<li>Builds <code>api:latest</code></li>
 </ul>
-<p><strong>Examples:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Build with plain output</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Build with auto progress</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build<span class="w"> </span>--progress<span class="w"> </span>auto
+<h3 id="individual-build-tasks">Individual Build Tasks</h3>
+<ul>
+<li><code>uv run invoke docker-build-train</code> - Build training image</li>
+<li><code>uv run invoke docker-build-inference</code> - Build inference image</li>
+<li><code>uv run invoke docker-build-api</code> - Build API image</li>
+</ul>
+<h3 id="docker-train">docker-train</h3>
+<p>Runs the training pipeline inside a Docker container with all necessary volume mounts and environment variables.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-train
 </code></pre></div>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Runs <code>train:latest</code> with <code>--gpus all</code> and <code>--ipc=host</code></li>
+<li>Mounts local <code>data/</code>, <code>nnUNet_raw/</code>, <code>nnUNet_preprocessed/</code>, and <code>nnUNet_results/</code></li>
+<li>Loads environment variables from <code>.env</code></li>
+</ul>
+<h3 id="docker-inference">docker-inference</h3>
+<p>Runs the nnU-Net prediction pipeline inside a Docker container.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-inference
+</code></pre></div>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Runs <code>inference:latest</code> with volume mounts for <code>nnUNet_results/</code>, <code>images_raw/</code>, and <code>visualizations/</code></li>
+</ul>
+<h3 id="docker-run-api">docker-run-api</h3>
+<p>Runs the FastAPI inference server in a container.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-run-api
+</code></pre></div>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Runs <code>api:latest</code> on port 8080</li>
+<li>Automatically mounts Google Cloud ADC credentials if found locally</li>
+</ul>
 <hr />
 <h2 id="documentation-commands">Documentation Commands</h2>
 <h3 id="build-docs">build-docs</h3>
 <p>Builds the MkDocs documentation site.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>build-docs
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>build-docs
 </code></pre></div>
 <p><strong>Output:</strong></p>
 <ul>
@@ -1347,13 +1369,13 @@
 <hr />
 <h3 id="serve-docs">serve-docs</h3>
 <p>Serves the documentation locally with auto-reload.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>serve-docs
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>serve-docs
 </code></pre></div>
 <p><strong>Output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>INFO    -  Building documentation...
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>INFO    -  Cleaning site directory
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>INFO    -  Documentation built in 0.52 seconds
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>INFO    -  [18:00:00] Serving on http://127.0.0.1:8000/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>INFO    -  Building documentation...
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>INFO    -  Cleaning site directory
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>INFO    -  Documentation built in 0.52 seconds
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>INFO    -  [18:00:00] Serving on http://127.0.0.1:8000/
 </code></pre></div>
 <p><strong>What it does:</strong></p>
 <ul>
@@ -1372,10 +1394,10 @@
 <hr />
 <h2 id="command-chaining">Command Chaining</h2>
 <p>You can chain multiple commands if needed:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
 </code></pre></div>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
