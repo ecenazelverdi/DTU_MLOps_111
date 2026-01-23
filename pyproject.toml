@@ -48,6 +48,7 @@ dependencies = [
     "torchvision",
     "wandb>=0.24.0",
     "loguru>=0.7.3",
+    "markdown>=3.10.1",
 ]
 
 [dependency-groups]
