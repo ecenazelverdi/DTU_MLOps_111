@@ -52,27 +52,27 @@ will check the repositories and the code to verify your answers.
 
 ### Week 1
 
-- [x] Create a git repository (M5)
-- [x] Make sure that all team members have write access to the GitHub repository (M5)
-- [x] Create a dedicated environment for you project to keep track of your packages (M2)
-- [x] Create the initial file structure using cookiecutter with an appropriate template (M6)
-- [x] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
-- [x] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
-- [ ] Remember to fill out the `requirements.txt` and `requirements_dev.txt` file with whatever dependencies that you
-      are using (M2+M6)
-- [x] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
-- [x] Do a bit of code typing and remember to document essential parts of your code (M7)
-- [x] Setup version control for your data or part of your data (M8)
-- [x] Add command line interfaces and project commands to your code where it makes sense (M9)
-- [x] Construct one or multiple docker files for your code (M10)
-- [x] Build the docker files locally and make sure they work as intended (M10)
-- [ ] Write one or multiple configurations files for your experiments (M11)
-- [ ] Used Hydra to load the configurations and manage your hyperparameters (M11)
-- [x] Use profiling to optimize your code (M12)
-- [ ] Use logging to log important events in your code (M14)
-- [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
-- [ ] Consider running a hyperparameter optimization sweep (M14)
-- [x] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
+* [x] Create a git repository (M5)
+* [x] Make sure that all team members have write access to the GitHub repository (M5)
+* [x] Create a dedicated environment for you project to keep track of your packages (M2)
+* [x] Create the initial file structure using cookiecutter with an appropriate template (M6)
+* [x] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
+* [x] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
+* [x] Remember to fill out the `requirements.txt` and `requirements_dev.txt` file with whatever dependencies that you
+    are using (M2+M6)
+* [x] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
+* [x] Do a bit of code typing and remember to document essential parts of your code (M7)
+* [x] Setup version control for your data or part of your data (M8)
+* [x] Add command line interfaces and project commands to your code where it makes sense (M9)
+* [x] Construct one or multiple docker files for your code (M10)
+* [x] Build the docker files locally and make sure they work as intended (M10)
+* [ ] Write one or multiple configurations files for your experiments (M11)
+* [ ] Used Hydra to load the configurations and manage your hyperparameters (M11)
+* [x] Use profiling to optimize your code (M12)
+* [x] Use logging to log important events in your code (M14)
+* [x] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
+* [x] Consider running a hyperparameter optimization sweep (M14) - Not applicable
+* [x] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
 ### Week 2
 
@@ -97,23 +97,23 @@ will check the repositories and the code to verify your answers.
 
 ### Week 3
 
-- [x] Check how robust your model is towards data drifting (M27)
-- [x] Deploy to the cloud a drift detection API (M27)
-- [x] Instrument your API with a couple of system metrics (M28)
-- [ ] Setup cloud monitoring of your instrumented application (M28)
-- [x] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
-- [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
-- [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
-- [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
+* [x] Check how robust your model is towards data drifting (M27)
+* [x] Deploy to the cloud a drift detection API (M27)
+* [x] Instrument your API with a couple of system metrics (M28)
+* [ ] Setup cloud monitoring of your instrumented application (M28)
+* [x] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
+* [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
+* [x] If applicable, optimize the performance of your training pipeline by using distributed training (M30) - Not applicable
+* [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
 
 ### Extra
 
-- [ ] Write some documentation for your application (M32)
-- [ ] Publish the documentation to GitHub Pages (M32)
-- [ ] Revisit your initial project description. Did the project turn out as you wanted?
-- [ ] Create an architectural diagram over your MLOps pipeline
-- [ ] Make sure all group members have an understanding about all parts of the project
-- [x] Uploaded all your code to GitHub
+* [x] Write some documentation for your application (M32)
+* [x] Publish the documentation to GitHub Pages (M32)
+* [ ] Revisit your initial project description. Did the project turn out as you wanted?
+* [ ] Create an architectural diagram over your MLOps pipeline
+* [ ] Make sure all group members have an understanding about all parts of the project
+* [x] Uploaded all your code to GitHub
 
 ## Group information
 
@@ -287,9 +287,7 @@ We did make use of DVC + gcloud buckets. While the training data did not undergo
 >
 > Answer:
 
-Our continuous integration setup follows very closely the basic steps from module M17.
-
-- [ ] TODO finish this one
+Our continuous integration setup serves three main functions that together help ensure code quality in the development process. We use a tests.yaml workflow that automatically runs all unit tests located in our tests/ directory. These tests are executed across the three main operating systems; Ubuntu, Windows, and macOS.  This could help us catch platform-specific issues early and ensures that our code behaves consistently in different environments. This workflow is triggered on every pull request, so that immediate feedback is provided to contributors before faulty code can be merged. An example of a successful test run can be seen here: https://github.com/ecenazelverdi/DTU_MLOps_111/actions/runs/21267761386.  We also have a dedicated linting workflow defined in linting.yaml. This action is also triggered on pull requests and is responsible for enforcing consistent code style and identifying potential formatting or static analysis issues.  By running linting checks automatically, we reduce technical debt and improve code readability across the project. An example linting run can be found here: https://github.com/ecenazelverdi/DTU_MLOps_111/actions/runs/21255981434.  Finally, we attempted to set up an additional CI workflow using a cloudbuild.yaml file to build a Docker image for our API and deploy it to the cloud.  While this would have enabled automated build and deployment, we encountered configuration errors and were unfortunately unable to get this pipeline fully operational within the available timeframe of the project.
 
 ## Running code and tracking experiments
 
@@ -308,9 +306,7 @@ Our continuous integration setup follows very closely the basic steps from modul
 >
 > Answer:
 
---- question 12 fill here ---
-
-- [ ] TODO @[AKEN]
+We did not use separate config files for experiments. Instead, we relied on nnUNet's default configurations and created a custom trainer class to modify training parameters (e.g., reducing epochs to 5). Experiments were run using invoke tasks through Docker containers. To run training: `uv run invoke docker-build` to build images, then `uv run invoke docker-train` to start training. For inference: `uv run invoke docker-inference`. All configurations are embedded in the dockerfiles and entrypoint scripts with volume mounts for data persistence. 
 
 ### Question 13
 
@@ -325,9 +321,7 @@ Our continuous integration setup follows very closely the basic steps from modul
 >
 > Answer:
 
---- question 13 fill here ---
-
-- [ ] TODO @[AKEN]
+We ensured reproducibility through multiple mechanisms. Docker containers guarantee consistent environments across different machines. DVC tracks both data and model checkpoints, allowing anyone to pull the exact dataset and model versions used in experiments. Weights & Biases logs all training metrics, hyperparameters, and artifacts automatically during training runs. Volume mounts (`-v $(pwd)/nnUNet_results:/app/nnUNet_results`) persist training outputs to the host machine, preventing data loss when containers stop. For sensitive credentials (WANDB_API_KEY, KAGGLE credentials), we use a `.env` file that each user creates individually following our documentation template - this maintains security while ensuring reproducibility. To reproduce an experiment: clone the repo, run `dvc pull` to get data/models, create a personal `.env` file with API keys, build Docker images with `uv run invoke docker-build`, and run training with `uv run invoke docker-train`. All results are automatically saved locally and logged to W&B.
 
 ### Question 14
 
@@ -344,9 +338,13 @@ Our continuous integration setup follows very closely the basic steps from modul
 >
 > Answer:
 
---- question 14 fill here ---
+![Loss Graph](figures/wandb_loss.png)
 
-- [ ] TODO @[AKEN]
+![Visualization Results](figures/wandb_visualization_results.png)
+
+We tracked our training experiments using Weights & Biases, logging both quantitative metrics and qualitative visualization results. As seen in the first image, we monitored the combined Dice-CE (Dice + Cross Entropy) loss during training. nnUNet uses this hybrid loss function that combines Dice loss for segmentation overlap quality with Cross Entropy loss for pixel-wise classification accuracy. The loss values decrease over epochs (including negative values in some cases), indicating the model is learning effectively to minimize prediction errors. Lower loss values indicate better segmentation performance, with the model converging toward optimal predictions. This metric is crucial because it directly reflects how well the model is learning to segment drone images into different classes.
+
+In the second image, we tracked visualization results showing the model's actual segmentation outputs on validation images during training. These visual samples are essential for qualitatively assessing model performance beyond numerical metrics. By logging segmentation masks overlaid on input images, we can identify if the model is correctly identifying object boundaries, handling edge cases, and generalizing well to unseen data. This visual tracking helped us catch issues like undersegmentation or class confusion that pure numerical metrics might miss. Together, these metrics provided comprehensive monitoring of both the learning process (via loss curves) and actual output quality (via visualizations), ensuring our model was training correctly and producing useful segmentations for our drone imagery task.
 
 ### Question 15
 
@@ -361,13 +359,12 @@ Our continuous integration setup follows very closely the basic steps from modul
 >
 > Answer:
 
-For our project we developed two images: one for training, and one for api inference and deployment. To run the training we succesfully built images and ran corresponding containers locally in machines with gpus, but failed to reproduce it in our mac and cloud environments.
+For our project we developed several images for different purposes: training, inference, API deployment, and BentoML service. To run the training we succesfully built images and ran corresponding containers locally in machines with gpus, but failed to reproduce it in our mac and cloud environments.
 
-- training docker image: `docker run trainer:latest`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/train.dockerfile> [AKEN]
-- inference docker image: `*MISSING* COMMAND HERE`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/api.dockerfile> [ACENAZ]
-
-- [ ] TODO check and modify if necessary
-
+- training docker image: `docker run train:latest` or `uv run invoke docker-train`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/train.dockerfile>
+- inference docker image: `docker run inference:latest` or `uv run invoke docker-inference`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/inference.dockerfile>
+- api docker image: `docker run -p 8080:8080 api:latest` or `uv run invoke docker-run-api`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/api.dockerfile>
+- bentoml docker image: `docker run -p 8080:8080 bento:latest` or `uv run invoke docker-run-bento`. Link to docker file: <https://github.com/ecenazelverdi/DTU_MLOps_111/blob/main/bento.dockerfile>
 ### Question 16
 
 > **When running into bugs while trying to run your experiments, how did you perform debugging? Additionally, did you**
@@ -400,7 +397,7 @@ Debugging method was mostly dependent on the tool at hand. For regular Python de
 
 We used the following two services: Bucket, and Cloud Run. Bucket is used for storing and versioning both training data (in its various stages) as well as model checkpoints. Cloud Run is used for hosting and running our inference API on the cloud.
 
-- [ ] @[ACENAZ] something to add?
+Furthermore, we used Google Container Registry to store our docker images for the API. We used Google Cloud Build to automatically build these images in the cloud. Finally, we made use of Google Cloud Logging to monitor and debug our application running on Cloud Run.
 
 ### Question 18
 
@@ -461,7 +458,7 @@ For our initial experiments, we used `e2-medium (2 vCPUs, 4 GB Memory)` machines
 
 We did not. We couldn't get GPU access and we had a more convenient option in some our team's computers. We therefore prioritized the rest of the MLOps pipeline over re-training a model on the cloud, since our model checkpoint after 78 epochs was already quite good at the segmentation task at hand.
 
-@[AKEN] feel free to add to this.
+Instead, we trained locally using Docker containers on a team member's machine equipped with a dedicated GPU. Since our model checkpoint (after 78 epochs) was already performing well on the segmentation task, this approach proved significantly faster and allowed us to efficiently complete our training runs while still adhering to containerization best practices.
 
 ## Deployment
 
@@ -477,8 +474,13 @@ We did not. We couldn't get GPU access and we had a more convenient option in so
 > _to the API to make it more ..._
 >
 > Answer:
+We successfully implemented an API using the **FastAPI** framework. It serves our trained nnU-Net model via endpoints such as `/predict/` for single images and `/batch_predict/` for handling multiple files at once. We also implemented a `/drift/` endpoint that triggers a data drift report generation and uploads it to the cloud.
 
-- [ ] TODO
+We implemented several features to make the API robust for production:
+1.  **Monitoring:** We integrated Prometheus metrics (request counters, latency histograms) exposed at `/metrics` to monitor API performance.
+2.  **Background Tasks:** We used FastAPI's `BackgroundTasks` to asynchronously log inference statistics to a Google Cloud Storage bucket without blocking the response.
+3.  **BentoML Service:** In addition to pure FastAPI, we also experimented with a **BentoML** service (`drone-seg-service`) which supports DVC model pulling on startup and base64 input handling.
+4.  **DVC Integration:** Our API container is designed to check for and pull the latest model version from DVC on startup (via an entrypoint script or code), ensuring that we always serve the correct model version in the cloud.
 
 ### Question 24
 
@@ -509,8 +511,6 @@ curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
 --form 'data=@"<YOUR_PATH_TO_IMAGE>/<IMAGE_NAME>.png"' \
 ```
 
-@[ACENZAS] feel free to add more.
-
 ### Question 25
 
 > **Did you perform any unit testing and load testing of your API? If yes, explain how you did it and what results for**
@@ -524,7 +524,7 @@ curl --location 'https://model-api-32512441443.europe-west1.run.app/predict/' \
 >
 > Answer:
 
-Yes, we load tested our API using locust. To do this, we implemented a very simple locustfile.py that accesses the API get, predict, and predict_batch endpoints. It also creates a few random images to use for said prediction requests. Our API is very slow and we were able to crash it easily. The error message we discovered on google cloud run implied that our API container was building too slowly. Because of this, we learned that it is probably not a good idea to have run a dvc pull of the model weights during each api container build.
+Yes, we load tested our API using locust.  To do this, we implemented a very simple locustfile.py that accesses the API get, predict, and predict_batch endpoints.  It also creates a few random images to use for said prediction requests.  Our API is very slow and we were able to crash it easily.  The error message we discovered on google cloud run implied that our API container was building too slowly.  Because of this, we learned that it is probably not a good idea to have run a dvc pull of the model weights during each api container build.  Our API also has some unit testing in the tests/integrationtests folder.
 
 ### Question 26
 
@@ -539,7 +539,7 @@ Yes, we load tested our API using locust. To do this, we implemented a very simp
 >
 > Answer:
 
---- question 26 fill here ---
+We implemented monitoring of our deployed model using api monitoring from the locust framework.  Our locustfile.py aims to simulate simple but realistic user behavior by repeatedly sending requests to the root, /predict/, and /batch_predict/ endpoints with rnadomly generated image data.  We can use locust to monitor success rates, response times, and failure conditions.  We also have application monitoring implemented directly into our api.py script with the prometheus framework.  There, we expose metrics such as request counts and latency histograms.  Finally, we have set up some simple alerts on our google cloud platform which send emails to teammates for certain events such as higher than expected api requests.
 
 ## Overall discussion of project
 
@@ -558,7 +558,11 @@ Yes, we load tested our API using locust. To do this, we implemented a very simp
 >
 > Answer:
 
---- question 27 fill here ---
+In total, we used approximately **$52.30 credits**. The most expensive service was **Compute Engine** ($49.40), accounting for ~95% of our total budget. This was primarily due to the extensive model training that required running a high-performance VM for approximately 1000 epochs.
+
+Other costs included **Cloud Run** ($1.51) for hosting our Inference API, **Cloud Storage** ($0.60) for storing our data and model checkpoints, and minor costs for networking and VM management. Interestingly, Cloud Build and Logging remained within the free tier limits ($0.00).
+
+In general, working in the cloud was highly beneficial as it allowed us to access powerful compute resources that were not available locally. However, the high cost of the VM reminds us that "turning off resources when not in use" is a critical habit in cloud engineering.
 
 ### Question 28
 
@@ -574,7 +578,9 @@ Yes, we load tested our API using locust. To do this, we implemented a very simp
 >
 > Answer:
 
---- question 28 fill here ---
+Yes, we implemented two major extra features:
+1.  **Data Drift Detection:** We implemented a drift detection service using the `evidently` library. We exposed a specific endpoint `/drift/` in our API that compares the inference data distribution against our training data and generates an HTML report. This report is then automatically uploaded to Google Cloud Storage for persistent access.
+2.  **Project Documentation:** We used **MkDocs** to generate a static documentation site for our project. We configured it to automatically build documentation from our docstrings and markdown files, and set up a GitHub Action (or task) to deploy it to GitHub Pages, ensuring our project documentation is always up-to-date and accessible.
 
 ### Question 29
 
@@ -613,12 +619,13 @@ Now in terms of the differences from the standard model. We chose `NNU-Net` as o
 >
 > Answer:
 
-We struggled with:
+One of our biggest struggles with the project was training our model.  It seems that Google is not offering access to any GPUs at the moment on their cloud platform.  We did have one group member with a GPU, but we really struggled setting up a dockerfile that builds and runs training successfully.  Because of our struggles with dockerfiles, we also struggled to automate our deployment and cloud build process.  Currently, we do not have any github actions that successfully automatically deploy the model.
+
+- TODO We also struggled with:
 
 - Editing `data.py` so that it outputs the right format for training
 - Containerizing training application
 - Running training effectively
-- ... TODO
 
 ### Question 31
 
@@ -636,8 +643,16 @@ We struggled with:
 > _We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code._
 > Answer:
 
-- Ecenaz Elverdi, Student s252699.
-- Akin Mert Gümüs, Student s242508. ..
-- Elif Pulukcu, Student s252749. ...
-- Kerick Jon Walker, Student s252618.
-- Bruno Zorrilla Medina Luna, Student s260015. Most-things Cloud: Google Cloud general setup, `dvc` and cloud bucket integration, and cloud training containerization (failed).
+Akin Mert Gümüs (s242508) was responsible for containerizing training and inference applications using Docker, implementing logging throughout the codebase, and integrating Weights & Biases for experiment tracking and model visualization.
+
+Bruno Zorrilla Medina Luna (s260015). Most-things Cloud: Google Cloud general setup, `dvc` and cloud bucket integration, and cloud training containerization (failed).
+
+Ecenaz Elverdi (s252699) Developed the core FastAPI application and managed its deployment on Google Cloud Run. Additionally implemented data drift detection (Evidently), project documentation (MkDocs), initial git/project structure, and API testing/CI pipelines for FastAPI's endpoints.
+
+Elif Pulukcu (s252749) Implemented dataset preparation/export for nnU-Net training (mask conversion + split + metadata) and developed a BentoML inference service runnable locally and via Docker/Cloud Run.
+
+Kerick Jon Walker (s252618) was in charge of implementing testing (unit testing, load testing), setting up continuous integration including running tests and linting, pre-commit, and setting up monitoring of the API.
+
+### Use of Generative AI Tools (AI Declaration)
+We have all used various LLMs incluidng Github Copilot, Google Gemini, ChatGPT, and others in debugging our code and writing some of it.
+

@@ -38,9 +38,9 @@ LABELS: Dict[int, str] = {
 RGB_TO_CLASS: Dict[Tuple[int, int, int], int] = {
     (155, 38, 182): 1,  # obstacles
     (14, 135, 204): 2,  # water
-    (124, 252, 0): 3,   # soft_surfaces
+    (124, 252, 0): 3,  # soft_surfaces
     (255, 20, 147): 4,  # moving_objects
-    (169, 169, 169): 5, # landing_zones
+    (169, 169, 169): 5,  # landing_zones
 }
 
 
@@ -174,9 +174,7 @@ class MyDataset:
                 if s in seen:
                     dupes.append(s)
                 seen.add(s)
-            raise RuntimeError(
-                f"Duplicate image stems found (case_id collision). Examples: {sorted(set(dupes))[:10]}"
-            )
+            raise RuntimeError(f"Duplicate image stems found (case_id collision). Examples: {sorted(set(dupes))[:10]}")
 
     def __len__(self) -> int:
         return len(self.pairs)
@@ -250,9 +248,7 @@ def download(
 
 @app.command("nnunet-export")
 def nnunet_export(
-    data_path: Path = typer.Option(
-        Path("data/raw/classes_dataset/classes_dataset"), help="Extracted dataset root."
-    ),
+    data_path: Path = typer.Option(Path("data/raw/classes_dataset/classes_dataset"), help="Extracted dataset root."),
     nnunet_raw_dir: Path = typer.Option(Path("nnUNet_raw"), help="nnUNet_raw root directory."),
     dataset_id: int = typer.Option(101, help="nnU-Net dataset id (DatasetXXX_*)."),
     dataset_name: str = typer.Option("DroneSeg", help="nnU-Net dataset name (DatasetXXX_Name)."),
@@ -262,9 +258,7 @@ def nnunet_export(
     force: bool = typer.Option(False, help="Overwrite existing nnU-Net dataset folder."),
     warn_unknown_colors: bool = typer.Option(True, help="Warn on unknown RGB in masks."),
     fail_on_unknown_colors: bool = typer.Option(False, help="Fail on unknown RGB ratio over threshold."),
-    unknown_color_warn_threshold: float = typer.Option(
-        0.001, help="Unknown RGB pixel ratio threshold."
-    ),
+    unknown_color_warn_threshold: float = typer.Option(0.001, help="Unknown RGB pixel ratio threshold."),
     progress: bool = typer.Option(
         True,
         "--progress/--no-progress",
@@ -349,10 +343,7 @@ def nnunet_export(
             if warn_unknown_colors or fail_on_unknown_colors:
                 unk_ratio = float(_rgb_unknown_mask(mask_rgb_np).mean())
                 if unk_ratio > unknown_color_warn_threshold:
-                    msg = (
-                        f"Unknown RGB in {pair.mask.name}: "
-                        f"{unk_ratio * 100:.3f}% pixels mapped to background."
-                    )
+                    msg = f"Unknown RGB in {pair.mask.name}: " f"{unk_ratio * 100:.3f}% pixels mapped to background."
                     if fail_on_unknown_colors:
                         raise RuntimeError(f"[FAIL] {msg}")
                     if warn_unknown_colors:
@@ -361,12 +352,34 @@ def nnunet_export(
             mask_np = rgb_mask_to_class_mask(mask_rgb_np)
             _save_png_l(mask_np, labelsTr / f"{case_id}{file_ending}")
 
+    # Save test images to data/test_images for easy inference access
+    def save_test_originals(test_pairs_list: List[Pair]) -> None:
+        if not test_pairs_list:
+            return
+
+        # Save to data/test_images (backup)
+        test_img_dir = Path("data/test_images")
+        _ensure_dir(test_img_dir)
+
+        # Save to images_raw (inference input)
+        images_raw_dir = Path("images_raw")
+        _ensure_dir(images_raw_dir)
+
+        typer.echo(f"\nCopying {len(test_pairs_list)} test images for inference...")
+        for pair in test_pairs_list:
+            shutil.copy2(pair.image, test_img_dir / pair.image.name)
+            shutil.copy2(pair.image, images_raw_dir / pair.image.name)
+
+        typer.echo(f"  ✅ Saved to: {test_img_dir}")
+        typer.echo(f"  ✅ Saved to: {images_raw_dir} (ready for inference)")
+
     typer.echo(f"Exporting nnU-Net dataset to: {dataset_folder}")
     typer.echo(f"Format: {file_ending} | Train: {len(train_pairs)} | Test: {len(test_pairs)}")
 
     export_split(train_pairs, is_train=True)
     if test_ratio > 0:
         export_split(test_pairs, is_train=False)
+        save_test_originals(test_pairs)  # Save original test images for inference
 
     dataset_json = {
         "name": dataset_name,
@@ -401,7 +414,7 @@ def main() -> None:
         unzip=True,
         cleanup_zip=True,
         force=False,
-        progress=True
+        progress=True,
     )
     nnunet_export(
         data_path=Path("data/raw/classes_dataset/classes_dataset"),
@@ -409,16 +422,16 @@ def main() -> None:
         dataset_id=101,
         dataset_name="DroneSeg",
         seed=42,
-        test_ratio=0.0,
+        test_ratio=0.2,  # 20% test set
         resize=None,
-        force=False,
+        force=True,
         warn_unknown_colors=True,
         fail_on_unknown_colors=False,
         unknown_color_warn_threshold=0.001,
         progress=True,
         converted_by="Elif",
         licence="unknown",
-        reference="santurini/semantic-segmentation-drone-dataset"
+        reference="santurini/semantic-segmentation-drone-dataset",
     )
 
 
