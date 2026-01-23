@@ -83,9 +83,6 @@ def test(ctx: Context) -> None:
     ctx.run("uv run coverage run -m pytest tests/", echo=True, pty=not WINDOWS)
     ctx.run("uv run coverage report -m -i", echo=True, pty=not WINDOWS)
 
-
-
-
 # Docker build and run tasks
 @task
 def docker_build(ctx: Context, progress: str = "plain") -> None:
@@ -183,8 +180,6 @@ def docker_run_api(ctx: Context) -> None:
 
     ctx.run(f"docker run -p 8080:8080 --env-file .env {auth_flags} api:latest", echo=True, pty=not WINDOWS)
 
-
-# ToDo: These tasks needed to be checked
 
 @task
 def bento_build(ctx: Context) -> None:
@@ -354,8 +349,3 @@ def serve_docs(ctx: Context) -> None:
 def publish_docs(ctx: Context) -> None:
     """Build and publish documentation to GitHub Pages."""
     ctx.run("uv run mkdocs gh-deploy --config-file docs/mkdocs.yaml", echo=True, pty=not WINDOWS)
-
-
-
-
-#################################################################################
