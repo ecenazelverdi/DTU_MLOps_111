@@ -625,8 +625,16 @@ One of our biggest struggles with the project was training our model.  It seems 
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-Student s252618 was in charge of implementing testing (unit testing, load testing), setting up continuous integration including running tests and linting, pre-commit, and setting up monitoring of the API.
+Akin Mert Gümüs (s242508) ...
 
-Bruno Zorrilla Medina Luna, Student s260015. Most-things Cloud: Google Cloud general setup, `dvc` and cloud bucket integration, and cloud training containerization (failed).
+Bruno Zorrilla Medina Luna (s260015). Most-things Cloud: Google Cloud general setup, `dvc` and cloud bucket integration, and cloud training containerization (failed).
 
+Ecenaz Elverdi (s252699) ...
+
+Elif Pulukcu (s252749) Implemented dataset preparation/export for nnU-Net training (mask conversion + split + metadata) and developed a BentoML inference service runnable locally and via Docker/Cloud Run.
+
+Kerick Jon Walker (s252618) was in charge of implementing testing (unit testing, load testing), setting up continuous integration including running tests and linting, pre-commit, and setting up monitoring of the API.
+
+### Use of Generative AI Tools (AI Declaration)
 We have all used various LLMs incluidng Github Copilot, Google Gemini, ChatGPT, and others in debugging our code and writing some of it.
+
