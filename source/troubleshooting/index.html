@@ -1,0 +1,2213 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive documentation for the semantic segmentation of drone imagery MLOps project">
+      
+      
+        <meta name="author" content="Team 111">
+      
+      
+      
+        <link rel="prev" href="../workflows/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Troubleshooting - DTU MLOps 111 - Drone Segmentation Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#troubleshooting" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DTU MLOps 111 - Drone Segmentation Documentation" class="md-header__button md-logo" aria-label="DTU MLOps 111 - Drone Segmentation Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DTU MLOps 111 - Drone Segmentation Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Troubleshooting
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DTU MLOps 111 - Drone Segmentation Documentation" class="md-nav__button md-logo" aria-label="DTU MLOps 111 - Drone Segmentation Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    DTU MLOps 111 - Drone Segmentation Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uv-command-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UV Command Not Found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-version-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Version Mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-resolution-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Resolution Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables-not-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables Not Set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kaggle-api-credentials-invalid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kaggle API Credentials Invalid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weights-biases-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weights &amp; Biases Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-download-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Download Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-export-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Export Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preprocessing-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preprocessing Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-313-compatibility-distutils-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python 3.13 Compatibility / Distutils Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Training Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cuda-out-of-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CUDA Out of Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frozen-training-background-workers-stopped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frozen Training / Background Workers Stopped
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-out-of-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Out of Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Device Not Found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training-extremely-slow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Extremely Slow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#port-already-in-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Port Already in Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-not-found-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Not Found Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Not Found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prediction-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#permission-denied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permission Denied
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpu-not-available-in-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPU Not Available in Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-context-too-large" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Context Too Large
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dvc-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DVC Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DVC Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dvc-pull-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DVC Pull Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dvc-push-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DVC Push Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tests-fail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tests Fail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#import-errors-in-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import Errors in Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Documentation Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mkdocs-build-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MkDocs Build Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missing Plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="General Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check Logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clean-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clean Start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Help
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#still-having-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Still Having Issues?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uv-command-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UV Command Not Found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-version-mismatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Version Mismatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependency-resolution-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependency Resolution Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables-not-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables Not Set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kaggle-api-credentials-invalid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kaggle API Credentials Invalid
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weights-biases-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weights &amp; Biases Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-download-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Download Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-export-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Export Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preprocessing-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preprocessing Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-313-compatibility-distutils-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python 3.13 Compatibility / Distutils Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Training Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cuda-out-of-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CUDA Out of Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frozen-training-background-workers-stopped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frozen Training / Background Workers Stopped
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-out-of-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Out of Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#device-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Device Not Found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training-extremely-slow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Extremely Slow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#port-already-in-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Port Already in Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-not-found-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Not Found Error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model Not Found
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prediction-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#permission-denied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permission Denied
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpu-not-available-in-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPU Not Available in Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-context-too-large" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build Context Too Large
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dvc-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DVC Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DVC Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dvc-pull-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DVC Pull Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dvc-push-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DVC Push Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tests-fail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tests Fail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#import-errors-in-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import Errors in Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Documentation Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mkdocs-build-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MkDocs Build Fails
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missing Plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General Tips
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="General Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check Logs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clean-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clean Start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Help
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#still-having-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Still Having Issues?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="troubleshooting">Troubleshooting</h1>
+<p>Common issues and their solutions.</p>
+<h2 id="installation-issues">Installation Issues</h2>
+<h3 id="uv-command-not-found">UV Command Not Found</h3>
+<p><strong>Problem:</strong> After installing UV, the command is not recognized.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv:<span class="w"> </span><span class="nb">command</span><span class="w"> </span>not<span class="w"> </span>found
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Restart your terminal</li>
+<li>Add cargo bin directory to PATH:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.cargo/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</code></pre></div></li>
+<li>Make it permanent by adding to your shell profile:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=&quot;$HOME/.cargo/bin:$PATH&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc<span class="w">  </span><span class="c1"># macOS</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=&quot;$HOME/.cargo/bin:$PATH&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc<span class="w">  </span><span class="c1"># Linux</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">source</span><span class="w"> </span>~/.zshrc<span class="w">  </span><span class="c1"># or ~/.bashrc</span>
+</code></pre></div></li>
+</ol>
+<h3 id="python-version-mismatch">Python Version Mismatch</h3>
+<p><strong>Problem:</strong> Wrong Python version installed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>error: Python 3.11 is not supported (requires Python 3.12+)
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Use specific Python version with UV</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>uv<span class="w"> </span>sync<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.13
+</code></pre></div>
+<h3 id="dependency-resolution-errors">Dependency Resolution Errors</h3>
+<p><strong>Problem:</strong> UV can't resolve dependencies.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>error: Failed to resolve dependencies
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Clear UV cache</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>uv<span class="w"> </span>cache<span class="w"> </span>clean
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Reinstall dependencies</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>uv<span class="w"> </span>sync<span class="w"> </span>--reinstall
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># If still failing, check pyproject.toml for conflicts</span>
+</code></pre></div>
+<hr />
+<h2 id="environment-configuration">Environment Configuration</h2>
+<h3 id="environment-variables-not-set">Environment Variables Not Set</h3>
+<p><strong>Problem:</strong> nnU-Net can't find data directories.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>RuntimeError: nnUNet_raw is not defined
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Ensure <code>.env</code> file exists:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ls<span class="w"> </span>.env
+</code></pre></div></li>
+<li>Load environment variables:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">source</span><span class="w"> </span>.env
+</code></pre></div></li>
+<li>Verify they're set:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$nnUNet_raw</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$nnUNet_preprocessed</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$nnUNet_results</span>
+</code></pre></div></li>
+<li>If empty, check <code>.env</code> file has correct <code>export</code> syntax:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nv">nnUNet_raw</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/nnUNet_raw&quot;</span>
+</code></pre></div>
+   or
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">nnUNet_raw</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/nnUNet_raw&quot;</span>
+</code></pre></div></li>
+</ol>
+<h3 id="kaggle-api-credentials-invalid">Kaggle API Credentials Invalid</h3>
+<p><strong>Problem:</strong> Can't download data from Kaggle.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>401 Unauthorized: Invalid API credentials
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Verify credentials in <code>.env</code>:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cat<span class="w"> </span>.env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>KAGGLE
+</code></pre></div></li>
+<li>Check Kaggle API key is current:</li>
+<li>Go to <a href="https://www.kaggle.com/settings">kaggle.com/settings</a></li>
+<li>Create new token</li>
+<li>Update <code>.env</code> with new credentials</li>
+<li>Ensure no extra spaces or quotes:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nv">KAGGLE_USERNAME</span><span class="o">=</span><span class="s2">&quot;your_username&quot;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nv">KAGGLE_KEY</span><span class="o">=</span><span class="s2">&quot;your_api_key&quot;</span>
+</code></pre></div></li>
+</ol>
+<h3 id="weights-biases-authentication">Weights &amp; Biases Authentication</h3>
+<p><strong>Problem:</strong> W&amp;B login fails.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>wandb: ERROR authentication failed
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Set API key in .env</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nv">WANDB_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_key_here&quot;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Or login manually</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>uv<span class="w"> </span>run<span class="w"> </span>wandb<span class="w"> </span>login
+</code></pre></div>
+<hr />
+<h2 id="data-issues">Data Issues</h2>
+<h3 id="data-download-fails">Data Download Fails</h3>
+<p><strong>Problem:</strong> Download from Kaggle times out or fails.</p>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Try again with verbose output</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import kaggle; kaggle.api.dataset_download_files(</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="s2">    &#39;santurini/semantic-segmentation-drone-dataset&#39;,</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="s2">    path=&#39;data/raw&#39;,</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="s2">    unzip=True</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="s2">)&quot;</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="c1"># Check internet connection</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>ping<span class="w"> </span>kaggle.com
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="c1"># Check disk space</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>df<span class="w"> </span>-h
+</code></pre></div>
+<h3 id="data-export-fails">Data Export Fails</h3>
+<p><strong>Problem:</strong> Converting to nnU-Net format fails.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>FileNotFoundError: data/raw/classes_dataset not found
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Verify data was downloaded:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>ls<span class="w"> </span>data/raw/classes_dataset/classes_dataset/original_images/
+</code></pre></div></li>
+<li>If missing, re-download:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data
+</code></pre></div></li>
+</ol>
+<h3 id="preprocessing-fails">Preprocessing Fails</h3>
+<p><strong>Problem:</strong> nnU-Net preprocessing crashes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>RuntimeError: Dataset verification failed
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Check data integrity:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>ls<span class="w"> </span>nnUNet_raw/Dataset101_DroneSeg/imagesTr/<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="c1"># Should show number of images</span>
+</code></pre></div></li>
+<li>Verify environment variables are absolute paths:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$nnUNet_raw</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="c1"># Should be /full/path/to/nnUNet_raw, not ./nnUNet_raw</span>
+</code></pre></div></li>
+<li>Re-export data:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>nnUNet_raw/Dataset101_DroneSeg
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data
+</code></pre></div></li>
+</ol>
+<h3 id="python-313-compatibility-distutils-error">Python 3.13 Compatibility / Distutils Error</h3>
+<p><strong>Problem:</strong> Preprocessing can fail on Python 3.13 with errors related to <code>distutils</code> (e.g., <code>ModuleNotFoundError: No module named 'distutils'</code>). This is due to <code>distutils</code> being removed in recent Python versions. Note that <strong>this error may not occur for everyone</strong>, as it depends on your specific environment and how dependencies are resolved.</p>
+<p><strong>Solution:</strong> Downgrade your environment to Python 3.12, which is the fully supported version for this project's dependencies.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Force UV to use Python 3.12</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>uv<span class="w"> </span>python<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.12
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>uv<span class="w"> </span>sync
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="c1"># Then try preprocessing again</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
+</code></pre></div>
+<hr />
+<h2 id="training-issues">Training Issues</h2>
+<h3 id="cuda-out-of-memory">CUDA Out of Memory</h3>
+<p><strong>Problem:</strong> GPU runs out of memory during training.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>RuntimeError: CUDA out of memory
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Reduce batch size (nnU-Net does this automatically, but you can force smaller batch):
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Train on CPU if GPU is too small</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--device<span class="w"> </span>cpu
+</code></pre></div></li>
+<li>Use smaller model dimension:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--dim<span class="w"> </span>2d<span class="w">  </span><span class="c1"># Instead of 3d_fullres</span>
+</code></pre></div></li>
+<li>Close other GPU-using applications</li>
+<li>Monitor GPU usage:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>nvidia-smi
+</code></pre></div></li>
+</ol>
+<h3 id="frozen-training-background-workers-stopped">Frozen Training / Background Workers Stopped</h3>
+<p><strong>Problem:</strong> Training hangs indefinitely or fails with an error like <code>DataLoader worker (pid X) is killed</code> or <code>Background workers stopped</code>. No explicit "Out of Memory" error is shown. This is often due to shared memory (shm) exhaustion or system resource leaks during long training runs.</p>
+<p><strong>Solution:</strong></p>
+<ol>
+<li><strong>Clear System Cache:</strong> Often a system restart (as you found) clears the leaked resources.</li>
+<li><strong>Reduce Workers:</strong> If it happens frequently, try reducing the number of data loader workers in your training configuration (though nnU-Net handles this, system-level pressure can still trigger it).</li>
+<li><strong>Check Shared Memory:</strong> If running in Docker, ensure you have increased <code>--shm-size</code> (see Docker OOM section above).</li>
+<li><strong>Monitor RAM:</strong> Ensure your system is not swapping heavily.</li>
+</ol>
+<h3 id="docker-out-of-memory">Docker Out of Memory</h3>
+<p><strong>Problem:</strong> Training crashes inside Docker with a "Killed" message or generic memory errors, even if your GPU has enough memory. This usually happens because the Docker VM itself (on macOS or Windows) has allocated too little RAM.</p>
+<p><strong>Solution:</strong> Increase the memory allocated to Docker Desktop.</p>
+<ol>
+<li>Open <strong>Docker Desktop Settings</strong> (gear icon).</li>
+<li>Go to <strong>Resources</strong> -&gt; <strong>Advanced</strong>.</li>
+<li>Increase <strong>Memory</strong> (we recommend at least 16GB for stable training).</li>
+<li>Increase <strong>Swap</strong> to 4GB or more.</li>
+<li>Click <strong>Apply &amp; Restart</strong>.</li>
+</ol>
+<p><strong>For Linux / CLI Users:</strong></p>
+<p>On Linux, Docker usually has access to all system memory unless limited. If you encounter issues, ensure you are providing enough shared memory (essential for multi-processing in nnU-Net) and avoiding hard limits.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Add these flags to your &#39;docker run&#39; command if needed:</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--shm-size<span class="o">=</span>8gb<span class="w"> </span><span class="se">\ </span><span class="w">       </span><span class="c1"># Increase shared memory (v. important)</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">           </span>--memory<span class="o">=</span>16g<span class="w"> </span><span class="se">\ </span><span class="w">         </span><span class="c1"># Set a limit if host is unstable</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">           </span>--memory-swap<span class="o">=</span>20g<span class="w"> </span><span class="se">\ </span><span class="w">    </span><span class="c1"># Total limit including swap</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="w">           </span>...
+</code></pre></div>
+<h3 id="device-not-found">Device Not Found</h3>
+<p><strong>Problem:</strong> Can't use GPU for training.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>RuntimeError: No CUDA-capable device is detected
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Check CUDA availability:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import torch; print(torch.cuda.is_available())&quot;</span>
+</code></pre></div></li>
+<li>If False, train on CPU:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--device<span class="w"> </span>cpu
+</code></pre></div></li>
+<li>On Mac with M chip, use MPS:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--device<span class="w"> </span>mps
+</code></pre></div></li>
+</ol>
+<h3 id="training-extremely-slow">Training Extremely Slow</h3>
+<p><strong>Problem:</strong> Training takes forever.</p>
+<p><strong>Solution:</strong></p>
+<ol>
+<li><strong>Use GPU:</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--device<span class="w"> </span>cuda<span class="w">  </span><span class="c1"># or mps if using Mac with M chip</span>
+</code></pre></div></li>
+<li><strong>Check you have preprocessed data:</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>ls<span class="w"> </span>nnUNet_preprocessed/Dataset101_DroneSeg/
+</code></pre></div></li>
+<li><strong>Monitor system resources:</strong>
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>htop<span class="w">  </span><span class="c1"># or Activity Monitor on macOS</span>
+</code></pre></div></li>
+</ol>
+<hr />
+<h2 id="api-issues">API Issues</h2>
+<h3 id="port-already-in-use">Port Already in Use</h3>
+<p><strong>Problem:</strong> Can't start API server.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>ERROR: [Errno 48] Address already in use
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Find process using port 8000</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>lsof<span class="w"> </span>-i<span class="w"> </span>:8000
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="c1"># Kill the process</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span>&lt;PID&gt;
+<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>
+<a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a><span class="c1"># Restart it</span>
+<a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>app
+</code></pre></div>
+<h3 id="module-not-found-error">Module Not Found Error</h3>
+<p><strong>Problem:</strong> API or scripts refer to the project package but can't find it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>ModuleNotFoundError: No module named &#39;dtu_mlops_111&#39;
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Reinstall dependencies:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>uv<span class="w"> </span>sync<span class="w"> </span>--reinstall
+</code></pre></div></li>
+<li>If it persists, install in editable mode manually:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</code></pre></div></li>
+</ol>
+<h3 id="model-not-found">Model Not Found</h3>
+<p><strong>Problem:</strong> API can't find model checkpoint.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>FileNotFoundError: nnUNet_results/Dataset101_DroneSeg/.../checkpoint_final.pth
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Download pre-trained model:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-models
+</code></pre></div></li>
+<li>Or train your own:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train
+</code></pre></div></li>
+<li>Verify checkpoint exists:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>find<span class="w"> </span>nnUNet_results/<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;checkpoint*.pth&quot;</span>
+</code></pre></div></li>
+</ol>
+<h3 id="prediction-fails">Prediction Fails</h3>
+<p><strong>Problem:</strong> API returns error on prediction.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>422 Unprocessable Entity
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Check image format (should be PNG or JPG)</li>
+<li>Verify file is uploaded correctly in request:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://localhost:8000/predict/&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="w">  </span>-F<span class="w"> </span><span class="s2">&quot;data=@/path/to/image.png&quot;</span>
+</code></pre></div></li>
+<li>Check API logs for detailed error</li>
+<li>Run integration tests:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/integrationtests/test_apis.py
+</code></pre></div></li>
+<li>Test with a sample image from the dataset</li>
+</ol>
+<hr />
+<h2 id="docker-issues">Docker Issues</h2>
+<h3 id="permission-denied">Permission Denied</h3>
+<p><strong>Problem:</strong> Docker build or run fails with permission error.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>permission denied while trying to connect to Docker daemon
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="c1"># Add user to docker group (Linux)</span>
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span>
+<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>newgrp<span class="w"> </span>docker
+<a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a>
+<a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a><span class="c1"># Or run with sudo</span>
+<a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a>sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>...
+</code></pre></div>
+<h3 id="gpu-not-available-in-docker">GPU Not Available in Docker</h3>
+<p><strong>Problem:</strong> Docker container can't access GPU.</p>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Install NVIDIA Container Toolkit:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="c1"># Follow: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html</span>
+</code></pre></div></li>
+<li>Verify Docker can see GPU:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>nvidia/cuda:11.8.0-base-ubuntu22.04<span class="w"> </span>nvidia-smi
+</code></pre></div></li>
+<li>Ensure you use <code>--gpus all</code> flag:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>docker<span class="w"> </span>run<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>...
+</code></pre></div></li>
+</ol>
+<h3 id="build-context-too-large">Build Context Too Large</h3>
+<p><strong>Problem:</strong> Docker build is very slow.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>Sending build context to Docker daemon  5.234GB
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Check <code>.dockerignore</code> file exists</li>
+<li>Add large directories to <code>.dockerignore</code>:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>data/
+<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>.venv/
+<a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a>nnUNet_preprocessed/
+<a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a>nnUNet_results/
+<a id="__codelineno-57-5" name="__codelineno-57-5" href="#__codelineno-57-5"></a>wandb/
+<a id="__codelineno-57-6" name="__codelineno-57-6" href="#__codelineno-57-6"></a>.git/
+</code></pre></div></li>
+</ol>
+<hr />
+<h2 id="dvc-issues">DVC Issues</h2>
+<h3 id="dvc-pull-fails">DVC Pull Fails</h3>
+<p><strong>Problem:</strong> Can't download data from DVC.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>ERROR: failed to pull data from remote
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Check you have access to GCS bucket (team members only)</li>
+<li>Verify you are logged into Google Cloud with Application Default Credentials (ADC):
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>uv<span class="w"> </span>run<span class="w"> </span>gcloud<span class="w"> </span>auth<span class="w"> </span>application-default<span class="w"> </span>login
+</code></pre></div></li>
+<li>Ensure the correct project is set:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>gcloud<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>project<span class="w"> </span>your-project-id
+</code></pre></div></li>
+<li>Force re-pull:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>uv<span class="w"> </span>run<span class="w"> </span>dvc<span class="w"> </span>pull<span class="w"> </span>--force
+</code></pre></div></li>
+</ol>
+<h3 id="dvc-push-fails">DVC Push Fails</h3>
+<p><strong>Problem:</strong> Can't push data to DVC remote.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>ERROR: failed to push data to remote - permission denied
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Check you have write permissions to GCS bucket.</li>
+<li>Re-authenticate with ADC:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>uv<span class="w"> </span>run<span class="w"> </span>gcloud<span class="w"> </span>auth<span class="w"> </span>application-default<span class="w"> </span>login
+</code></pre></div></li>
+</ol>
+<hr />
+<h2 id="testing-issues">Testing Issues</h2>
+<h3 id="tests-fail">Tests Fail</h3>
+<p><strong>Problem:</strong> Pytest tests fail.</p>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Ensure dependencies are installed:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>uv<span class="w"> </span>sync
+</code></pre></div></li>
+<li>Check test requirements:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/<span class="w"> </span>-v
+</code></pre></div></li>
+<li>Run specific failing test with more output:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/integrationtests/test_apis.py::test_function<span class="w"> </span>-vv<span class="w"> </span>-s
+</code></pre></div></li>
+</ol>
+<h3 id="import-errors-in-tests">Import Errors in Tests</h3>
+<p><strong>Problem:</strong> Tests can't import modules.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>ModuleNotFoundError: No module named &#39;dtu_mlops_111&#39;
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Install package in editable mode:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>uv<span class="w"> </span>sync
+</code></pre></div></li>
+<li>Verify pythonpath in <code>pyproject.toml</code>:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="k">[tool.pytest.ini_options]</span>
+<a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a><span class="n">pythonpath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;src&quot;</span><span class="p">]</span>
+</code></pre></div></li>
+</ol>
+<hr />
+<h2 id="documentation-issues">Documentation Issues</h2>
+<h3 id="mkdocs-build-fails">MkDocs Build Fails</h3>
+<p><strong>Problem:</strong> Documentation won't build.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>Error: Config file &#39;mkdocs.yaml&#39; does not exist
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="c1"># Ensure you&#39;re running from project root</span>
+<a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a><span class="nb">cd</span><span class="w"> </span>/path/to/DTU_MLOps_111
+<a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a>
+<a id="__codelineno-71-4" name="__codelineno-71-4" href="#__codelineno-71-4"></a><span class="c1"># Check config file exists</span>
+<a id="__codelineno-71-5" name="__codelineno-71-5" href="#__codelineno-71-5"></a>ls<span class="w"> </span>docs/mkdocs.yaml
+<a id="__codelineno-71-6" name="__codelineno-71-6" href="#__codelineno-71-6"></a>
+<a id="__codelineno-71-7" name="__codelineno-71-7" href="#__codelineno-71-7"></a><span class="c1"># Build with explicit config path</span>
+<a id="__codelineno-71-8" name="__codelineno-71-8" href="#__codelineno-71-8"></a>uv<span class="w"> </span>run<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--config-file<span class="w"> </span>docs/mkdocs.yaml
+</code></pre></div>
+<h3 id="missing-plugin">Missing Plugin</h3>
+<p><strong>Problem:</strong> MkDocs complains about missing plugin.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>Error: Plugin &#39;mkdocstrings&#39; not found
+</code></pre></div>
+<p><strong>Solution:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a><span class="c1"># Install mkdocs dependencies</span>
+<a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>uv<span class="w"> </span>add<span class="w"> </span>--dev<span class="w"> </span>mkdocs-material<span class="w"> </span>mkdocstrings<span class="w"> </span>mkdocstrings-python
+<a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a>
+<a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a><span class="c1"># Or sync existing dependencies</span>
+<a id="__codelineno-73-5" name="__codelineno-73-5" href="#__codelineno-73-5"></a>uv<span class="w"> </span>sync
+</code></pre></div>
+<hr />
+<h2 id="general-tips">General Tips</h2>
+<h3 id="check-logs">Check Logs</h3>
+<p>Most tools provide verbose logging:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a><span class="c1"># UV with debug output</span>
+<a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a>uv<span class="w"> </span>-v<span class="w"> </span>sync
+<a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a>
+<a id="__codelineno-74-4" name="__codelineno-74-4" href="#__codelineno-74-4"></a><span class="c1"># Invoke with echo</span>
+<a id="__codelineno-74-5" name="__codelineno-74-5" href="#__codelineno-74-5"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span><span class="nb">command</span><span class="w"> </span>--echo
+<a id="__codelineno-74-6" name="__codelineno-74-6" href="#__codelineno-74-6"></a>
+<a id="__codelineno-74-7" name="__codelineno-74-7" href="#__codelineno-74-7"></a><span class="c1"># Python with debug</span>
+<a id="__codelineno-74-8" name="__codelineno-74-8" href="#__codelineno-74-8"></a><span class="nv">PYTHONVERBOSE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>script.py
+</code></pre></div>
+<h3 id="clean-start">Clean Start</h3>
+<p>If all else fails, start fresh:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a><span class="c1"># Remove virtual environment</span>
+<a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>.venv
+<a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a>
+<a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a><span class="c1"># Remove UV cache</span>
+<a id="__codelineno-75-5" name="__codelineno-75-5" href="#__codelineno-75-5"></a>uv<span class="w"> </span>cache<span class="w"> </span>clean
+<a id="__codelineno-75-6" name="__codelineno-75-6" href="#__codelineno-75-6"></a>
+<a id="__codelineno-75-7" name="__codelineno-75-7" href="#__codelineno-75-7"></a><span class="c1"># Reinstall everything</span>
+<a id="__codelineno-75-8" name="__codelineno-75-8" href="#__codelineno-75-8"></a>uv<span class="w"> </span>sync<span class="w"> </span>--reinstall
+<a id="__codelineno-75-9" name="__codelineno-75-9" href="#__codelineno-75-9"></a>
+<a id="__codelineno-75-10" name="__codelineno-75-10" href="#__codelineno-75-10"></a><span class="c1"># Reload environment</span>
+<a id="__codelineno-75-11" name="__codelineno-75-11" href="#__codelineno-75-11"></a><span class="nb">source</span><span class="w"> </span>.env
+</code></pre></div>
+<h3 id="get-help">Get Help</h3>
+<p>If you're still stuck:</p>
+<ol>
+<li>Check error messages carefully</li>
+<li>Search GitHub issues</li>
+<li>Check nnU-Net documentation: <a href="https://github.com/MIC-DKFZ/nnUNet">nnU-Net GitHub</a></li>
+<li>Contact team members (see homepage)</li>
+</ol>
+<hr />
+<h2 id="still-having-issues">Still Having Issues?</h2>
+<p>If your problem isn't listed here:</p>
+<ol>
+<li>Check the <a href="https://github.com/MIC-DKFZ/nnUNet/tree/master/documentation">nnU-Net documentation</a></li>
+<li>Review error messages and stack traces</li>
+<li>Enable verbose/debug logging</li>
+<li>Contact the project team</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

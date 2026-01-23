@@ -1,0 +1,1447 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive documentation for the semantic segmentation of drone imagery MLOps project">
+      
+      
+        <meta name="author" content="Team 111">
+      
+      
+      
+        <link rel="prev" href="../quickstart/">
+      
+      
+        <link rel="next" href="../workflows/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Commands Reference - DTU MLOps 111 - Drone Segmentation Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#commands-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DTU MLOps 111 - Drone Segmentation Documentation" class="md-header__button md-logo" aria-label="DTU MLOps 111 - Drone Segmentation Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DTU MLOps 111 - Drone Segmentation Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Commands Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DTU MLOps 111 - Drone Segmentation Documentation" class="md-nav__button md-logo" aria-label="DTU MLOps 111 - Drone Segmentation Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    DTU MLOps 111 - Drone Segmentation Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#list-all-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List All Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        export-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-and-export-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download-and-export-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download-models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preprocessing-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preprocessing Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preprocessing Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preprocess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        preprocess
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Training Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#train" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        train
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        app
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#list-all-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        List All Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        export-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-and-export-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download-and-export-data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#download-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download-models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preprocessing-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preprocessing Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preprocessing Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preprocess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        preprocess
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Training Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#train" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        train
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        app
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="commands-reference">Commands Reference</h1>
+<p>Complete reference for all <code>tasks.py</code> invoke commands available in the project.</p>
+<h2 id="overview">Overview</h2>
+<p>All project commands are defined in <code>tasks.py</code> and executed using the <code>invoke</code> library. You run them with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>&lt;command-name&gt;<span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+</code></pre></div>
+<h2 id="list-all-commands">List All Commands</h2>
+<p>To see all available commands:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>--list
+</code></pre></div>
+<h2 id="data-commands">Data Commands</h2>
+<h3 id="download-data">download-data</h3>
+<p>Downloads the drone imagery dataset from Kaggle.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data
+</code></pre></div>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Kaggle credentials configured in <code>.env</code></li>
+<li><code>KAGGLE_USERNAME</code> and <code>KAGGLE_KEY</code> environment variables set</li>
+</ul>
+<p><strong>Output:</strong></p>
+<ul>
+<li>Downloads dataset to <code>data/raw/classes_dataset/</code></li>
+<li>Creates directories automatically if they don't exist</li>
+</ul>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Uses Kaggle API to download the semantic segmentation drone dataset</li>
+<li>Extracts the archive</li>
+<li>Organizes images into <code>original_images/</code> and <code>label_images_semantic/</code></li>
+</ul>
+<hr />
+<h3 id="export-data">export-data</h3>
+<p>Converts the downloaded Kaggle dataset into nnU-Net format.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data
+</code></pre></div>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Dataset already downloaded with <code>download-data</code></li>
+<li>nnU-Net environment variables set in <code>.env</code></li>
+</ul>
+<p><strong>Output:</strong></p>
+<ul>
+<li>Creates <code>nnUNet_raw/Dataset101_DroneSeg/</code></li>
+<li>Populates <code>imagesTr/</code> and <code>labelsTr/</code> directories</li>
+<li>Generates <code>dataset.json</code> metadata file</li>
+</ul>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Reads images from <code>data/raw/classes_dataset/</code></li>
+<li>Converts to nnU-Net naming convention (<code>&lt;id&gt;_0000.png</code>)</li>
+<li>Creates train/test splits</li>
+<li>Generates nnU-Net dataset configuration</li>
+</ul>
+<hr />
+<h3 id="download-and-export-data">download-and-export-data</h3>
+<p>Combines <code>download-data</code> and <code>export-data</code> into a single command.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-and-export-data
+</code></pre></div>
+<p><strong>Equivalent to:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data
+</code></pre></div>
+<hr />
+<h3 id="download-models">download-models</h3>
+<p>Downloads pre-trained models and checkpoints from DVC (Data Version Control).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-models
+</code></pre></div>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>DVC configured (comes with <code>uv sync</code>)</li>
+<li>Access to the GCS bucket (for team members)</li>
+<li>Google Cloud credentials set in <code>.env</code> (if required)</li>
+</ul>
+<p><strong>Output:</strong></p>
+<ul>
+<li>Downloads tracked files: <code>nnUNet_results.dvc</code>, <code>nnUNet_preprocessed.dvc</code>, <code>data.dvc</code></li>
+<li>Populates directories with versioned data and models</li>
+</ul>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Runs <code>dvc pull</code> to fetch all DVC-tracked resources</li>
+<li>Downloads model checkpoints from cloud storage</li>
+<li>Syncs preprocessed data if needed</li>
+</ul>
+<hr />
+<h2 id="preprocessing-commands">Preprocessing Commands</h2>
+<h3 id="preprocess">preprocess</h3>
+<p>Runs nnU-Net preprocessing pipeline.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess<span class="w"> </span><span class="o">[</span>--dataset-id<span class="w"> </span>DATASET_ID<span class="o">]</span>
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<ul>
+<li><code>--dataset-id</code> (default: <code>101</code>) - Dataset ID to preprocess</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Preprocess default dataset (101)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Preprocess specific dataset</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess<span class="w"> </span>--dataset-id<span class="w"> </span><span class="m">102</span>
+</code></pre></div>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Data exported to <code>nnUNet_raw/</code> with <code>export-data</code></li>
+<li>nnU-Net environment variables set</li>
+</ul>
+<p><strong>Output:</strong></p>
+<ul>
+<li>Creates <code>nnUNet_preprocessed/Dataset101_DroneSeg/</code></li>
+<li>Generates preprocessing plans</li>
+<li>Creates <code>gt_segmentations/</code> and <code>nnUNetPlans_2d/</code> directories</li>
+</ul>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Analyzes dataset statistics</li>
+<li>Generates preprocessing plans</li>
+<li>Preprocesses images for training</li>
+<li>Verifies dataset integrity</li>
+</ul>
+<hr />
+<h2 id="training-commands">Training Commands</h2>
+<h3 id="train">train</h3>
+<p>Trains the nnU-Net model.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<ul>
+<li><code>--dataset-id</code> (default: <code>101</code>) - Dataset ID</li>
+<li><code>--fold</code> (default: <code>0</code>) - Cross-validation fold (0-4)</li>
+<li><code>--dim</code> (default: <code>2d</code>) - Model dimension (<code>2d</code> or <code>3d_fullres</code>)</li>
+<li><code>--device</code> (default: <code>auto</code>) - Device to use (<code>auto</code>, <code>cuda</code>, <code>mps</code>, <code>cpu</code>)</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Train with defaults (2D, fold 0, auto-detect device)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Train on GPU with CUDA</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--device<span class="w"> </span>cuda
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Train on Apple Silicon</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--device<span class="w"> </span>mps
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># Train on CPU</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--device<span class="w"> </span>cpu
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="c1"># Train specific fold</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--fold<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="c1"># Train 3D model</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--dim<span class="w"> </span>3d_fullres
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="c1"># Combine options</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>train<span class="w"> </span>--dataset-id<span class="w"> </span><span class="m">101</span><span class="w"> </span>--fold<span class="w"> </span><span class="m">2</span><span class="w"> </span>--dim<span class="w"> </span>2d<span class="w"> </span>--device<span class="w"> </span>cuda
+</code></pre></div>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Data preprocessed with <code>preprocess</code></li>
+<li>Sufficient disk space for checkpoints (~500MB)</li>
+<li>GPU recommended (training is slow on CPU)</li>
+</ul>
+<p><strong>Output:</strong></p>
+<ul>
+<li>Model checkpoints in <code>nnUNet_results/Dataset101_DroneSeg/nnUNetTrainer__nnUNetPlans__2d/fold_X/</code></li>
+<li>Training logs and metrics</li>
+<li>Can be monitored with Weights &amp; Biases if configured</li>
+</ul>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Initializes nnU-Net trainer</li>
+<li>Trains segmentation model</li>
+<li>Saves checkpoints periodically</li>
+<li>Logs metrics to console and W&amp;B</li>
+</ul>
+<p><strong>Device Selection:</strong></p>
+<ul>
+<li><code>auto</code> - Automatically selects CUDA &gt; MPS &gt; CPU</li>
+<li><code>cuda</code> - Use NVIDIA GPU (requires CUDA toolkit)</li>
+<li><code>mps</code> - Use Apple Metal Performance Shaders (M1/M2 Macs)</li>
+<li><code>cpu</code> - Use CPU only (slow, for testing)</li>
+</ul>
+<hr />
+<h2 id="testing-commands">Testing Commands</h2>
+<h3 id="test">test</h3>
+<p>Runs the test suite with coverage reporting.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Runs all tests in <code>tests/</code> directory with pytest</li>
+<li>Generates coverage report</li>
+<li>Displays coverage statistics</li>
+</ul>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>tests/integrationtests/test_apis.py ...
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>tests/test_data.py ...
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>---------- coverage: platform darwin, python 3.12.x -----------
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>Name                              Stmts   Miss  Cover
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>-----------------------------------------------------
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>src/dtu_mlops_111/__init__.py        0      0   100%
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>src/dtu_mlops_111/api.py           120     10    92%
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>src/dtu_mlops_111/data.py           85      5    94%
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>-----------------------------------------------------
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>TOTAL                               205     15    93%
+</code></pre></div>
+<p><strong>Manual Testing:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Run specific test file (integration tests for API)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/integrationtests/test_apis.py
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Run with verbose output</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Run specific test</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_data.py::test_download_data
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Run without coverage</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/
+</code></pre></div>
+<hr />
+<h2 id="api-commands">API Commands</h2>
+<h3 id="app">app</h3>
+<p>Starts the FastAPI development server.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>app
+</code></pre></div>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Starts Uvicorn server on <code>http://localhost:8000</code></li>
+<li>Enables auto-reload on code changes</li>
+<li>Serves API endpoints for prediction</li>
+</ul>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>INFO:     Uvicorn running on http://127.0.0.1:8000
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>INFO:     Application startup complete.
+</code></pre></div>
+<p><strong>Available Endpoints:</strong></p>
+<ul>
+<li><code>GET /</code> - Health check &amp; model status</li>
+<li><code>POST /predict/</code> - Image segmentation (single)</li>
+<li><code>POST /batch_predict/</code> - Image segmentation (batch)</li>
+<li><code>GET /drift/</code> - Data drift report</li>
+<li><code>GET /model_info/</code> - Model metadata</li>
+<li><code>GET /metrics</code> - Prometheus metrics</li>
+</ul>
+<p><strong>Testing the API:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># In another terminal</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>curl<span class="w"> </span>http://localhost:8000/
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Make a prediction</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>curl<span class="w"> </span>--location<span class="w"> </span><span class="s1">&#39;http://localhost:8000/predict/&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span>--form<span class="w"> </span><span class="s1">&#39;data=@&quot;path/to/image.png&quot;&#39;</span>
+</code></pre></div>
+<h1 id="start-manually-with-uvicorn">Start manually with Uvicorn</h1>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>uv<span class="w"> </span>run<span class="w"> </span>uvicorn<span class="w"> </span>main:app<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span><span class="w"> </span>--reload
+</code></pre></div>
+<hr />
+<h2 id="bentoml-serving-alternative">BentoML Serving (Alternative)</h2>
+<h3 id="bento-build">bento-build</h3>
+<p>Builds the BentoML bundle containing model and code.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>bento-build
+</code></pre></div>
+<h3 id="bento-serve">bento-serve</h3>
+<p>Serves the BentoML service locally with auto-reload.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>bento-serve
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>INFO [cli] Starting 1 BentoServer instances..
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>INFO [cli] Service &quot;drone-seg-service&quot; is versioned: ...
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>INFO [cli] Serving at http://localhost:3000
+</code></pre></div>
+<h3 id="docker-build-bento">docker-build-bento</h3>
+<p>Builds the Docker image for BentoML serving.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build-bento
+</code></pre></div>
+<h3 id="docker-run-bento">docker-run-bento</h3>
+<p>Runs the BentoML container.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-run-bento
+</code></pre></div>
+<hr />
+<h2 id="docker-commands">Docker Commands</h2>
+<h3 id="docker-build">docker-build</h3>
+<p>Builds Docker images for training and API.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build<span class="w"> </span><span class="o">[</span>--progress<span class="w"> </span>PROGRESS<span class="o">]</span>
+</code></pre></div>
+<p><strong>Options:</strong></p>
+<ul>
+<li><code>--progress</code> (default: <code>plain</code>) - Build output mode (<code>plain</code>, <code>auto</code>, <code>tty</code>)</li>
+</ul>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Builds <code>train:latest</code> from <code>train.dockerfile</code></li>
+<li>Builds <code>api:latest</code> from <code>api.dockerfile</code></li>
+<li>Builds <code>bento:latest</code> from <code>bento.dockerfile</code></li>
+</ul>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Build with plain output</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Build with auto progress</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>docker-build<span class="w"> </span>--progress<span class="w"> </span>auto
+</code></pre></div>
+<hr />
+<h2 id="documentation-commands">Documentation Commands</h2>
+<h3 id="build-docs">build-docs</h3>
+<p>Builds the MkDocs documentation site.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>build-docs
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<ul>
+<li>Generates static HTML site in <code>docs/build/</code></li>
+</ul>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Reads <code>docs/mkdocs.yaml</code> configuration</li>
+<li>Processes markdown files from <code>docs/source/</code></li>
+<li>Generates HTML with Material theme</li>
+<li>Creates search index</li>
+</ul>
+<hr />
+<h3 id="serve-docs">serve-docs</h3>
+<p>Serves the documentation locally with auto-reload.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>serve-docs
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>INFO    -  Building documentation...
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>INFO    -  Cleaning site directory
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>INFO    -  Documentation built in 0.52 seconds
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>INFO    -  [18:00:00] Serving on http://127.0.0.1:8000/
+</code></pre></div>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Builds documentation</li>
+<li>Starts local server at <code>http://127.0.0.1:8000</code></li>
+<li>Watches for file changes and auto-rebuilds</li>
+<li>Hot-reloads browser on changes</li>
+</ul>
+<p><strong>Usage:</strong></p>
+<ul>
+<li>Open <code>http://127.0.0.1:8000</code> in your browser</li>
+<li>Edit markdown files in <code>docs/source/</code></li>
+<li>See changes automatically reflected</li>
+</ul>
+<p>Press <code>Ctrl+C</code> to stop the server.</p>
+<hr />
+<h2 id="command-chaining">Command Chaining</h2>
+<p>You can chain multiple commands if needed:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Download, export, and preprocess in one go</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>download-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>export-data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>uv<span class="w"> </span>run<span class="w"> </span>invoke<span class="w"> </span>preprocess
+</code></pre></div>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a href="../workflows/">Workflows</a> - Learn how to combine these commands into complete workflows</li>
+<li><a href="../troubleshooting/">Troubleshooting</a> - Solutions if commands fail</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1580 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive documentation for the semantic segmentation of drone imagery MLOps project">
+      
+      
+        <meta name="author" content="Team 111">
+      
+      
+      
+        <link rel="prev" href="../installation/">
+      
+      
+        <link rel="next" href="../quickstart/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Environment Setup - DTU MLOps 111 - Drone Segmentation Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#environment-setup" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="DTU MLOps 111 - Drone Segmentation Documentation" class="md-header__button md-logo" aria-label="DTU MLOps 111 - Drone Segmentation Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DTU MLOps 111 - Drone Segmentation Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Environment Setup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="DTU MLOps 111 - Drone Segmentation Documentation" class="md-nav__button md-logo" aria-label="DTU MLOps 111 - Drone Segmentation Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    DTU MLOps 111 - Drone Segmentation Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-create-your-env-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Create Your .env File
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-configure-kaggle-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Configure Kaggle Credentials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Configure Kaggle Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-your-kaggle-username" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Your Kaggle username
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-your-kaggle-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Your Kaggle API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-to-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add to .env
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-configure-weights-biases-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Configure Weights &amp; Biases (Optional)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Configure Weights &amp; Biases (Optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-your-wandb-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Your Wandb API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-to-env_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add to .env
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-configure-nnu-net-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Configure nnU-Net Paths
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Configure nnU-Net Paths">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding the Directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-to-env_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add to .env
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Add to .env">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-standard-usage-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Standard Usage (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-shell-loading-with-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Shell Loading (With Export)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-configure-cloud-storage-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Configure Cloud Storage (Optional)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Configure Cloud Storage (Optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-up-bucket-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set Up Bucket Name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-up-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set Up Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-env-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete .env Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete .env Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-standard-usage-recommended-for-pythondocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Standard Usage (Recommended for Python/Docker)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-shell-loading-with-export_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Shell Loading (With Export)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-verify-standard-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Verify Standard Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-verify-shell-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Verify Shell Loading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables-not-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables Not Set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-denied-on-nnu-net-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permission Denied on nnU-Net Directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-create-your-env-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Create Your .env File
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-configure-kaggle-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Configure Kaggle Credentials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Configure Kaggle Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-your-kaggle-username" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Your Kaggle username
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-your-kaggle-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Your Kaggle API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-to-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add to .env
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-configure-weights-biases-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Configure Weights &amp; Biases (Optional)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Configure Weights &amp; Biases (Optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-your-wandb-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get Your Wandb API Key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-to-env_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add to .env
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-configure-nnu-net-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Configure nnU-Net Paths
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Configure nnU-Net Paths">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding the Directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-to-env_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add to .env
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Add to .env">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-standard-usage-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Standard Usage (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-shell-loading-with-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Shell Loading (With Export)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-configure-cloud-storage-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Configure Cloud Storage (Optional)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Configure Cloud Storage (Optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-up-bucket-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set Up Bucket Name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-up-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set Up Authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-env-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete .env Example
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Complete .env Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-standard-usage-recommended-for-pythondocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Standard Usage (Recommended for Python/Docker)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-shell-loading-with-export_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Shell Loading (With Export)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-verify-standard-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Verify Standard Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-verify-shell-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Verify Shell Loading
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables-not-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables Not Set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-denied-on-nnu-net-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permission Denied on nnU-Net Directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="environment-setup">Environment Setup</h1>
+<p>After installing the project, you need to configure environment variables for various services and tools. This page guides you through setting up your <code>.env</code> file.</p>
+<h2 id="overview">Overview</h2>
+<p>The project uses a <code>.env</code> file to store sensitive credentials and configuration paths. This file is <strong>not tracked in Git</strong> for security reasons.</p>
+<h2 id="step-1-create-your-env-file">Step 1: Create Your .env File</h2>
+<p>Copy the example environment file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+</code></pre></div>
+<p>Now open <code>.env</code> in your text editor. You'll need to fill in several values.</p>
+<h2 id="step-2-configure-kaggle-credentials">Step 2: Configure Kaggle Credentials</h2>
+<p>The project downloads data from Kaggle, so you need a Kaggle API key.</p>
+<h3 id="get-your-kaggle-username">Get Your Kaggle username</h3>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/">kaggle.com</a> and log in</li>
+<li>Click on your profile picture → <strong>Your Profile</strong></li>
+<li>The username is displayed on top of your name.</li>
+</ol>
+<h3 id="get-your-kaggle-api-key">Get Your Kaggle API Key</h3>
+<ol>
+<li>Go to <a href="https://www.kaggle.com/">kaggle.com</a> and log in</li>
+<li>Click on your profile picture → <strong>Settings</strong></li>
+<li>Scroll down to <strong>API</strong> section</li>
+<li>Click <strong>Create New Token</strong></li>
+<li>Copy the generated token.</li>
+</ol>
+<h3 id="add-to-env">Add to .env</h3>
+<p>Copy these values into your <code>.env</code> file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># In your .env file</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">KAGGLE_USERNAME</span><span class="o">=</span><span class="s2">&quot;your_username_here&quot;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">KAGGLE_KEY</span><span class="o">=</span><span class="s2">&quot;your_api_key_here&quot;</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Keep Credentials Private</p>
+</div>
+<p>Never commit your <code>.env</code> file or share your API keys publicly!</p>
+<h2 id="step-3-configure-weights-biases-optional">Step 3: Configure Weights &amp; Biases (Optional)</h2>
+<p><a href="https://wandb.ai/">Weights &amp; Biases</a> is used for experiment tracking.</p>
+<h3 id="get-your-wandb-api-key">Get Your Wandb API Key</h3>
+<ol>
+<li>Go to <a href="https://wandb.ai/">wandb.ai</a> and sign up/log in</li>
+<li>Go to <a href="https://wandb.ai/settings">Settings → API Keys</a></li>
+<li>Scroll to <strong>API Keys</strong> section and generate a new API key or copy your existing API key</li>
+</ol>
+<h3 id="add-to-env_1">Add to .env</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># In your .env file</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">WANDB_API_KEY</span><span class="o">=</span><span class="s2">&quot;your_wandb_api_key_here&quot;</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Skip if Not Using W&amp;B</p>
+</div>
+<p>If you're not using Weights &amp; Biases for experiment tracking, you can leave this empty or comment it out.</p>
+<h2 id="step-4-configure-nnu-net-paths">Step 4: Configure nnU-Net Paths</h2>
+<p>nnU-Net requires three environment variables pointing to data directories. These should be <strong>absolute paths</strong> on your system.</p>
+<h3 id="understanding-the-directories">Understanding the Directories</h3>
+<ul>
+<li><code>nnUNet_raw</code> - Raw dataset in nnU-Net format</li>
+<li><code>nnUNet_preprocessed</code> - Preprocessed data ready for training</li>
+<li><code>nnUNet_results</code> - Model checkpoints and training outputs</li>
+</ul>
+<h3 id="add-to-env_2">Add to .env</h3>
+<p>There are two ways to define variables in your <code>.env</code> file, depending on how you load them.</p>
+<h4 id="option-1-standard-usage-recommended">Option 1: Standard Usage (Recommended)</h4>
+<p>If you use <code>python-dotenv</code> (which this project does) or Docker, you generally don't need <code>export</code>. This is the standard format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># In your .env file</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">nnUNet_raw</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/DTU_MLOps_111/nnUNet_raw&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nv">nnUNet_preprocessed</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/DTU_MLOps_111/nnUNet_preprocessed&quot;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nv">nnUNet_results</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/DTU_MLOps_111/nnUNet_results&quot;</span>
+</code></pre></div>
+<h4 id="option-2-shell-loading-with-export">Option 2: Shell Loading (With Export)</h4>
+<p>If you plan to load these variables directly into your shell using <code>source .env</code>, you might need the <code>export</code> keyword so they become available to child processes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># In your .env file</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">nnUNet_raw</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/DTU_MLOps_111/nnUNet_raw&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">nnUNet_preprocessed</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/DTU_MLOps_111/nnUNet_preprocessed&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">nnUNet_results</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/DTU_MLOps_111/nnUNet_results&quot;</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Example for macOS/Linux</p>
+</div>
+<p><code>bash
+    nnUNet_raw="/Users/yourname/Documents/Github/DTU_MLOps_111/nnUNet_raw"
+    nnUNet_preprocessed="/Users/yourname/Documents/Github/DTU_MLOps_111/nnUNet_preprocessed"
+    nnUNet_results="/Users/yourname/Documents/Github/DTU_MLOps_111/nnUNet_results"</code></p>
+<div class="admonition example">
+<p class="admonition-title">Example for Windows</p>
+</div>
+<p><code>bash
+    nnUNet_raw="C:/Users/yourname/Documents/Github/DTU_MLOps_111/nnUNet_raw"
+    nnUNet_preprocessed="C:/Users/yourname/Documents/Github/DTU_MLOps_111/nnUNet_preprocessed"
+    nnUNet_results="C:/Users/yourname/Documents/Github/DTU_MLOps_111/nnUNet_results"</code></p>
+<div class="admonition note">
+<p class="admonition-title">Directories Created Automatically</p>
+</div>
+<p>These environment variables tell the code <strong>where</strong> to look for or create these directories. The directories themselves will be created by the data processing commands (e.g., <code>make_dataset</code> or <code>export_dataset</code>), but defining them here ensures the code knows the correct locations. You don't need to manually create the folders before running the commands.</p>
+<h2 id="step-5-configure-cloud-storage-optional">Step 5: Configure Cloud Storage (Optional)</h2>
+<p><a href="https://cloud.google.com/storage">Google Cloud Storage (GCS)</a> is used for data versioning with DVC and storing data drift reports.</p>
+<h3 id="set-up-bucket-name">Set Up Bucket Name</h3>
+<p>Add your GCS bucket name to your <code>.env</code> file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># In your .env file</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">BUCKET_NAME</span><span class="o">=</span><span class="s2">&quot;your-gcs-bucket-name&quot;</span>
+</code></pre></div>
+<h3 id="set-up-authentication">Set Up Authentication</h3>
+<p>If you're using GCS for data versioning with DVC, you need to set up credentials.</p>
+<ol>
+<li><strong>Run the login command</strong>:
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>uv<span class="w"> </span>run<span class="w"> </span>gcloud<span class="w"> </span>auth<span class="w"> </span>application-default<span class="w"> </span>login
+</code></pre></div></li>
+<li><strong>Follow the browser prompt</strong> to authenticate.</li>
+<li><strong>Done!</strong> The project's automated tasks (e.g., <code>uv run invoke docker-run-api</code>) are pre-configured to find these credentials automatically. You don't need to add anything to your <code>.env</code> file for authentication.</li>
+</ol>
+<h2 id="complete-env-example">Complete .env Example</h2>
+<p>Here's what your complete <code>.env</code> file should look like:</p>
+<h3 id="option-1-standard-usage-recommended-for-pythondocker">Option 1: Standard Usage (Recommended for Python/Docker)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Kaggle credentials</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">KAGGLE_USERNAME</span><span class="o">=</span><span class="s2">&quot;john_doe&quot;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nv">KAGGLE_KEY</span><span class="o">=</span><span class="s2">&quot;abc123def456ghi789&quot;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Weights &amp; Biases API key</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nv">WANDB_API_KEY</span><span class="o">=</span><span class="s2">&quot;1234567890abcdef&quot;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># nnU-Net environment variables (use absolute paths!)</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nv">nnUNet_raw</span><span class="o">=</span><span class="s2">&quot;/Users/john/Documents/Github/DTU_MLOps_111/nnUNet_raw&quot;</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="nv">nnUNet_preprocessed</span><span class="o">=</span><span class="s2">&quot;/Users/john/Documents/Github/DTU_MLOps_111/nnUNet_preprocessed&quot;</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nv">nnUNet_results</span><span class="o">=</span><span class="s2">&quot;/Users/john/Documents/Github/DTU_MLOps_111/nnUNet_results&quot;</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1"># Google Cloud Storage bucket name</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="nv">BUCKET_NAME</span><span class="o">=</span><span class="s2">&quot;my-mlops-bucket&quot;</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Automatic Loading</p>
+</div>
+<p>The project's Python code uses <code>python-dotenv</code> to automatically load <code>.env</code> when running tasks. You typically don't need to manually source the file when using <code>uv run invoke</code> commands.</p>
+<h3 id="option-2-shell-loading-with-export_1">Option 2: Shell Loading (With Export)</h3>
+<p>Use this if you manually source your <code>.env</code> file (<code>source .env</code>).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Kaggle credentials</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">KAGGLE_USERNAME</span><span class="o">=</span><span class="s2">&quot;john_doe&quot;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nv">KAGGLE_KEY</span><span class="o">=</span><span class="s2">&quot;abc123def456ghi789&quot;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Weights &amp; Biases API key</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nv">WANDB_API_KEY</span><span class="o">=</span><span class="s2">&quot;1234567890abcdef&quot;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1"># nnU-Net environment variables (use absolute paths!)</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">nnUNet_raw</span><span class="o">=</span><span class="s2">&quot;/Users/john/Documents/Github/DTU_MLOps_111/nnUNet_raw&quot;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">nnUNet_preprocessed</span><span class="o">=</span><span class="s2">&quot;/Users/john/Documents/Github/DTU_MLOps_111/nnUNet_preprocessed&quot;</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">nnUNet_results</span><span class="o">=</span><span class="s2">&quot;/Users/john/Documents/Github/DTU_MLOps_111/nnUNet_results&quot;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1"># Google Cloud Storage bucket name</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="nb">export</span><span class="w"> </span><span class="nv">BUCKET_NAME</span><span class="o">=</span><span class="s2">&quot;my-mlops-bucket&quot;</span>
+</code></pre></div>
+<h2 id="verification">Verification</h2>
+<h3 id="1-verify-standard-usage">1. Verify Standard Usage</h3>
+<p>If you used <strong>Option 1</strong>, the variables are strictly for the Python application. Verify they work by running a project command:</p>
+<div class="admonition note">
+<p class="admonition-title">This command runs a Python script that loads .env and prints a variable</p>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import os; from dotenv import load_dotenv; load_dotenv(); print(f\&quot;nnUNet_raw: {os.environ.get(&#39;nnUNet_raw&#39;, &#39;NOT SET&#39;)}\&quot;)&quot;</span>
+</code></pre></div>
+<p>Expected output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>nnUNet_raw:<span class="w"> </span>/Users/john/Documents/Github/DTU_MLOps_111/nnUNet_raw
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">If it says 'NOT SET', your .env file is not loading correcty</p>
+</div>
+<h3 id="2-verify-shell-loading">2. Verify Shell Loading</h3>
+<p>If you used <strong>Option 2</strong> (manual <code>export</code> or <code>source .env</code>), the variables are available in your terminal. You can check them directly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$nnUNet_raw</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$nnUNet_preprocessed</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$nnUNet_results</span>
+</code></pre></div>
+<h2 id="next-steps">Next Steps</h2>
+<p>With your environment configured, you're ready to:</p>
+<ol>
+<li><a href="../quickstart/"><strong>Quick Start</strong></a> - Run your first workflow</li>
+<li><a href="../commands/"><strong>Commands Reference</strong></a> - Learn about available commands</li>
+<li><a href="../workflows/"><strong>Workflows</strong></a> - Step-by-step guides</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="environment-variables-not-set">Environment Variables Not Set</h3>
+<p>If you get errors about missing environment variables:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Make sure to source your .env file</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">source</span><span class="w"> </span>.env
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Or on Windows, reload the variables</span>
+</code></pre></div>
+<h3 id="permission-denied-on-nnu-net-directories">Permission Denied on nnU-Net Directories</h3>
+<p>Make sure the paths exist and you have write permissions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>nnUNet_raw<span class="w"> </span>nnUNet_preprocessed<span class="w"> </span>nnUNet_results
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>chmod<span class="w"> </span><span class="m">755</span><span class="w"> </span>nnUNet_*
+</code></pre></div>
+<p>For more help, see <a href="../troubleshooting/">Troubleshooting</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
